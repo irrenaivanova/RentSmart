@@ -1,4 +1,9 @@
 ﻿@using RentSmart.Common
+
+@{
+    string releaseYear = DateTime.Now.Year > ReleaseYear ? $"{ReleaseYear} - {DateTime.Now.Year}" : DateTime.Now.Year.ToString();
+}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,7 +47,7 @@
     
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; @DateTime.Now.Year - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; @releaseYear - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
 

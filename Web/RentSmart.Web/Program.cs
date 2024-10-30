@@ -15,7 +15,6 @@
     using RentSmart.Data.Models;
     using RentSmart.Data.Repositories;
     using RentSmart.Data.Seeding;
-    using RentSmart.Services.Data;
     using RentSmart.Services.Mapping;
     using RentSmart.Services.Messaging;
     using RentSmart.Web.ViewModels;

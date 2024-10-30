@@ -16,7 +16,6 @@
     using RentSmart.Data.Models;
     using RentSmart.Data.Repositories;
     using RentSmart.Data.Seeding;
-    using RentSmart.Services.Data;
     using RentSmart.Services.Messaging;
 
     public static class Program
@@ -27,34 +26,7 @@
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider(true);
-
-            // Seed data on application startup
-            using (var serviceScope = serviceProvider.CreateScope())
-            {
-                var dbContext = serviceScope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-                dbContext.Database.Migrate();
-                new ApplicationDbContextSeeder().SeedAsync(dbContext, serviceScope.ServiceProvider).GetAwaiter().GetResult();
-            }
-
-            using (var serviceScope = serviceProvider.CreateScope())
-            {
-                serviceProvider = serviceScope.ServiceProvider;
-
-                return Parser.Default.ParseArguments<SandboxOptions>(args).MapResult(
-                    opts => SandboxCode(opts, serviceProvider).GetAwaiter().GetResult(),
-                    _ => 255);
-            }
-        }
-
-        private static async Task<int> SandboxCode(SandboxOptions options, IServiceProvider serviceProvider)
-        {
-            var sw = Stopwatch.StartNew();
-
-            var settingsService = serviceProvider.GetService<ISettingsService>();
-            Console.WriteLine($"Count of settings: {settingsService.GetCount()}");
-
-            Console.WriteLine(sw.Elapsed);
-            return await Task.FromResult(0);
+            return default;
         }
 
         private static void ConfigureServices(ServiceCollection services)
@@ -79,7 +51,6 @@
 
             // Application services
             services.AddTransient<IEmailSender, NullMessageSender>();
-            services.AddTransient<ISettingsService, SettingsService>();
         }
     }
 }
