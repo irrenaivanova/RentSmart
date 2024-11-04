@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <LangVersion>latest</LangVersion>
+	<Nullable>enable</Nullable>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -20,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\RentSmart.Common\RentSmart.Common.csproj" />
     <ProjectReference Include="..\RentSmart.Data.Common\RentSmart.Data.Common.csproj" />
   </ItemGroup>
   

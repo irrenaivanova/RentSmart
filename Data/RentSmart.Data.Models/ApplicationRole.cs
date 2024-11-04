@@ -9,7 +9,7 @@ namespace RentSmart.Data.Models
     public class ApplicationRole : IdentityRole, IAuditInfo, IDeletableEntity
     {
         public ApplicationRole()
-            : this(null)
+            : this(null!)
         {
         }
 
