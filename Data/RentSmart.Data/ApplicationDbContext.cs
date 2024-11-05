@@ -23,7 +23,39 @@
         {
         }
 
+        public DbSet<Property> Properties { get; set; }
+
+        public DbSet<Image> Images { get; set; }
+
+        public DbSet<District> Districts { get; set; }
+
+        public DbSet<City> Cities { get; set; }
+
+        public DbSet<PropertyTag> PropertyTags { get; set; }
+
+        public DbSet<Tag> Tags { get; set; }
+
         public DbSet<PropertyType> PropertyTypes { get; set; }
+
+        public DbSet<RenterLike> RenterLikes { get; set; }
+
+        public DbSet<Rental> Rentals { get; set; }
+
+        public DbSet<Feedback> Feedbacks { get; set; }
+
+        public DbSet<Rating> Ratings { get; set; }
+
+        public DbSet<Renter> Renters { get; set; }
+
+        public DbSet<Manager> Managers { get; set; }
+
+        public DbSet<Owner> Owners { get; set; }
+
+        public DbSet<Appointment> Appointments { get; set; }
+
+        public DbSet<Service> Services { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
 
         public override int SaveChanges() => this.SaveChanges(true);
 

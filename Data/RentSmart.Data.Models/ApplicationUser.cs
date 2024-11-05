@@ -18,6 +18,7 @@ namespace RentSmart.Data.Models
             this.Renters = new HashSet<Renter>();
             this.Owners = new HashSet<Owner>();
             this.Managers = new HashSet<Manager>();
+            this.Feedbacks = new HashSet<Feedback>();
         }
 
         // Audit info
@@ -41,5 +42,7 @@ namespace RentSmart.Data.Models
         public virtual ICollection<Owner> Owners { get; set; }
 
         public virtual ICollection<Manager> Managers { get; set; }
+
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
     }
 }

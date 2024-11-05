@@ -5,7 +5,7 @@
 
     using RentSmart.Data.Common.Models;
 
-    using static RentSmart.Common.EntityValidationConstants.Image;
+    using static RentSmart.Common.EntityValidationConstants;
 
     public class Image : BaseModel<string>
     {

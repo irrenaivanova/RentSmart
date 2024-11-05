@@ -7,7 +7,7 @@
 
     using RentSmart.Data.Models;
 
-    internal class PropertyTypeSeeder : ISeeder
+    internal class PropertyTypesSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {

@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using RentSmart.Data.Common.Models;
 
@@ -14,6 +15,7 @@
             this.LikedProperties = new HashSet<RenterLike>();
         }
 
+        [Required]
         public string UserId { get; set; } = null!;
 
         public ApplicationUser User { get; set; } = null!;

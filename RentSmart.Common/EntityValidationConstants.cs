@@ -2,6 +2,9 @@
 {
     public static class EntityValidationConstants
     {
+        public const int UrlMaxLength = 2048;
+        public const int ExtensionMaxLength = 256;
+
         public static class Property
         {
             public const int MinLengthName = 5;
@@ -34,15 +37,21 @@
             public const int MaxLengthName = 50;
         }
 
-        public static class Image
+        public static class Rating
         {
-            public const int UrlMaxLength = 2048;
-            public const int ExtensionMaxLength = 256;
+            public const int MinRate = 1;
+            public const int MaxRate = 5;
         }
 
-        public static class Manager
+        public static class Feedback
         {
-            public const int UrlMaxLength = 2048;
+            public const int MaxLengthText = 1000;
+        }
+
+        public static class Service
+        {
+            public const int MaxLengthName = 50;
+            public const int MaxLengthDescription = 400;
         }
     }
 }

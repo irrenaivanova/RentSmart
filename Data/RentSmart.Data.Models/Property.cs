@@ -1,20 +1,25 @@
 ﻿namespace RentSmart.Data.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
 
     using RentSmart.Data.Common.Models;
 
     using static RentSmart.Common.EntityValidationConstants.Property;
 
-    public class Property : BaseDeletableModel<int>
+    public class Property : BaseDeletableModel<string>
     {
         public Property()
         {
+            this.Id = Guid.NewGuid().ToString();
             this.Tags = new HashSet<PropertyTag>();
             this.Likes = new HashSet<RenterLike>();
             this.Rentals = new HashSet<Rental>();
             this.Images = new HashSet<Image>();
+            this.Orders = new HashSet<Order>();
         }
 
         [MaxLength(MaxLengthName)]
@@ -39,11 +44,11 @@
 
         public virtual City City { get; set; } = null!;
 
-        public int OwnerId { get; set; }
+        public string OwnerId { get; set; } = null!;
 
         public virtual Owner Owner { get; set; } = null!;
 
-        public int ManagerId { get; set; }
+        public string ManagerId { get; set; } = null!;
 
         public virtual Manager Manager { get; set; } = null!;
 
@@ -56,5 +61,7 @@
         public virtual ICollection<Rental> Rentals { get; set; }
 
         public virtual ICollection<Image> Images { get; set; }
+
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }

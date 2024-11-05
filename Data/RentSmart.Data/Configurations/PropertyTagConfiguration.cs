@@ -10,9 +10,9 @@
         {
             builder.HasKey(x => new { x.PropertyId, x.TagId });
 
-            // builder.HasOne(x => x.Tag).WithMany(x => x.Properties).OnDelete(DeleteBehavior.Restrict);
+            // builder.HasOne(x => x.Tag).WithMany(x => x.Properties).HasForeignKey(x => x.TagId).OnDelete(DeleteBehavior.Restrict);
 
-            // builder.HasOne(x => x.Property).WithMany(x => x.Tags).OnDelete(DeleteBehavior.Restrict);
+            // builder.HasOne(x => x.Property).WithMany(x => x.Tags).HasForeignKey(x => x.PropertyId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
