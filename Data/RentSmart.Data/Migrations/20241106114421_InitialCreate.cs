@@ -1,4 +1,6 @@
-﻿namespace RentSmart.Data.Migrations
+﻿#nullable disable
+
+namespace RentSmart.Data.Migrations
 {
     using System;
 
@@ -396,7 +398,7 @@
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RenterId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PropertyId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     DateTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ManagerId = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -407,6 +409,12 @@
                 {
                     table.PrimaryKey("PK_Appointments", x => x.Id);
                     table.ForeignKey(
+                        name: "FK_Appointments_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Appointments_Managers_ManagerId",
                         column: x => x.ManagerId,
                         principalTable: "Managers",
@@ -416,12 +424,6 @@
                         name: "FK_Appointments_Properties_PropertyId",
                         column: x => x.PropertyId,
                         principalTable: "Properties",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Appointments_Renters_RenterId",
-                        column: x => x.RenterId,
-                        principalTable: "Renters",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -552,22 +554,22 @@
                 name: "RenterLikes",
                 columns: table => new
                 {
-                    RenterId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     PropertyId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_RenterLikes", x => new { x.RenterId, x.PropertyId });
+                    table.PrimaryKey("PK_RenterLikes", x => new { x.UserId, x.PropertyId });
+                    table.ForeignKey(
+                        name: "FK_RenterLikes_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_RenterLikes_Properties_PropertyId",
                         column: x => x.PropertyId,
                         principalTable: "Properties",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_RenterLikes_Renters_RenterId",
-                        column: x => x.RenterId,
-                        principalTable: "Renters",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -618,9 +620,9 @@
                 column: "PropertyId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Appointments_RenterId",
+                name: "IX_Appointments_UserId",
                 table: "Appointments",
-                column: "RenterId");
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

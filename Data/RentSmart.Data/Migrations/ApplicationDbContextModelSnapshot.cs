@@ -920,7 +920,7 @@ namespace RentSmart.Data.Migrations
                         .IsRequired();
 
                     b.HasOne("RentSmart.Data.Models.ApplicationUser", "User")
-                        .WithMany("Appoitments")
+                        .WithMany("Appointments")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -1134,7 +1134,7 @@ namespace RentSmart.Data.Migrations
 
             modelBuilder.Entity("RentSmart.Data.Models.ApplicationUser", b =>
                 {
-                    b.Navigation("Appoitments");
+                    b.Navigation("Appointments");
 
                     b.Navigation("Claims");
 

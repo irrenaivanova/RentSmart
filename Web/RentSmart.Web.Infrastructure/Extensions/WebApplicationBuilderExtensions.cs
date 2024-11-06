@@ -8,9 +8,9 @@
 
     public static class WebApplicationBuilderExtensions
     {
-        public static void AddApplicationServices(this IServiceCollection serviceCollection, Type serviceType)
+        public static void AddApplicationServices(this IServiceCollection serviceCollection, Type service)
         {
-            Assembly serviceAssembly = Assembly.GetAssembly(serviceType);
+            Assembly serviceAssembly = Assembly.GetAssembly(service);
             if (serviceAssembly == null)
             {
                 throw new InvalidOperationException("Invalid service provided!");
@@ -18,15 +18,15 @@
 
             Type[] serviceTypes = serviceAssembly.GetTypes().Where(x => x.Name.EndsWith("Service") && !x.IsInterface).ToArray();
 
-            foreach (Type service in serviceTypes)
+            foreach (Type serviceType in serviceTypes)
             {
-                Type interfaceType = service.GetInterfaces().FirstOrDefault(x => x.Name == $"I{service.Name}");
+                Type interfaceType = serviceType.GetInterfaces().FirstOrDefault(x => x.Name == $"I{serviceType.Name}");
                 if (interfaceType == null)
                 {
                     throw new InvalidOperationException("No matching interface provided!");
                 }
 
-                serviceCollection.AddTransient(service, interfaceType);
+                serviceCollection.AddTransient(interfaceType, serviceType);
             }
         }
     }

@@ -20,7 +20,7 @@ namespace RentSmart.Data.Models
             this.Managers = new HashSet<Manager>();
             this.Feedbacks = new HashSet<Feedback>();
             this.LikedProperties = new HashSet<RenterLike>();
-            this.Appoitments = new HashSet<Appointment>();
+            this.Appointments = new HashSet<Appointment>();
         }
 
         // Audit info
@@ -49,6 +49,6 @@ namespace RentSmart.Data.Models
 
         public virtual IEnumerable<RenterLike> LikedProperties { get; set; }
 
-        public virtual IEnumerable<Appointment> Appoitments { get; set; }
+        public virtual IEnumerable<Appointment> Appointments { get; set; }
     }
 }
