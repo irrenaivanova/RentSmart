@@ -15,6 +15,6 @@
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public double AverageRating { get; private set; }
 
-        public Rental Rental { get; set; } = null!;
+        public virtual Rental Rental { get; set; } = null!;
     }
 }

@@ -11,14 +11,14 @@
 
         public string OwnerId { get; set; } = null!;
 
-        public Owner Owner { get; set; } = null!;
+        public virtual Owner Owner { get; set; } = null!;
 
         public int ServiceId { get; set; }
 
-        public Service Service { get; set; } = null!;
+        public virtual Service Service { get; set; } = null!;
 
-        public int? PropertyId { get; set; }
+        public string? PropertyId { get; set; }
 
-        public Property? Property { get; set; }
+        public virtual Property? Property { get; set; }
     }
 }

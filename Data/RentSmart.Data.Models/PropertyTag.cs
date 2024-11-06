@@ -2,7 +2,7 @@
 {
     public class PropertyTag
     {
-        public int PropertyId { get; set; }
+        public string PropertyId { get; set; } = null!;
 
         public virtual Property Property { get; set; } = null!;
 

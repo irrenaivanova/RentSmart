@@ -25,6 +25,7 @@
                           {
                               new RolesSeeder(),
                               new PropertyTypesSeeder(),
+                              new ServicesSeeder(),
                           };
 
             foreach (var seeder in seeders)

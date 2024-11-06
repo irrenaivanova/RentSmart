@@ -12,16 +12,13 @@
         {
             this.Id = Guid.NewGuid().ToString();
             this.Rentals = new HashSet<Rental>();
-            this.LikedProperties = new HashSet<RenterLike>();
         }
 
         [Required]
         public string UserId { get; set; } = null!;
 
-        public ApplicationUser User { get; set; } = null!;
+        public virtual ApplicationUser User { get; set; } = null!;
 
-        public IEnumerable<Rental> Rentals { get; set; }
-
-        public IEnumerable<RenterLike> LikedProperties { get; set; }
+        public virtual IEnumerable<Rental> Rentals { get; set; }
     }
 }

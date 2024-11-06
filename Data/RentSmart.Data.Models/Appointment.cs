@@ -6,9 +6,9 @@
 
     public class Appointment : BaseModel<int>
     {
-        public string RenterId { get; set; } = null!;
+        public string UserId { get; set; } = null!;
 
-        public virtual Renter Renter { get; set; } = null!;
+        public virtual ApplicationUser User { get; set; } = null!;
 
         public string PropertyId { get; set; } = null!;
 

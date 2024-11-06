@@ -8,11 +8,11 @@
     {
         public void Configure(EntityTypeBuilder<RenterLike> builder)
         {
-            builder.HasKey(x => new { x.RenterId, x.PropertyId });
+            builder.HasKey(x => new { x.UserId, x.PropertyId });
 
-            // builder.HasOne(x => x.Renter).WithMany(x => x.LikedProperties).HasForeignKey(x => x.RenterId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.User).WithMany(x => x.LikedProperties).HasForeignKey(x => x.UserId).OnDelete(DeleteBehavior.Restrict);
 
-            // builder.HasOne(x => x.Property).WithMany(x => x.Likes).HasForeignKey(x => x.PropertyId).OnDelete(DeleteBehavior.Restrict);
+            builder.HasOne(x => x.Property).WithMany(x => x.Likes).HasForeignKey(x => x.PropertyId).OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -2,11 +2,11 @@
 {
     public class RenterLike
     {
-        public int RenterId { get; set; }
+        public string UserId { get; set; } = null!;
 
-        public virtual Renter Renter { get; set; } = null!;
+        public virtual ApplicationUser User { get; set; } = null!;
 
-        public int PropertyId { get; set; }
+        public string PropertyId { get; set; } = null!;
 
         public virtual Property Property { get; set; } = null!;
     }

@@ -20,10 +20,10 @@
         [Required]
         public string UserId { get; set; } = null!;
 
-        public ApplicationUser User { get; set; } = null!;
+        public virtual ApplicationUser User { get; set; } = null!;
 
-        public IEnumerable<Property> Properties { get; set; }
+        public virtual IEnumerable<Property> Properties { get; set; }
 
-        public IEnumerable<Appointment> Appointments { get; set; }
+        public virtual IEnumerable<Appointment> Appointments { get; set; }
     }
 }

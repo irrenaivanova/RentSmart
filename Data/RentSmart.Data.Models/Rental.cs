@@ -38,7 +38,7 @@
 
         public virtual Rating? Rating { get; set; }
 
-        public ICollection<Feedback> Feedbacks { get; set; }
+        public virtual ICollection<Feedback> Feedbacks { get; set; }
 
         [NotMapped]
         public bool IsActive => this.RentDate.AddMonths(this.DurationInMonths) >= DateTime.UtcNow;

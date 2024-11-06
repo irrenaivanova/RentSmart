@@ -27,6 +27,6 @@
 
         public string Duration { get; set; } = null!;
 
-        public ICollection<Order> Orders { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }
