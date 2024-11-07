@@ -7,8 +7,6 @@
 
     public class Order : BaseDeletableModel<int>
     {
-        public DateTime DateOfBuying { get; set; }
-
         public string OwnerId { get; set; } = null!;
 
         public virtual Owner Owner { get; set; } = null!;

@@ -44,13 +44,13 @@
 
         public virtual City City { get; set; } = null!;
 
-        public string OwnerId { get; set; } = null!;
+        public string? OwnerId { get; set; } = null!;
 
-        public virtual Owner Owner { get; set; } = null!;
+        public virtual Owner? Owner { get; set; } = null!;
 
-        public string ManagerId { get; set; } = null!;
+        public string? ManagerId { get; set; } = null!;
 
-        public virtual Manager Manager { get; set; } = null!;
+        public virtual Manager? Manager { get; set; } = null!;
 
         public decimal PricePerMonth { get; set; }
 

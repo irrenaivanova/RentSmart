@@ -15,9 +15,6 @@ namespace RentSmart.Data.Models
             this.Roles = new HashSet<IdentityUserRole<string>>();
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
-            this.Renters = new HashSet<Renter>();
-            this.Owners = new HashSet<Owner>();
-            this.Managers = new HashSet<Manager>();
             this.Feedbacks = new HashSet<Feedback>();
             this.LikedProperties = new HashSet<RenterLike>();
             this.Appointments = new HashSet<Appointment>();
@@ -39,11 +36,11 @@ namespace RentSmart.Data.Models
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
-        public virtual ICollection<Renter> Renters { get; set; }
+        public virtual Renter? Renter { get; set; }
 
-        public virtual ICollection<Owner> Owners { get; set; }
+        public virtual Owner? Owner { get; set; }
 
-        public virtual ICollection<Manager> Managers { get; set; }
+        public virtual Manager? Manager { get; set; }
 
         public virtual ICollection<Feedback> Feedbacks { get; set; }
 

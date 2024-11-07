@@ -4,6 +4,7 @@
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -15,6 +16,7 @@
     using RentSmart.Data.Models;
     using RentSmart.Data.Repositories;
     using RentSmart.Data.Seeding;
+    using RentSmart.Services;
     using RentSmart.Services.Data;
     using RentSmart.Services.Mapping;
     using RentSmart.Services.Messaging;
@@ -41,6 +43,8 @@
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
+            // Register the custom claims principal factory
+            services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, CustomUserClaimsPrincipalFactory>();
             services.Configure<CookiePolicyOptions>(
                 options =>
                 {
