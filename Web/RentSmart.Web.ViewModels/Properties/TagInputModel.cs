@@ -1,6 +1,9 @@
 ﻿namespace RentSmart.Web.ViewModels.Properties
 {
-    public class TagInputModel
+    using RentSmart.Data.Models;
+    using RentSmart.Services.Mapping;
+
+    public class TagInputModel : IMapFrom<Tag>
     {
         public int Id { get; set; }
 

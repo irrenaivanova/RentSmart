@@ -45,7 +45,7 @@
         [Display(Name = "Monthly Price")]
         public decimal PricePerMonth { get; set; }
 
-        public IEnumerable<int> TagId { get; set; }
+        public IEnumerable<int> TagIds { get; set; }
 
         public IEnumerable<TagInputModel> Tags { get; set; }
     }

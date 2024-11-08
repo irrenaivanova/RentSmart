@@ -1,6 +1,9 @@
 ﻿namespace RentSmart.Web.ViewModels.Properties
 {
-    public class OwnerInputModel
+    using RentSmart.Data.Models;
+    using RentSmart.Services.Mapping;
+
+    public class OwnerInputModel : IMapFrom<Owner>
     {
         public string Id { get; set; }
 
