@@ -6,6 +6,7 @@
     using Microsoft.EntityFrameworkCore;
     using RentSmart.Data.Common.Repositories;
     using RentSmart.Data.Models;
+    using RentSmart.Services.Mapping;
 
     public class PropertyService : IPropertyService
     {
@@ -48,10 +49,11 @@
             return lastRent!.RentDate.AddMonths(lastRent.DurationInMonths) < DateTime.UtcNow;
         }
 
-        public Property GetById(string id)
+        public T GetById<T>(string id)
         {
             return this.propertyRepository.AllAsNoTracking()
                 .Where(x => x.Id == id)
+                .To<T>()
                 .FirstOrDefault();
         }
     }

@@ -8,6 +8,6 @@
 
         bool IsPropertyFree(string propertyId);
 
-        Property GetById(string id);
+        T GetById<T>(string id);
     }
 }

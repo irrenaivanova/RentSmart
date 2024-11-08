@@ -18,7 +18,7 @@
         public string? Extension { get; set; }
 
         [MaxLength(UrlMaxLength)]
-        public string? ImageUrl { get; set; }
+        public string? RemoteImageUrl { get; set; }
 
         public string PropertyId { get; set; } = null!;
 

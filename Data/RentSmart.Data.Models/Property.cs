@@ -52,6 +52,8 @@
 
         public virtual Manager? Manager { get; set; } = null!;
 
+        public string? OriginalUrl { get; set; }
+
         public decimal PricePerMonth { get; set; }
 
         public virtual ICollection<PropertyTag> Tags { get; set; }
