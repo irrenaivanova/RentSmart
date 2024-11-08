@@ -107,7 +107,7 @@ namespace RentSmart.Data.Migrations
             migrationBuilder.DropIndex(
                 name: "IX_Managers_UserId",
                 table: "Managers");
-
+#pragma warning disable SA1122
             migrationBuilder.AlterColumn<string>(
                 name: "OwnerId",
                 table: "Properties",
@@ -127,7 +127,7 @@ namespace RentSmart.Data.Migrations
                 oldClrType: typeof(string),
                 oldType: "nvarchar(450)",
                 oldNullable: true);
-
+#pragma warning restore SA1122
             migrationBuilder.AddColumn<DateTime>(
                 name: "DateOfBuying",
                 table: "Orders",
