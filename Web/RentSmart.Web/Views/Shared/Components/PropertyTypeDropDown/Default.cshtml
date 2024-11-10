@@ -2,7 +2,7 @@
 @model List<PropertyTypeInputModel>
 
 <select class="form-select">
-    <option value="">Select....</option>
+    <option value="" disabled selected>Select....</option>
     @foreach (var propertyType in Model)
     {
         <option value="@propertyType.Id">@propertyType.Name</option>

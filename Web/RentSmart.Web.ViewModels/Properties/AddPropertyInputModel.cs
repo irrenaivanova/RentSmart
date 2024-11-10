@@ -5,7 +5,7 @@
 
     using Microsoft.AspNetCore.Http;
 
-    public class CreatePropertyInputModel : BasePropertyInputModel
+    public class AddPropertyInputModel : BasePropertyInputModel
     {
         public IEnumerable<IFormFile> Images { get; set; }
 

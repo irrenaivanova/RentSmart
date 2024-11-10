@@ -11,6 +11,8 @@
         {
             this.PropertyTypes = new HashSet<PropertyTypeInputModel>();
             this.Cities = new HashSet<CityInputModel>();
+            this.TagIds = new List<int>();
+            this.Tags = new List<TagInputModel>();
         }
 
         [Required]
@@ -45,7 +47,7 @@
         [Display(Name = "Monthly Price")]
         public decimal PricePerMonth { get; set; }
 
-        public IEnumerable<int> TagIds { get; set; }
+        public List<int> TagIds { get; set; }
 
         public IEnumerable<TagInputModel> Tags { get; set; }
     }

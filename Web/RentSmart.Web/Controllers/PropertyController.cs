@@ -1,5 +1,7 @@
 ﻿namespace RentSmart.Web.Controllers
 {
+    using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using RentSmart.Services.Data;
@@ -23,15 +25,18 @@
 
         [Authorize]
         [HttpGet]
-        public IActionResult Add()
+        public async Task<IActionResult> Add()
         {
-            return this.View(this.PopulateInputModel());
+            var model = await this.PopulateInputModel();
+            return this.View(model);
         }
 
-        private CreatePropertyInputModel PopulateInputModel()
+        // wkarvajgi property trqbva da se izpolzva paketa
+        private async Task<AddPropertyInputModel> PopulateInputModel()
         {
-            var viewModel = new CreatePropertyInputModel();
-            viewModel.Cities = this.cityService.GetAllCities();
+            var viewModel = new AddPropertyInputModel();
+            viewModel.Cities = await this.cityService.GetAllCitiesAsync();
+            viewModel.Tags = await this.tagService.GetAllTagsAsync();
             return viewModel;
         }
     }

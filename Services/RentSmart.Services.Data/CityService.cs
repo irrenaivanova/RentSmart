@@ -12,16 +12,16 @@
 
     public class CityService : ICityService
     {
-        private readonly IDeletableEntityRepository<City> cityService;
+        private readonly IDeletableEntityRepository<City> cityRepository;
 
-        public CityService(IDeletableEntityRepository<City> cityService)
+        public CityService(IDeletableEntityRepository<City> cityRepository)
         {
-            this.cityService = cityService;
+            this.cityRepository = cityRepository;
         }
 
-        public IEnumerable<CityInputModel> GetAllCities()
+        public async Task<IEnumerable<CityInputModel>> GetAllCitiesAsync()
         {
-            return this.cityService.AllAsNoTracking().To<CityInputModel>().OrderBy(x => x.Name).ToList();
+            return await this.cityRepository.AllAsNoTracking().To<CityInputModel>().OrderBy(x => x.Name).ToListAsync();
         }
     }
 }

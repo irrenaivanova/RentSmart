@@ -7,6 +7,6 @@
 
     public interface ICityService
     {
-        public IEnumerable<CityInputModel> GetAllCities();
+        public Task<IEnumerable<CityInputModel>> GetAllCitiesAsync();
     }
 }

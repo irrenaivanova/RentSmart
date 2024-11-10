@@ -53,5 +53,11 @@
             public const int MaxLengthName = 50;
             public const int MaxLengthDescription = 400;
         }
+
+        public static class ApplicationUser
+        {
+            public const int MinLengthName = 2;
+            public const int MaxLengthName = 50;
+        }
     }
 }

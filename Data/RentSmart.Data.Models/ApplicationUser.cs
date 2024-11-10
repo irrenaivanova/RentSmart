@@ -3,9 +3,12 @@ namespace RentSmart.Data.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     using Microsoft.AspNetCore.Identity;
     using RentSmart.Data.Common.Models;
+
+    using static RentSmart.Common.EntityValidationConstants.ApplicationUser;
 
     public class ApplicationUser : IdentityUser, IAuditInfo, IDeletableEntity
     {
@@ -35,6 +38,13 @@ namespace RentSmart.Data.Models
         public virtual ICollection<IdentityUserClaim<string>> Claims { get; set; }
 
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
+
+        [MaxLength(MaxLengthName)]
+        public string FirstName { get; set; } = null!;
+
+        [MaxLength(MaxLengthName)]
+
+        public string LastName { get; set; } = null!;
 
         public virtual Renter? Renter { get; set; }
 
