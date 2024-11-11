@@ -28,6 +28,11 @@
                 .HasForeignKey(e => e.UserId)
                 .IsRequired()
                 .OnDelete(DeleteBehavior.Restrict);
+
+            appUser
+                .HasOne(a => a.Manager)
+                .WithOne(m => m.User)
+                .HasForeignKey<Manager>(m => m.UserId);
         }
     }
 }

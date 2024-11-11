@@ -27,6 +27,7 @@
                               new PropertyTypesSeeder(),
                               new ServicesSeeder(),
                               new CitySeeder(),
+                              new TagSeeder(),
                           };
 
             foreach (var seeder in seeders)

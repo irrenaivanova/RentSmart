@@ -50,6 +50,7 @@ namespace RentSmart.Data.Models
 
         public virtual Owner? Owner { get; set; }
 
+        public string? ManagerId { get; set; }
         public virtual Manager? Manager { get; set; }
 
         public virtual ICollection<Feedback> Feedbacks { get; set; }
