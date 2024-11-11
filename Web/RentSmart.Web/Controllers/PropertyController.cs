@@ -37,6 +37,7 @@
             var viewModel = new AddPropertyInputModel();
             viewModel.Cities = await this.cityService.GetAllCitiesAsync();
             viewModel.Tags = await this.tagService.GetAllTagsAsync();
+            viewModel.Owners = await this.ownerService.GetAllOwnerSAsync();
             return viewModel;
         }
     }

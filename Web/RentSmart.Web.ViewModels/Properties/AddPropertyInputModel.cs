@@ -9,6 +9,7 @@
     {
         public IEnumerable<IFormFile> Images { get; set; }
 
+        [Required]
         [Display(Name = "Owner")]
         public string OwnerId { get; set; }
 

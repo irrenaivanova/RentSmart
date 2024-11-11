@@ -16,15 +16,18 @@
         private readonly IDeletableEntityRepository<Order> orderRepository;
         private readonly IDeletableEntityRepository<Service> serviceRepository;
         private readonly IDeletableEntityRepository<Owner> ownersRepository;
+        private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
 
         public OrderService(
             IDeletableEntityRepository<Order> orderRepository,
             IDeletableEntityRepository<Service> serviceRepository,
-            IDeletableEntityRepository<Owner> ownersRepository)
+            IDeletableEntityRepository<Owner> ownersRepository,
+            IDeletableEntityRepository<ApplicationUser> userRepository)
         {
             this.orderRepository = orderRepository;
             this.serviceRepository = serviceRepository;
             this.ownersRepository = ownersRepository;
+            this.userRepository = userRepository;
         }
 
         public async Task AddNewOrderAsync(int serviceId, string userId)
@@ -40,9 +43,12 @@
 
             if (owner == null)
             {
-                owner = new Owner() { UserId = userId };
+                var user = this.userRepository.All().FirstOrDefault(x => x.Id == userId);
+                owner = new Owner() { UserId = user.Id, User = user };
+                user.Owner = owner;
                 await this.ownersRepository.AddAsync(owner);
                 await this.ownersRepository.SaveChangesAsync();
+                await this.userRepository.SaveChangesAsync();
             }
 
             var order = new Order() { OwnerId = owner.Id, ServiceId = serviceId };

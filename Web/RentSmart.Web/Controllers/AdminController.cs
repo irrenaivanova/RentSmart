@@ -28,7 +28,6 @@ namespace RentSmart.Web.Controllers
                 db.SaveChanges();
                 var managerAdd = db.Managers.FirstOrDefault(x => x.UserId == user.Id);
                 user.Manager = managerAdd;
-                user.ManagerId = managerAdd.Id;
                 db.SaveChanges();
 
             }

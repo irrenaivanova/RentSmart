@@ -1,13 +1,18 @@
-﻿@model AddPropertyInputModel
+﻿@using RentSmart.Data
+@model AddPropertyInputModel
+@inject ApplicationDbContext db
 @{
     ViewData["Title"] = "Add Property";
+    var user = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+    db.Entry(user).Reference(x => x.Manager).Load();
 }
 
-<form method="post" class="col-md-6 offset-md-3" enctype="multipart/form-data">
-    <fieldset>
+<form method="post" class="row mb-5" enctype="multipart/form-data">
+    <fieldset class="col-md-5 offset-md-1">
         <legend>@ViewData["Title"]</legend>
+        <div>@user.Manager.Id</div>
         <div>
-            <label asp-for="Name" class="form-label mt-4"></label>
+            <label asp-for="Name" class="form-label mt-1"></label>
             <input asp-for="Name" class="form-control" placeholder="Title">
             <span asp-validation-for="Name" class="text-danger"></span>
         </div>
@@ -27,14 +32,25 @@
             <span asp-validation-for="Size" class="text-danger"></span>
         </div>
         <div>
-			<label asp-for="PropertyTypeId" class="form-label mt-4">Select Property Type</label>
-			@await Component.InvokeAsync("PropertyTypeDropDown")
-			<input type="hidden" asp-for="PropertyTypeId" />
-        </div>
-        <div>
             <label asp-for="DistrictName" class="form-label mt-4"></label>
             <input asp-for="DistrictName" class="form-control">
             <span asp-validation-for="DistrictName" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="PricePerMonth" class="form-label mt-4"></label>
+            <div class="input-group mb-3">
+            <span class="input-group-text">€</span>
+            <input asp-for="PricePerMonth" class="form-control">
+            </div>
+            <span asp-validation-for="PricePerMonth" class="text-danger"></span>  
+        </div>
+        </fieldset>
+
+    <fieldset class="col-md-5">
+        <div>
+            <label asp-for="PropertyTypeId" class="form-label mt-4">Select Property Type</label>
+            @await Component.InvokeAsync("PropertyTypeDropDown")
+            <input type="hidden" asp-for="PropertyTypeId" />
         </div>
         <div>
             <label asp-for="CityId" class="form-label mt-4">City</label>
@@ -47,23 +63,16 @@
             </select>
             <span asp-validation-for="CityId" class="text-danger"></span>
         </div>
-@*         <div>
+        <div>
             <label asp-for="OwnerId" class="form-label mt-4"></label>
             <select asp-for="OwnerId" class="form-control">
+                <option value="" disabled selected>Select....</option>
                 @foreach (var owner in Model.Owners)
                 {
-                    <option value="@owner.Id">@owner.Name</option>
+                    <option value="@owner.Id">@owner.UserEmail (@owner.UserFirstName @owner.UserLastName)</option>
                 }
             </select>
             <span asp-validation-for="OwnerId" class="text-danger"></span>
-        </div> *@
-        <div>
-            <label asp-for="PricePerMonth" class="form-label mt-4"></label>
-            <div class="input-group mb-3">
-            <span class="input-group-text">€</span>
-            <input asp-for="PricePerMonth" class="form-control">
-            </div>
-            <span asp-validation-for="PricePerMonth" class="text-danger"></span>  
         </div>
         <div>
             <label asp-for="TagIds" class="form-label mt-4">Select Tags</label>
@@ -75,6 +84,13 @@
             </select>
             <span asp-validation-for="TagIds" class="text-danger"></span>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-        </fieldset>
+        <div>
+            <label asp-for="Images" class="form-label mt-4"></label>
+            <input asp-for="Images" class="form-control" />
+            <span asp-validation-for="Images" class="text-danger"></span>
+        </div>
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </fieldset>
 </form>

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap_spacelab.min.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css" asp-append-version="true" />
 </head>
 <body>
     <header>
@@ -39,14 +39,14 @@
         </nav>
     </header>
     
-    <div class="container">
+    <div class="container mb-3">
         <partial name="_CookieConsentPartial" />
         <main role="main" class="pb-3">
             @this.RenderBody()
         </main>
     </div>
     
-    <footer class="border-top footer text-muted">
+    <footer class="border-top footer text-muted bg-primary" data-bs-theme="dark">
         <div class="container">
             &copy; @releaseYear - @GlobalConstants.SystemName - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

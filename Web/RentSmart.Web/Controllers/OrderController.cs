@@ -27,7 +27,6 @@
             string userId = this.GetUserId();
             await this.orderService.AddNewOrderAsync(id, userId);
             await this.UpgradeToOwner(userId);
-
             return this.Redirect("/");
         }
 

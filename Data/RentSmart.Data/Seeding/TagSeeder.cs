@@ -15,6 +15,7 @@
             {
                 return;
             }
+
             var tags = new List<string>() { "Furnished", "Not furnished", "With a garage", "Air-condition", "With pets" };
             foreach (var tag in tags)
             {

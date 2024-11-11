@@ -21,6 +21,7 @@
     using RentSmart.Services.Data;
     using RentSmart.Services.Mapping;
     using RentSmart.Services.Messaging;
+    using RentSmart.Web.Infrastructure.Factories;
     using RentSmart.Web.ViewModels;
 
     using static RentSmart.Web.Infrastructure.Extensions.WebApplicationBuilderExtensions;

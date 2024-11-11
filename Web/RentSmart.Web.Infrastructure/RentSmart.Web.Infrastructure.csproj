@@ -14,9 +14,15 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Identity.Core" Version="8.0.10" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.435" PrivateAssets="all">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Data\RentSmart.Data.Models\RentSmart.Data.Models.csproj" />
+    <ProjectReference Include="..\..\Data\RentSmart.Data\RentSmart.Data.csproj" />
   </ItemGroup>
 
 </Project>
