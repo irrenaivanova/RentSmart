@@ -7,6 +7,8 @@
     using RentSmart.Services.Data;
     using RentSmart.Web.ViewModels.Properties;
 
+    using static RentSmart.Common.NotificationConstants;
+
     public class PropertyController : BaseController
     {
         private readonly ICityService cityService;
@@ -27,6 +29,12 @@
         [HttpGet]
         public async Task<IActionResult> Add()
         {
+            if (!this.IsManager())
+            {
+                this.TempData[ErrorMessage] = "Only managers can add properties!";
+                return this.RedirectToAction("Index", "Home");
+            }
+
             var model = await this.PopulateInputModel();
             return this.View(model);
         }

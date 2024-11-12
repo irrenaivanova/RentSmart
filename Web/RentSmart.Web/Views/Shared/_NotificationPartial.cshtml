@@ -1,0 +1,65 @@
+﻿@using static RentSmart.Common.NotificationConstants
+<style>
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+</style>
+<div id="toast-container">
+@if (TempData.ContainsKey(ErrorMessage))
+{
+    <div class="toast align-items-center text-bg-danger" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+        <strong class="me-auto">Error</strong>
+    </div>
+    <div class="toast-body">
+        @TempData[ErrorMessage]
+    </div>
+</div>
+}
+@if (TempData.ContainsKey(WarningMessage))
+{
+    <div class="toast align-items-center text-bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Warning</strong>
+        </div>
+        <div class="toast-body">
+            @TempData[WarningMessage]
+        </div>
+    </div>
+}
+@if (TempData.ContainsKey(InformationMessage))
+{
+    <div class="toast align-items-center text-bg-info" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Information</strong>
+        </div>
+        <div class="toast-body">
+            @TempData[InformationMessage]
+        </div>
+    </div>
+}
+@if (TempData.ContainsKey(SuccessMessage))
+{
+    <div class="toast align-items-center text-bg-success" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Success</strong>
+        </div>
+        <div class="toast-body">
+            @TempData[SuccessMessage]
+        </div>
+    </div>
+}
+</div>
+
+ <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var toastElements = document.querySelectorAll('.toast');
+            toastElements.forEach(function (toastElem) {
+                var toast = new bootstrap.Toast(toastElem, {delay: 2000});
+                toast.show();
+            });
+        });
+ </script>

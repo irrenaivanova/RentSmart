@@ -3,11 +3,13 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using RentSmart.Data.Models;
     using RentSmart.Services.Data;
+
+    using static RentSmart.Common.NotificationConstants;
 
     public class OrderController : BaseController
     {
@@ -22,11 +24,13 @@
             this.orderService = orderService;
         }
 
+        [Authorize]
         public async Task<IActionResult> Make(int id)
         {
             string userId = this.GetUserId();
             await this.orderService.AddNewOrderAsync(id, userId);
             await this.UpgradeToOwner(userId);
+            this.TempData[SuccessMessage] = "Your order is successful!";
             return this.Redirect("/");
         }
 
