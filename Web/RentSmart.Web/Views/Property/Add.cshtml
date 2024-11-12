@@ -1,16 +1,13 @@
 ﻿@using RentSmart.Data
 @model AddPropertyInputModel
-@inject ApplicationDbContext db
 @{
     ViewData["Title"] = "Add Property";
-    var user = db.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
-    db.Entry(user).Reference(x => x.Manager).Load();
 }
 
 <form method="post" class="row mb-5" enctype="multipart/form-data">
     <fieldset class="col-md-5 offset-md-1">
         <legend>@ViewData["Title"]</legend>
-        <div>@user.Manager.Id</div>
+        <div>Manager: @this.User.Identity.Name</div>
         <div>
             <label asp-for="Name" class="form-label mt-1"></label>
             <input asp-for="Name" class="form-control" placeholder="Title">

@@ -1,4 +1,3 @@
-
 /*!
  * Font Awesome Free 6.0.0 by @fontawesome - https://fontawesome.com
  * License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License)
@@ -541,7 +540,7 @@
        * @param {string} s Input string
        * @returns {string} Raw MD5 string
        */
-   
+
 
       function rawMD5(s) {
         return rstrMD5(str2rstrUTF8(s));

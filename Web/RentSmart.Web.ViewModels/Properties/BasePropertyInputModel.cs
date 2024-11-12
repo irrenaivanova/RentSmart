@@ -3,6 +3,9 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+
     using static RentSmart.Common.EntityValidationConstants.Property;
 
     public class BasePropertyInputModel
@@ -44,7 +47,8 @@
         public IEnumerable<CityInputModel> Cities { get; set; }
 
         [Range(typeof(decimal), PricePerMonthMinValue, PricePerMonthMaxValue)]
-        [Display(Name = "Monthly Price")]
+		[ModelBinder(BinderType = typeof(DecimalModelBinder))]
+		[Display(Name = "Monthly Price")]
         public decimal PricePerMonth { get; set; }
 
         public List<int> TagIds { get; set; }
