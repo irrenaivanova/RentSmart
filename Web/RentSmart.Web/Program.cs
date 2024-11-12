@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +23,7 @@
     using RentSmart.Services.Mapping;
     using RentSmart.Services.Messaging;
     using RentSmart.Web.Infrastructure.Factories;
+    using RentSmart.Web.Infrastructure.ModelBinders;
     using RentSmart.Web.ViewModels;
 
     using static RentSmart.Web.Infrastructure.Extensions.WebApplicationBuilderExtensions;
@@ -56,9 +58,11 @@
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
 
+
             services.AddControllersWithViews(
                 options =>
                 {
+                    options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
                     options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
                 }).AddRazorRuntimeCompilation();
             services.AddRazorPages();

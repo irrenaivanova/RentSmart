@@ -20,7 +20,7 @@
 
         [Required]
         [MinLength(MinLengthName)]
-        [MaxLength(MinLengthName)]
+        [MaxLength(MaxLengthName)]
         public string Name { get; set; }
 
         [MinLength(MinLengthDescription)]
@@ -47,7 +47,6 @@
         public IEnumerable<CityInputModel> Cities { get; set; }
 
         [Range(typeof(decimal), PricePerMonthMinValue, PricePerMonthMaxValue)]
-		[ModelBinder(BinderType = typeof(DecimalModelBinder))]
 		[Display(Name = "Monthly Price")]
         public decimal PricePerMonth { get; set; }
 

@@ -39,7 +39,16 @@
             return this.View(model);
         }
 
-        // wkarvajgi property trqbva da se izpolzva paketa
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Add(AddPropertyInputModel input)
+        {
+            return this.Json(input);
+        }
+
+
+
+        // wkarvajgi property trqbva da se izpolzva pak
         private async Task<AddPropertyInputModel> PopulateInputModel()
         {
             var viewModel = new AddPropertyInputModel();
