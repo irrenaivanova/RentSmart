@@ -1,0 +1,28 @@
+﻿@using RentSmart.Web.ViewModels
+@model CountsViewModel
+<div class="row">
+<div class="col-md-4 offset-md-2">
+<ul class="list-group">
+    <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
+        Available properties
+        <span class="badge bg-primary rounded-pill">@Model.PropertiesCount</span>
+    </li>
+    <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+        Managers to assist you
+        <span class="badge bg-primary rounded-pill">@Model.ManagersCount</span>
+    </li>
+</ul>
+</div>
+<div class="col-md-4">
+    <ul class="list-group">
+        <li class="list-group-item list-group-item-secondary d-flex justify-content-between align-items-center">
+            Property owners
+            <span class="badge bg-primary rounded-pill">@Model.OwnersCount</span>
+        </li>
+        <li class="list-group-item list-group-item-primary d-flex justify-content-between align-items-center">
+            Successful rental contracts:
+            <span class="badge bg-primary rounded-pill">@Model.RentalsCount</span>
+        </li>
+    </ul>
+</div>
+</div>

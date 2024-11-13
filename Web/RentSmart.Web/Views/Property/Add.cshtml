@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Add Property";
 }
-
+@await Component.InvokeAsync("GetCountsComponent")
 <form method="post" class="row mb-5" enctype="multipart/form-data">
     <fieldset class="col-md-5 offset-md-1">
         <legend>@ViewData["Title"]</legend>

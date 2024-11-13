@@ -24,7 +24,7 @@
             return this.View();
         }
 
-        private async Task UpgradeToOwner(string userId)
+        private async Task UpgradeToRenter(string userId)
         {
             // I do not handle exceptions
             var user = await this.userManager.FindByIdAsync(userId);
