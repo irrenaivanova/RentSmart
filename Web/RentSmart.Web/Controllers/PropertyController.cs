@@ -37,29 +37,41 @@
                 this.TempData[ErrorMessage] = "Only managers can add properties!";
                 return this.RedirectToAction("Index", "Home");
             }
-
-            var model = await this.PopulateInputModel();
-            return this.View(model);
+            var viewModel = new AddPropertyInputModel();
+            await this.PopulateInputModelAsync(viewModel);
+            return this.View(viewModel);
         }
 
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Add(AddPropertyInputModel input)
         {
-            return this.Json(input);
+            if (!this.IsManager())
+            {
+                this.TempData[ErrorMessage] = "Only managers can add properties!";
+                return this.RedirectToAction("Index", "Home");
+            }
+
+            //if (!this.ModelState.IsValid)
+            //{
+            //    await this.PopulateInputModelAsync(input);
+            //    return this.View(input);
+            //}
+
+
+
+            this.TempData[SuccessMessage] = "Property added successfully!";
+            return this.Redirect("/");
         }
 
 
-
         // wkarvajgi property trqbva da se izpolzva pak
-        private async Task<AddPropertyInputModel> PopulateInputModel()
+        private async Task PopulateInputModelAsync(AddPropertyInputModel viewModel)
         {
-            var viewModel = new AddPropertyInputModel();
             viewModel.Cities = await this.cityService.GetAllCitiesAsync();
             viewModel.Tags = await this.tagService.GetAllTagsAsync();
             viewModel.Owners = await this.ownerService.GetAllOwnerSAsync();
             viewModel.PropertyTypes = await this.propertyTypeService.AllPropertyTypesAsync();
-            return viewModel;
         }
     }
 }

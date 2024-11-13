@@ -28,25 +28,29 @@
         [MaxLength(MaxLengthDescription)]
         public string Description { get; set; }
 
-        public byte? Floor { get; set; }
+        public byte Floor { get; set; }
 
-        public double? Size { get; set; }
+        public double Size { get; set; }
 
+        [Required]
+        [Display(Name = "Property Type")]
         public int PropertyTypeId { get; set; }
 
-        [Display(Name = "Property Type")]
 		public IEnumerable<PropertyTypeInputModel> PropertyTypes { get; set; }
 
+        [Required]
         [Display(Name = "District Name")]
         [MinLength(3)]
         [MaxLength(50)]
         public string DistrictName { get; set; }
 
+        [Required]
         [Display(Name = "City")]
         public int CityId { get; set; }
 
         public IEnumerable<CityInputModel> Cities { get; set; }
 
+        [Required]
         [Range(typeof(decimal), PricePerMonthMinValue, PricePerMonthMaxValue)]
 		[Display(Name = "Monthly Price")]
         public decimal PricePerMonth { get; set; }

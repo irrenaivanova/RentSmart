@@ -38,12 +38,13 @@
             <div class="input-group mb-3">
             <span class="input-group-text">€</span>
             <input asp-for="PricePerMonth" class="form-control">
+                <span asp-validation-for="PricePerMonth" class="text-danger"></span>
             </div>
-            <span asp-validation-for="PricePerMonth" class="text-danger"></span>  
         </div>
         </fieldset>
 
     <fieldset class="col-md-5">
+        <div>
         <label asp-for="PropertyTypeId" class="form-label mt-4">Property Type</label>
         <select asp-for="PropertyTypeId" class="form-select">
             <option value="" disabled selected>Select....</option>
@@ -52,6 +53,8 @@
                 <option value="@propertyType.Id">@propertyType.Name</option>
             }
         </select>
+            <span asp-validation-for="PropertyTypeId" class="text-danger"></span>
+        </div>
         <div>
             <label asp-for="CityId" class="form-label mt-4">City</label>
             <select asp-for="CityId" class="form-control">
