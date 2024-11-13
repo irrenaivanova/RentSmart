@@ -14,15 +14,18 @@
         private readonly ICityService cityService;
         private readonly IOwnerService ownerService;
         private readonly ITagService tagService;
+        private readonly IPropertyTypeService propertyTypeService;
 
         public PropertyController(
             ICityService cityService,
             IOwnerService ownerService,
-            ITagService tagService)
+            ITagService tagService,
+            IPropertyTypeService propertyTypeService)
         {
             this.cityService = cityService;
             this.ownerService = ownerService;
             this.tagService = tagService;
+            this.propertyTypeService = propertyTypeService;
         }
 
         [Authorize]
@@ -55,6 +58,7 @@
             viewModel.Cities = await this.cityService.GetAllCitiesAsync();
             viewModel.Tags = await this.tagService.GetAllTagsAsync();
             viewModel.Owners = await this.ownerService.GetAllOwnerSAsync();
+            viewModel.PropertyTypes = await this.propertyTypeService.AllPropertyTypesAsync();
             return viewModel;
         }
     }

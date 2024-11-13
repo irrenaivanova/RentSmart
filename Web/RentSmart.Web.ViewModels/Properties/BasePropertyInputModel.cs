@@ -16,6 +16,7 @@
             this.Cities = new HashSet<CityInputModel>();
             this.TagIds = new List<int>();
             this.Tags = new List<TagInputModel>();
+            this.CustomTags = new List<string>();
         }
 
         [Required]
@@ -53,5 +54,7 @@
         public List<int> TagIds { get; set; }
 
         public IEnumerable<TagInputModel> Tags { get; set; }
+
+        public IEnumerable<string> CustomTags { get; set; }
     }
 }
