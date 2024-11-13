@@ -1,8 +1,10 @@
 ﻿namespace RentSmart.Web.Controllers
 {
+    using System;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using RentSmart.Services.Data;
     using RentSmart.Web.ViewModels.Properties;
@@ -15,17 +17,23 @@
         private readonly IOwnerService ownerService;
         private readonly ITagService tagService;
         private readonly IPropertyTypeService propertyTypeService;
+        private readonly IPropertyService propertyService;
+        private readonly IWebHostEnvironment environment;
 
         public PropertyController(
             ICityService cityService,
             IOwnerService ownerService,
             ITagService tagService,
-            IPropertyTypeService propertyTypeService)
+            IPropertyTypeService propertyTypeService,
+            IPropertyService propertyService,
+            IWebHostEnvironment environment)
         {
             this.cityService = cityService;
             this.ownerService = ownerService;
             this.tagService = tagService;
             this.propertyTypeService = propertyTypeService;
+            this.propertyService = propertyService;
+            this.environment = environment;
         }
 
         [Authorize]
@@ -35,8 +43,9 @@
             if (!this.IsManager())
             {
                 this.TempData[ErrorMessage] = "Only managers can add properties!";
-                return this.RedirectToAction("Index", "Home");
+                return this.RedirectToAction("/");
             }
+
             var viewModel = new AddPropertyInputModel();
             await this.PopulateInputModelAsync(viewModel);
             return this.View(viewModel);
@@ -49,21 +58,31 @@
             if (!this.IsManager())
             {
                 this.TempData[ErrorMessage] = "Only managers can add properties!";
-                return this.RedirectToAction("Index", "Home");
+                return this.RedirectToAction("/");
             }
 
-            //if (!this.ModelState.IsValid)
-            //{
-            //    await this.PopulateInputModelAsync(input);
-            //    return this.View(input);
-            //}
+            if (!this.ModelState.IsValid)
+            {
+                await this.PopulateInputModelAsync(input);
+                return this.View(input);
+            }
 
-
+            var userId = this.GetUserId();
+   //         try
+   //         {
+   //              await this.propertyService.AddAsync(input, userId, $"{this.environment.WebRootPath}/images");
+   //         }
+   //         catch (Exception ex)
+   //         {
+   //             this.ModelState.AddModelError(string.Empty, ex.Message);
+			//	await this.PopulateInputModelAsync(input);
+			//	return this.View(input);
+			//}
+            await this.propertyService.AddAsync(input, userId, $"{this.environment.WebRootPath}/images");
 
             this.TempData[SuccessMessage] = "Property added successfully!";
             return this.Redirect("/");
         }
-
 
         // wkarvajgi property trqbva da se izpolzva pak
         private async Task PopulateInputModelAsync(AddPropertyInputModel viewModel)

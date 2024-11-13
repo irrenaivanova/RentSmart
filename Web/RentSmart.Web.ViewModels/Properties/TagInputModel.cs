@@ -3,7 +3,7 @@
     using RentSmart.Data.Models;
     using RentSmart.Services.Mapping;
 
-    public class TagInputModel : IMapFrom<Tag>
+    public class TagInputModel : IMapFrom<Tag>, IMapTo<Tag>
     {
         public int Id { get; set; }
 

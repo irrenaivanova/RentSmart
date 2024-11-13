@@ -7,6 +7,7 @@
 <form method="post" class="row mb-5" enctype="multipart/form-data">
     <fieldset class="col-md-5 offset-md-1">
         <legend>@ViewData["Title"]</legend>
+        <div asp-validation-summary="All" class="text-danger"></div>
         <div>Manager: @this.User.Identity.Name</div>
         <div>
             <label asp-for="Name" class="form-label mt-1"></label>
