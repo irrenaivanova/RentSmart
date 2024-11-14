@@ -1,6 +1,7 @@
 ﻿namespace RentSmart.Services.Data
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
@@ -12,21 +13,27 @@
 
     public class PropertyService : IPropertyService
     {
+        private readonly string[] allowedExtensions = new[] { "jpg", "png", "gif" };
+        private const int MaxNumberOfCostumTags = 3;
+        private const int MaxNumberOfImages = 5;
         private readonly IDeletableEntityRepository<Property> propertyRepository;
         private readonly IDeletableEntityRepository<District> districtRepository;
         private readonly IDeletableEntityRepository<Tag> tagRepository;
         private readonly IDeletableEntityRepository<Manager> managerRepository;
+        private readonly IOrderService orderService;
 
         public PropertyService(
             IDeletableEntityRepository<Property> propertyRepository,
             IDeletableEntityRepository<District> districtRepository,
             IDeletableEntityRepository<Tag> tagRepository,
-            IDeletableEntityRepository<Manager> managerRepository)
+            IDeletableEntityRepository<Manager> managerRepository,
+            IOrderService orderService)
         {
             this.propertyRepository = propertyRepository;
             this.districtRepository = districtRepository;
             this.tagRepository = tagRepository;
             this.managerRepository = managerRepository;
+            this.orderService = orderService;
         }
 
         public async Task AddAsync(AddPropertyInputModel input, string userId, string imagePath)
@@ -59,14 +66,49 @@
                 property.Tags.Add(new PropertyTag { Tag = tag, Property = property });
             }
 
+            if (input.CustomTags.Count() > MaxNumberOfCostumTags)
+            {
+                throw new Exception($"You have reached the maximum limit of {MaxNumberOfCostumTags} customtags!");
+            }
+
             foreach (var tagName in input.CustomTags)
             {
-                var tag = new Tag { Name = tagName };
+                var tag = this.tagRepository.All().FirstOrDefault(x => x.Name == tagName);
+                if (tag == null)
+                {
+                    tag = new Tag { Name = tagName };
+                }
+
                 property.Tags.Add(new PropertyTag { Tag = tag, Property = property });
+            }
+
+            if (input.Images.Count() > MaxNumberOfImages)
+            {
+                throw new Exception($"You have reached the maximum limit of {MaxNumberOfCostumTags} images!");
+            }
+
+            Directory.CreateDirectory($"{imagePath}/properties/");
+            foreach (var image in input.Images)
+            {
+                var extension = Path.GetExtension(image.FileName).TrimStart('.');
+                if (!this.allowedExtensions.Contains(extension))
+                {
+                    throw new Exception($"Invalid image extension {extension}");
+                }
+
+                var dbImage = new Image
+                {
+                    Extension = extension,
+                };
+                property.Images.Add(dbImage);
+                var physicalPath = $"{imagePath}/properties/{dbImage.Id}.{extension}";
+                using Stream fileStream = new FileStream(physicalPath, FileMode.Create);
+                await image.CopyToAsync(fileStream);
             }
 
             await this.propertyRepository.AddAsync(property);
             await this.propertyRepository.SaveChangesAsync();
+            await this.orderService.UsingActiveOrder(property.OwnerId, property.Id);
         }
 
         public double? AveragePropertyRating(string propertyId)

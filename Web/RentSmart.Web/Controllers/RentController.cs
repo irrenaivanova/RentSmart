@@ -18,7 +18,6 @@
             this.userManager = userManager;
         }
 
-        // When making arental - first chech if the user has bought package and then to make it not active as writing a property in it
         public IActionResult Index()
         {
             return this.View();

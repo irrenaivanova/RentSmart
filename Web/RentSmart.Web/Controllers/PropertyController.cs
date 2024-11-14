@@ -68,23 +68,21 @@
             }
 
             var userId = this.GetUserId();
-   //         try
-   //         {
-   //              await this.propertyService.AddAsync(input, userId, $"{this.environment.WebRootPath}/images");
-   //         }
-   //         catch (Exception ex)
-   //         {
-   //             this.ModelState.AddModelError(string.Empty, ex.Message);
-			//	await this.PopulateInputModelAsync(input);
-			//	return this.View(input);
-			//}
-            await this.propertyService.AddAsync(input, userId, $"{this.environment.WebRootPath}/images");
+            try
+            {
+                await this.propertyService.AddAsync(input, userId, $"{this.environment.WebRootPath}/images");
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+                await this.PopulateInputModelAsync(input);
+                return this.View(input);
+            }
 
             this.TempData[SuccessMessage] = "Property added successfully!";
             return this.Redirect("/");
         }
 
-        // wkarvajgi property trqbva da se izpolzva pak
         private async Task PopulateInputModelAsync(AddPropertyInputModel viewModel)
         {
             viewModel.Cities = await this.cityService.GetAllCitiesAsync();

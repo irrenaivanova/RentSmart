@@ -17,17 +17,20 @@
         private readonly IDeletableEntityRepository<Service> serviceRepository;
         private readonly IDeletableEntityRepository<Owner> ownersRepository;
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
+        private readonly IDeletableEntityRepository<Property> propertyRepository;
 
         public OrderService(
             IDeletableEntityRepository<Order> orderRepository,
             IDeletableEntityRepository<Service> serviceRepository,
             IDeletableEntityRepository<Owner> ownersRepository,
-            IDeletableEntityRepository<ApplicationUser> userRepository)
+            IDeletableEntityRepository<ApplicationUser> userRepository,
+            IDeletableEntityRepository<Property> propertyRepository)
         {
             this.orderRepository = orderRepository;
             this.serviceRepository = serviceRepository;
             this.ownersRepository = ownersRepository;
             this.userRepository = userRepository;
+            this.propertyRepository = propertyRepository;
         }
 
         public async Task AddNewOrderAsync(int serviceId, string userId)
@@ -36,7 +39,7 @@
 
             if (service == null)
             {
-                throw new KeyNotFoundException($"Service with ID {serviceId} not found.");
+                throw new KeyNotFoundException($"This service is unavailable for buying!");
             }
 
             var owner = this.ownersRepository.All().FirstOrDefault(x => x.UserId == userId);
@@ -56,6 +59,14 @@
             await this.orderRepository.SaveChangesAsync();
         }
 
+        public async Task UsingActiveOrder(string ownerId, string propertyId)
+        {
+            var order = await this.HasTheOwnerRightOrderAsync(ownerId);
+            var property = await this.propertyRepository.All().Where(x => x.Id == propertyId).FirstOrDefaultAsync();
+            order.Property = property;
+            await this.orderRepository.SaveChangesAsync();
+        }
+
         public bool IsActive(int id)
         {
             var order = this.orderRepository.AllAsNoTracking()
@@ -72,6 +83,21 @@
             }
 
             return false;
+        }
+
+        private async Task<Order> HasTheOwnerRightOrderAsync(string ownerId)
+        {
+            var order = await this.orderRepository.All()
+                .Where(x => x.OwnerId == ownerId)
+                .Where(x => x.Service.Duration == "One Time" && x.Property == null)
+                .Include(x => x.Property)
+                .FirstOrDefaultAsync();
+            if (order == null)
+            {
+                throw new Exception("This user has not active proper service for registration a property!");
+            }
+
+            return order;
         }
     }
 }

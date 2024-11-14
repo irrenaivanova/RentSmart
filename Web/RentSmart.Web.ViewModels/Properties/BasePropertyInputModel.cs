@@ -3,9 +3,6 @@
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
 
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
-
     using static RentSmart.Common.EntityValidationConstants.Property;
 
     public class BasePropertyInputModel

@@ -7,5 +7,7 @@
         bool IsActive(int id);
 
         Task AddNewOrderAsync(int serviceId, string userId);
+
+        Task UsingActiveOrder(string ownerId, string propertyId);
     }
 }

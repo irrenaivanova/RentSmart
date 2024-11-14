@@ -1,5 +1,6 @@
 ﻿namespace RentSmart.Web.Controllers
 {
+    using System;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -29,7 +30,16 @@
         public async Task<IActionResult> Make(int id)
         {
             string userId = this.GetUserId();
-            await this.orderService.AddNewOrderAsync(id, userId);
+            try
+            {
+                await this.orderService.AddNewOrderAsync(id, userId);
+            }
+            catch (Exception ex)
+            {
+                this.TempData[ErrorMessage] = ex.Message;
+                return this.Redirect("/");
+            }
+
             await this.UpgradeToOwner(userId);
             this.TempData[SuccessMessage] = "Your order is successful!";
             return this.Redirect("/");
