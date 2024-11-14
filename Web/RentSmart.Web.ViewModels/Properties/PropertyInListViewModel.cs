@@ -1,4 +1,7 @@
-﻿namespace RentSmart.Web.ViewModels.Properties
+﻿using Microsoft.Extensions.Configuration;
+using RentSmart.Web.ViewModels.Properties;
+
+namespace RentSmart.Web.ViewModels.Properties
 {
     using AutoMapper;
     using RentSmart.Services.Mapping;
@@ -27,17 +30,19 @@
 
         public string AverageRating { get; set; }
 
+        public bool IsAvailable { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Property, PropertyInListViewModel>()
-                 .ForMember(x => x.ImageUrl, opt =>
-                     opt.MapFrom(x => x.Images.FirstOrDefault() != null ?
-                     x.Images.FirstOrDefault().RemoteImageUrl :
-                     (x.Images.FirstOrDefault() == null ?
-                     "/images/noimage.jpg/" :
-                     "/images/properties/" + x.Images.FirstOrDefault().Id + "." + x.Images.FirstOrDefault().Extension)))
-                 .ForMember(x => x.Price, opt =>
-                 opt.MapFrom(x => x.PricePerMonth.ToString("0.00") + "€"));
+                       .ForMember(x => x.ImageUrl, opt =>
+                           opt.MapFrom(x => x.Images.FirstOrDefault().RemoteImageUrl != null ?
+                           x.Images.FirstOrDefault().RemoteImageUrl :
+                           (x.Images.FirstOrDefault() == null ?
+                           "/images/noimage.jpg/" :
+                           "/images/properties/" + x.Images.FirstOrDefault().Id + "." + x.Images.FirstOrDefault().Extension)))
+                       .ForMember(x => x.Price, opt =>
+                       opt.MapFrom(x => x.PricePerMonth.ToString("0.00") + "€"));
         }
     }
 }

@@ -117,15 +117,15 @@
         {
             var properties = await this.propertyRepository.AllAsNoTracking()
                  .OrderByDescending(x => x.Id)
-                 .Where(x => this.IsPropertyAvailable(x.Id))
                  .To<PropertyInListViewModel>().ToListAsync();
 
             foreach (var property in properties)
             {
                 property.AverageRating = this.AveragePropertyRating(property.Id).ToString("0.0");
+                property.IsAvailable = this.IsPropertyAvailable(property.Id);
             }
 
-            return properties;
+            return properties.Where(x => x.IsAvailable);
         }
 
         public double AveragePropertyRating(string propertyId)
