@@ -1,5 +1,6 @@
 ﻿namespace RentSmart.Services.Data
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using RentSmart.Web.ViewModels.Properties;
@@ -8,10 +9,12 @@
     {
         Task AddAsync(AddPropertyInputModel input, string userId, string imagePath);
 
-        double? AveragePropertyRating(string propertyId);
+        double AveragePropertyRating(string propertyId);
 
-        bool IsPropertyFree(string propertyId);
+        bool IsPropertyAvailable(string propertyId);
 
         T GetById<T>(string id);
+
+        Task<IEnumerable<PropertyInListViewModel>> GetAllAvailableAsync<TPropertyInListViewModel>();
     }
 }

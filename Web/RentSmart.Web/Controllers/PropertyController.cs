@@ -83,6 +83,12 @@
             return this.Redirect("/");
         }
 
+        public async Task<IActionResult> All()
+        {
+            var properties = await this.propertyService.GetAllAvailableAsync<PropertyInListViewModel>();
+            return Json(properties);
+        }
+
         private async Task PopulateInputModelAsync(AddPropertyInputModel viewModel)
         {
             viewModel.Cities = await this.cityService.GetAllCitiesAsync();

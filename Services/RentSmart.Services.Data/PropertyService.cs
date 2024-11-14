@@ -1,6 +1,8 @@
 ﻿namespace RentSmart.Services.Data
 {
     using System;
+    using System.Collections;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
@@ -111,7 +113,22 @@
             await this.orderService.UsingActiveOrder(property.OwnerId, property.Id);
         }
 
-        public double? AveragePropertyRating(string propertyId)
+        public async Task<IEnumerable<PropertyInListViewModel>> GetAllAvailableAsync<TPropertyInListViewModel>()
+        {
+            var properties = await this.propertyRepository.AllAsNoTracking()
+                 .OrderByDescending(x => x.Id)
+                 .Where(x => this.IsPropertyAvailable(x.Id))
+                 .To<PropertyInListViewModel>().ToListAsync();
+
+            foreach (var property in properties)
+            {
+                property.AverageRating = this.AveragePropertyRating(property.Id).ToString("0.0");
+            }
+
+            return properties;
+        }
+
+        public double AveragePropertyRating(string propertyId)
         {
             var property = this.propertyRepository.AllAsNoTracking()
                 .Include(x => x.Rentals)
@@ -120,14 +137,14 @@
                 .FirstOrDefault();
             if (property.Rentals.Count == 0)
             {
-                return null;
+                return 0;
             }
 
             var ratings = property.Rentals.Select(x => x.Rating?.AverageRating).Where(x => x.HasValue).ToList();
-            return ratings.Count > 0 ? ratings.Average() : null;
+            return ratings.Count > 0 ? (double)ratings.Average() : 0;
         }
 
-        public bool IsPropertyFree(string propertyId)
+        public bool IsPropertyAvailable(string propertyId)
         {
             var property = this.propertyRepository.AllAsNoTracking()
                 .Include(x => x.Rentals)
