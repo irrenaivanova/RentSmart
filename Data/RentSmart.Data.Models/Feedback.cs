@@ -7,7 +7,7 @@
 
     using static RentSmart.Common.EntityValidationConstants.Feedback;
 
-    public class Feedback : BaseModel<int>
+    public class Feedback : BaseDeletableModel<int>
     {
         public Feedback()
         {

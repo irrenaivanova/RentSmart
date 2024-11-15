@@ -1,4 +1,4 @@
-﻿namespace RentSmart.Web.ViewModels.Properties
+﻿namespace RentSmart.Web.ViewModels.Properties.InputModels
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -33,7 +33,7 @@
         [Display(Name = "Property Type")]
         public int PropertyTypeId { get; set; }
 
-		public IEnumerable<PropertyTypeInputModel> PropertyTypes { get; set; }
+        public IEnumerable<PropertyTypeInputModel> PropertyTypes { get; set; }
 
         [Required]
         [Display(Name = "District Name")]
@@ -49,7 +49,7 @@
 
         [Required]
         [Range(typeof(decimal), PricePerMonthMinValue, PricePerMonthMaxValue)]
-		[Display(Name = "Monthly Price")]
+        [Display(Name = "Monthly Price")]
         public decimal PricePerMonth { get; set; }
 
         public List<int> TagIds { get; set; }

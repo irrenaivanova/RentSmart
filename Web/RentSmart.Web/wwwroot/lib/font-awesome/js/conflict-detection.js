@@ -532,7 +532,7 @@
 
 
       function str2rstrUTF8(input) {
-        return unescape(encodeURIComponent(input));
+          return decodeURIComponent(encodeURIComponent(input));
       }
       /**
        * Encodes input string as raw MD5 string

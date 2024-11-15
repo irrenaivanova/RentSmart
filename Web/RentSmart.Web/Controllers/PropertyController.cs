@@ -7,7 +7,8 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using RentSmart.Services.Data;
-    using RentSmart.Web.ViewModels.Properties;
+    using RentSmart.Web.ViewModels.Properties.InputModels;
+    using RentSmart.Web.ViewModels.Properties.ViewModels;
 
     using static RentSmart.Common.NotificationConstants;
 
@@ -86,7 +87,7 @@
         public async Task<IActionResult> All()
         {
             var properties = await this.propertyService.GetAllAvailableAsync<PropertyInListViewModel>();
-            return Json(properties);
+            return this.Json(properties);
         }
 
         private async Task PopulateInputModelAsync(AddPropertyInputModel viewModel)

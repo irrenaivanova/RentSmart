@@ -11,13 +11,14 @@
     using RentSmart.Data.Common.Repositories;
     using RentSmart.Data.Models;
     using RentSmart.Services.Mapping;
-    using RentSmart.Web.ViewModels.Properties;
+    using RentSmart.Web.ViewModels.Properties.InputModels;
+    using RentSmart.Web.ViewModels.Properties.ViewModels;
 
     public class PropertyService : IPropertyService
     {
-        private readonly string[] allowedExtensions = new[] { "jpg", "png", "gif" };
         private const int MaxNumberOfCostumTags = 3;
         private const int MaxNumberOfImages = 5;
+        private readonly string[] allowedExtensions = new[] { "jpg", "png", "gif" };
         private readonly IDeletableEntityRepository<Property> propertyRepository;
         private readonly IDeletableEntityRepository<District> districtRepository;
         private readonly IDeletableEntityRepository<Tag> tagRepository;

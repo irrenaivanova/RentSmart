@@ -8,7 +8,7 @@
     using RentSmart.Data.Common.Repositories;
     using RentSmart.Data.Models;
     using RentSmart.Services.Mapping;
-    using RentSmart.Web.ViewModels.Properties;
+    using RentSmart.Web.ViewModels.Properties.InputModels;
 
     public class OwnerService : IOwnerService
     {

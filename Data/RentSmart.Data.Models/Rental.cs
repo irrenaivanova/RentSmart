@@ -14,6 +14,7 @@
         public Rental()
         {
             this.Feedbacks = new HashSet<Feedback>();
+            this.ContractUrl = Guid.NewGuid().ToString();
         }
 
         [Required]
@@ -30,8 +31,6 @@
 
         public int DurationInMonths { get; set; }
 
-        [Required]
-        [MaxLength(UrlMaxLength)]
         public string ContractUrl { get; set; } = null!;
 
         public int? RatingId { get; set; }

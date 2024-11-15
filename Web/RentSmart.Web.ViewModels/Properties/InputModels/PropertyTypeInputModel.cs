@@ -1,9 +1,10 @@
-﻿namespace RentSmart.Web.ViewModels.Properties
+﻿namespace RentSmart.Web.ViewModels.Properties.InputModels
 {
+    using AutoMapper;
     using RentSmart.Data.Models;
     using RentSmart.Services.Mapping;
 
-    public class CityInputModel : IMapFrom<City>
+    public class PropertyTypeInputModel : IMapFrom<PropertyType>
     {
         public int Id { get; set; }
 

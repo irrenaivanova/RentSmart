@@ -1,4 +1,4 @@
-﻿namespace RentSmart.Web.ViewModels.Properties
+﻿namespace RentSmart.Web.ViewModels.Properties.InputModels
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;

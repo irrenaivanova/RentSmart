@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
-    using RentSmart.Web.ViewModels.Properties;
+    using RentSmart.Web.ViewModels.Properties.InputModels;
 
     public interface ICityService
     {

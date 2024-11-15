@@ -4,7 +4,7 @@
 
     using RentSmart.Data.Common.Models;
 
-    public class Rating : BaseModel<int>
+    public class Rating : BaseDeletableModel<int>
     {
         public int ConditionAndMaintenanceRate { get; set; }
 

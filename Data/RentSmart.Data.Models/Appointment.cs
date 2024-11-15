@@ -4,7 +4,7 @@
 
     using RentSmart.Data.Common.Models;
 
-    public class Appointment : BaseModel<int>
+    public class Appointment : BaseDeletableModel<int>
     {
         public string UserId { get; set; } = null!;
 
