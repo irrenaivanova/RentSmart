@@ -14,8 +14,12 @@
 
         bool IsPropertyAvailable(string propertyId);
 
-        T GetById<T>(string id);
+        Task<string> PropertyCurrentRenterId(string propertyId);
 
         Task<IEnumerable<PropertyInListViewModel>> GetAllAvailableAsync<TPropertyInListViewModel>();
+
+        Task<PropertyDetailsViewModel> GetByIdAsync(string id);
+
+        Task<UserAllPropertiesViewModel> GetByIdAllProperties(string userId, bool isManager, bool isOwner, bool isRenter);
     }
 }

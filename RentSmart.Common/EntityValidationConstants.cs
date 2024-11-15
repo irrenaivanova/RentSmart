@@ -13,7 +13,7 @@
             public const int MinLengthDescription = 50;
             public const int MaxLengthDescription = 1000;
 
-            public const string PricePerMonthMinValue = "0";
+            public const string PricePerMonthMinValue = "100";
             public const string PricePerMonthMaxValue = "5000";
         }
 

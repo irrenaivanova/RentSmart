@@ -23,6 +23,7 @@
         private readonly IDeletableEntityRepository<District> districtRepository;
         private readonly IDeletableEntityRepository<Tag> tagRepository;
         private readonly IDeletableEntityRepository<Manager> managerRepository;
+        private readonly IDeletableEntityRepository<Rental> rentalRepository;
         private readonly IOrderService orderService;
 
         public PropertyService(
@@ -30,12 +31,14 @@
             IDeletableEntityRepository<District> districtRepository,
             IDeletableEntityRepository<Tag> tagRepository,
             IDeletableEntityRepository<Manager> managerRepository,
+            IDeletableEntityRepository<Rental> rentalRepository,
             IOrderService orderService)
         {
             this.propertyRepository = propertyRepository;
             this.districtRepository = districtRepository;
             this.tagRepository = tagRepository;
             this.managerRepository = managerRepository;
+            this.rentalRepository = rentalRepository;
             this.orderService = orderService;
         }
 
@@ -85,28 +88,31 @@
                 property.Tags.Add(new PropertyTag { Tag = tag, Property = property });
             }
 
-            if (input.Images.Count() > MaxNumberOfImages)
+            if (input.Images != null && input.Images.Any())
             {
-                throw new Exception($"You have reached the maximum limit of {MaxNumberOfCostumTags} images!");
-            }
-
-            Directory.CreateDirectory($"{imagePath}/properties/");
-            foreach (var image in input.Images)
-            {
-                var extension = Path.GetExtension(image.FileName).TrimStart('.');
-                if (!this.allowedExtensions.Contains(extension))
+                if (input.Images.Count() > MaxNumberOfImages)
                 {
-                    throw new Exception($"Invalid image extension {extension}");
+                    throw new Exception($"You have reached the maximum limit of {MaxNumberOfImages} images!");
                 }
 
-                var dbImage = new Image
+                Directory.CreateDirectory($"{imagePath}/properties/");
+                foreach (var image in input.Images)
                 {
-                    Extension = extension,
-                };
-                property.Images.Add(dbImage);
-                var physicalPath = $"{imagePath}/properties/{dbImage.Id}.{extension}";
-                using Stream fileStream = new FileStream(physicalPath, FileMode.Create);
-                await image.CopyToAsync(fileStream);
+                    var extension = Path.GetExtension(image.FileName).TrimStart('.');
+                    if (!this.allowedExtensions.Contains(extension))
+                    {
+                        throw new Exception($"Invalid image extension {extension}");
+                    }
+
+                    var dbImage = new Image
+                    {
+                        Extension = extension,
+                    };
+                    property.Images.Add(dbImage);
+                    var physicalPath = $"{imagePath}/properties/{dbImage.Id}.{extension}";
+                    using Stream fileStream = new FileStream(physicalPath, FileMode.Create);
+                    await image.CopyToAsync(fileStream);
+                }
             }
 
             await this.propertyRepository.AddAsync(property);
@@ -127,6 +133,42 @@
             }
 
             return properties.Where(x => x.IsAvailable);
+        }
+
+        public async Task<PropertyDetailsViewModel> GetByIdAsync(string id)
+        {
+            var property = await this.propertyRepository.AllAsNoTracking()
+                .Where(x => x.Id == id)
+                .To<PropertyDetailsViewModel>()
+                .FirstOrDefaultAsync();
+            property.AverageRating = this.AveragePropertyRating(property.Id).ToString("0.0");
+            property.IsAvailable = this.IsPropertyAvailable(property.Id);
+
+            var dbProperty = await this.propertyRepository.AllAsNoTracking()
+                .Include(x => x.Images)
+                .Include(x => x.Tags)
+                .ThenInclude(x => x.Tag)
+                .Where(x => x.Id == id)
+                .FirstOrDefaultAsync();
+
+            foreach (var tag in dbProperty.Tags)
+            {
+                property.TagsTagNames.Add(tag.Tag.Name);
+            }
+
+            foreach (var image in dbProperty.Images)
+            {
+                var stringImage = image.RemoteImageUrl != null ? image.RemoteImageUrl.ToString()
+                    : "/images/properties/" + image.Id + "." + image.Extension;
+                property.ImagesUrls.Add(stringImage);
+            }
+
+            if (dbProperty.Images.Count() == 0)
+            {
+                property.ImagesUrls.Add("/images/noimage.jpg/");
+            }
+
+            return property;
         }
 
         public double AveragePropertyRating(string propertyId)
@@ -160,12 +202,69 @@
             return lastRent!.RentDate.AddMonths(lastRent.DurationInMonths) < DateTime.UtcNow;
         }
 
-        public T GetById<T>(string id)
+        public async Task<string> PropertyCurrentRenterId(string propertyId)
         {
-            return this.propertyRepository.AllAsNoTracking()
-                .Where(x => x.Id == id)
-                .To<T>()
-                .FirstOrDefault();
+            var lastRental = await this.rentalRepository.AllAsNoTracking()
+                .Include(x => x.Renter)
+                .Where(x => x.PropertyId == propertyId)
+                .OrderByDescending(x => x.RentDate)
+                .FirstOrDefaultAsync();
+            if (!lastRental.IsActive)
+            {
+                return null;
+            }
+
+            return lastRental.Renter.UserId;
+        }
+
+        public async Task<UserAllPropertiesViewModel> GetByIdAllProperties(string userId, bool isManager, bool isOwner, bool isRenter)
+        {
+            var allProperties = new UserAllPropertiesViewModel();
+            allProperties.Id = userId;
+            if (isOwner)
+            {
+                var ownerProperties = await this.propertyRepository.AllAsNoTracking()
+                    .Where(x => x.Owner.UserId == userId)
+                    .To<OwnerPropertyInListViewModel>()
+                    .ToListAsync();
+                foreach (var property in ownerProperties)
+                {
+                    property.IsAvailable = this.IsPropertyAvailable(property.Id);
+                }
+
+                allProperties.OwnedProperties = ownerProperties;
+            }
+
+            if (isManager)
+            {
+                var managerProperties = await this.propertyRepository.AllAsNoTracking()
+                    .Where(x => x.Manager.UserId == userId)
+                    .To<ManagerPropertyInListViewModel>()
+                    .ToListAsync();
+                foreach (var property in managerProperties)
+                {
+                    property.IsAvailable = this.IsPropertyAvailable(property.Id);
+                }
+
+                allProperties.ManagedProperties = managerProperties;
+            }
+
+            if (isRenter)
+            {
+                var renterProperties = await this.propertyRepository.AllAsNoTracking()
+                    .Where(x => x.Rentals.Any(x => x.Renter.UserId == userId))
+                    .To<RenterPropertyInListViewModel>()
+                    .ToListAsync();
+                foreach (var property in renterProperties)
+                {
+                    var currentRentalUserId = await this.PropertyCurrentRenterId(property.Id);
+                    property.IsCurrentRental = currentRentalUserId == userId ? true : false;
+                }
+
+                allProperties.RentedProperties = renterProperties;
+            }
+
+            return allProperties;
         }
     }
 }

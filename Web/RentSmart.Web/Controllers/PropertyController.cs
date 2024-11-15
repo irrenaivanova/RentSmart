@@ -37,7 +37,6 @@
             this.environment = environment;
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Add()
         {
@@ -52,7 +51,6 @@
             return this.View(viewModel);
         }
 
-        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Add(AddPropertyInputModel input)
         {
@@ -88,6 +86,29 @@
         {
             var properties = await this.propertyService.GetAllAvailableAsync<PropertyInListViewModel>();
             return this.Json(properties);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> ById(string id)
+        {
+            var property = await this.propertyService.GetByIdAsync(id);
+            return this.Json(property);
+        }
+
+        public async Task<IActionResult> MyProperties()
+        {
+            var userId = this.GetUserId();
+            bool isManager = this.IsManager();
+            bool isOwner = this.IsOwner();
+            bool isRenter = this.IsRenter();
+            if (!isManager && !isOwner && !isRenter)
+            {
+                this.TempData[ErrorMessage] = "Access to 'My Properties' is limited to managers, owners or renters!";
+                return this.Redirect("/");
+            }
+
+            var allProperties = await this.propertyService.GetByIdAllProperties(userId, isManager, isOwner, isRenter);
+            return this.Json(allProperties);
         }
 
         private async Task PopulateInputModelAsync(AddPropertyInputModel viewModel)

@@ -30,7 +30,7 @@
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Property, PropertyInListViewModel>()
+            configuration.CreateMap<Property, OwnerPropertyInListViewModel>()
                        .ForMember(x => x.ImageUrl, opt =>
                            opt.MapFrom(x => x.Images.FirstOrDefault().RemoteImageUrl != null ?
                            x.Images.FirstOrDefault().RemoteImageUrl :

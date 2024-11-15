@@ -4,14 +4,14 @@
 
     using AutoMapper;
     using RentSmart.Data.Models;
+    using RentSmart.Services.Mapping;
 
-    public class PropertyDetailsViewModel : BasePropertyInListViewModel
+    public class PropertyDetailsViewModel : BasePropertyInListViewModel, IHaveCustomMappings
     {
         public PropertyDetailsViewModel()
         {
-            this.PropertyTagsTagNames = new HashSet<string>();
-            this.ImagesUrls = new HashSet<string>();
-            this.Comments = new HashSet<string>();
+            this.TagsTagNames = new List<string>();
+            this.ImagesUrls = new List<string>();
         }
 
         public string Description { get; set; }
@@ -22,18 +22,19 @@
 
         public string OwnerName { get; set; }
 
-        public IEnumerable<string> PropertyTagsTagNames { get; set; }
+        public string Price { get; set; }
 
-        public IEnumerable<string> ImagesUrls { get; set; }
+        public IList<string> TagsTagNames { get; set; }
 
-        public IEnumerable<string> Comments { get; set; }
+        public IList<string> ImagesUrls { get; set; }
 
-        public override void CreateMappings(IProfileExpression configuration)
+        public void CreateMappings(IProfileExpression configuration)
         {
-            base.CreateMappings(configuration);
             configuration.CreateMap<Property, PropertyDetailsViewModel>()
                 .ForMember(x => x.ManagerName, opt => opt.MapFrom(x => $"{x.Manager.User.FirstName} {x.Manager.User.LastName}"))
-                .ForMember(x => x.OwnerName, opt => opt.MapFrom(x => $"{x.Owner.User.FirstName} {x.Owner.User.LastName}"));
+                .ForMember(x => x.OwnerName, opt => opt.MapFrom(x => $"{x.Owner.User.FirstName} {x.Owner.User.LastName}"))
+                .ForMember(x => x.Price, opt =>
+                       opt.MapFrom(x => x.PricePerMonth.ToString("0.00") + " €"));
         }
     }
 }
