@@ -16,7 +16,6 @@
             this.CustomTags = new List<string>();
         }
 
-        [Required]
         [MinLength(MinLengthName)]
         [MaxLength(MaxLengthName)]
         public string Name { get; set; }
