@@ -14,6 +14,8 @@
 
         public string CityName { get; set; }
 
+        public double Size { get; set; }
+
         public byte Floor { get; set; }
 
         public string PropertyTypeName { get; set; }

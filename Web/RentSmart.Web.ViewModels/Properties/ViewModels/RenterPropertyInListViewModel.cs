@@ -30,7 +30,7 @@
                            opt.MapFrom(x => x.Images.FirstOrDefault().RemoteImageUrl != null ?
                            x.Images.FirstOrDefault().RemoteImageUrl :
                            x.Images.FirstOrDefault() == null ?
-                           "/images/noimage.jpg/" :
+                           "/images/noimage.jpg" :
                            "/images/properties/" + x.Images.FirstOrDefault().Id + "." + x.Images.FirstOrDefault().Extension));
         }
     }

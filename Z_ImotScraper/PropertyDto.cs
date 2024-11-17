@@ -3,6 +3,10 @@
     using System.ComponentModel.DataAnnotations;
     public class PropertyDto
     {
+        public PropertyDto()
+        {
+                Tags = new List<string>();
+        }
         public string Description { get; set; } = null!;
 
         public byte Floor { get; set; }
@@ -20,6 +24,8 @@
         public string OriginalUrl { get; set; } = null!;
 
         public decimal PricePerMonth { get; set; }
+
+        public IList<string> Tags { get; set; }
 
     }
 }

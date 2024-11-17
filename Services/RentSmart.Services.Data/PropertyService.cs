@@ -128,7 +128,8 @@
 
             foreach (var property in properties)
             {
-                property.AverageRating = this.AveragePropertyRating(property.Id).ToString("0.0");
+                var averageRating = this.AveragePropertyRating(property.Id);
+                property.AverageRating = averageRating == 0 ? "No rating yet!" : $"{averageRating.ToString("0.0")} / 5";
                 property.IsAvailable = this.IsPropertyAvailable(property.Id);
             }
 

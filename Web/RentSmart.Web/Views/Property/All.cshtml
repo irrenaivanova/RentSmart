@@ -1,35 +1,50 @@
-﻿<div class="card mb-3">
-  <h3 class="card-header">Card header</h3>
-  <div class="card-body">
-    <h5 class="card-title">Special title treatment</h5>
-    <h6 class="card-subtitle text-muted">Support card subtitle</h6>
+﻿@using RentSmart.Web.ViewModels.Properties.ViewModels
+@model IEnumerable<PropertyInListViewModel>
+@{
+    ViewData["Title"] = "All Properties";
+}
+@await Component.InvokeAsync("GetCountsComponent")
+
+<div class="container mt-4">
+  <h3 class="text-center">@ViewData["Title"]</h3>
+  <div class="row g-3"> 
+    @foreach (var property in this.Model)
+    {
+      <div class="col-md-6">
+        <div class="card h-100" style="height: 200px;">
+          <div class="row g-0 h-100">
+            <div class="col-md-4 h-100" style="max-width: 200px;">
+              <img src="@property.ImageUrl" class="img-fluid rounded-start h-100" style="object-fit: cover; width: 100%;" alt="property image">
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h5 class="card-title">@property.PropertyTypeName</h5>
+                <h5 class="card-title">@property.CityName, @property.DistrictName</h5>
+                <p class="card-title">Price: @property.Price per month</p>
+                <p class="card-title">@property.Size sq.m, @property.Floor floor</p>
+                <p class="card-title">Average Rating: @property.AverageRating  </p>
+              </div>
+            </div>
+          </div>
+    }
+        </div>
+      </div>
   </div>
-    <img src="path/to/your-image.png" class="d-block user-select-none" alt="Image cap" width="100%" height="200">
-    <rect width="100%" height="100%" fill="#868e96"></rect>
-    <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
-  </svg>
-  <div class="card-body">
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-  <ul class="list-group list-group-flush">
-    <li class="list-group-item">Cras justo odio</li>
-    <li class="list-group-item">Dapibus ac facilisis in</li>
-    <li class="list-group-item">Vestibulum at eros</li>
+</div>
+
+<hr/>
+<nav class="container mb-5">
+  <ul class="pagination justify-content-center">
+    <li class="page-item disabled">
+      <a class="page-link">Previous</a>
+    </li>
+    <li class="page-item"><a class="page-link" href="#">1</a></li>
+    <li class="page-item"><a class="page-link" href="#">2</a></li>
+    <li class="page-item"><a class="page-link" href="#">3</a></li>
+    <li class="page-item">
+      <a class="page-link" href="#">Next</a>
+    </li>
   </ul>
-  <div class="card-body">
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
-  <div class="card-footer text-muted">
-    2 days ago
-  </div>
-</div>
-<div class="card">
-  <div class="card-body">
-    <h4 class="card-title">Card title</h4>
-    <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-    <a href="#" class="card-link">Card link</a>
-    <a href="#" class="card-link">Another link</a>
-  </div>
-</div>
+</nav>
+
+

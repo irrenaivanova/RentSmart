@@ -85,6 +85,7 @@
         public async Task<IActionResult> All()
         {
             var properties = await this.propertyService.GetAllAvailableAsync<PropertyInListViewModel>();
+            return this.View(properties);
             return this.Json(properties);
         }
 
