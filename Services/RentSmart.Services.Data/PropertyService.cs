@@ -123,7 +123,7 @@
         {
             var properties = await this.propertyRepository.AllAsNoTracking()
                  .OrderByDescending(x => x.Id)
-                 .Skip((page- 1) * propertiesPerPage)
+                 .Skip((page - 1) * propertiesPerPage)
                  .Take(propertiesPerPage)
                  .To<PropertyInListViewModel>().ToListAsync();
 
@@ -220,7 +220,7 @@
             return lastRental.Renter.UserId;
         }
 
-        public async Task<UserAllPropertiesViewModel> GetByIdAllProperties(string userId, bool isManager, bool isOwner, bool isRenter)
+        public async Task<UserAllPropertiesViewModel> GetByIdAllProperties(string userId, bool isManager, bool isOwner, bool isRenter, int page, int propertiesPerPage)
         {
             var allProperties = new UserAllPropertiesViewModel();
             allProperties.Id = userId;
@@ -242,6 +242,9 @@
             {
                 var managerProperties = await this.propertyRepository.AllAsNoTracking()
                     .Where(x => x.Manager.UserId == userId)
+                    .OrderByDescending(x => x.CreatedOn)
+                    .Skip((page - 1) * propertiesPerPage)
+                    .Take(propertiesPerPage)
                     .To<ManagerPropertyInListViewModel>()
                     .ToListAsync();
                 foreach (var property in managerProperties)
@@ -249,7 +252,10 @@
                     property.IsAvailable = this.IsPropertyAvailable(property.Id);
                 }
 
-                allProperties.ManagedProperties = managerProperties;
+                allProperties.ManagedProperties.Properties = managerProperties;
+                allProperties.ManagedProperties.ItemsPerPage = propertiesPerPage;
+                allProperties.ManagedProperties.CurrentPage = page;
+                allProperties.ManagedProperties.ItemsCount = managerProperties.Count();
             }
 
             if (isRenter)

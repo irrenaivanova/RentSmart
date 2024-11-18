@@ -117,8 +117,13 @@
             //return this.Json(property);
         }
 
-        public async Task<IActionResult> MyProperties()
+        public async Task<IActionResult> MyProperties(int id = 1)
         {
+            if (id <= 0)
+            {
+                return this.NotFound();
+            }
+
             var userId = this.GetUserId();
             bool isManager = this.IsManager();
             bool isOwner = this.IsOwner();
@@ -129,7 +134,14 @@
                 return this.Redirect("/");
             }
 
-            var allProperties = await this.propertyService.GetByIdAllProperties(userId, isManager, isOwner, isRenter);
+            var allProperties = await this.propertyService.GetByIdAllProperties(userId, isManager, isOwner, isRenter, id, PropertiesPerPage);
+
+            if (id > allProperties.ManagedProperties.ItemsCount)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(allProperties);
             return this.Json(allProperties);
         }
 

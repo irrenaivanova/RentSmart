@@ -20,7 +20,7 @@
 
         Task<PropertyDetailsViewModel> GetByIdAsync(string id);
 
-        Task<UserAllPropertiesViewModel> GetByIdAllProperties(string userId, bool isManager, bool isOwner, bool isRenter);
+        Task<UserAllPropertiesViewModel> GetByIdAllProperties(string userId, bool isManager, bool isOwner, bool isRenter, int page, int propertiesPerPage);
 
         int GetCount();
     }

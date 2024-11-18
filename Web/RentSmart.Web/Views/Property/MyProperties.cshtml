@@ -1,0 +1,19 @@
+﻿@using RentSmart.Web.ViewModels.Properties.ViewModels
+@model UserAllPropertiesViewModel
+@{
+    ViewData["Title"] = "My Properties";
+}
+
+<div>
+    <h4>Welcome, @User.Identity.Name</h4>
+    <hr />
+    <div>
+        <partial name="_ManagersPartial" model="@Model.ManagedProperties" />
+    </div>
+@*     <div>
+        <partial name="_OwnersPartial" model="@Model.OwnedProperties" />
+    </div>
+    <div>
+        <partial name="_RentersPartial" model="@Model.RentedProperties" />
+    </div> *@
+</div>

@@ -10,14 +10,13 @@
     {
         public UserAllPropertiesViewModel()
         {
-            this.ManagedProperties = new List<ManagerPropertyInListViewModel>();
             this.OwnedProperties = new List<OwnerPropertyInListViewModel>();
             this.RentedProperties = new List<RenterPropertyInListViewModel>();
         }
 
         public string Id { get; set; }
 
-        public IList<ManagerPropertyInListViewModel> ManagedProperties { get; set; }
+        public ManagerViewWithPaging ManagedProperties { get; set; } = new ManagerViewWithPaging();
 
         public IList<OwnerPropertyInListViewModel> OwnedProperties { get; set; }
 
