@@ -11,6 +11,7 @@
     using RentSmart.Data.Models;
     using RentSmart.Services.Data;
 
+    using static RentSmart.Common.GlobalConstants;
     using static RentSmart.Common.NotificationConstants;
 
     public class OrderController : BaseController
@@ -50,9 +51,9 @@
             // I do not handle exceptions
             var user = await this.userManager.FindByIdAsync(userId);
             var claims = await this.userManager.GetClaimsAsync(user);
-            if (!claims.Any(x => x.Type == "IsOwner" && x.Value == "true"))
+            if (!claims.Any(x => x.Type == OwnerClaim && x.Value == "true"))
             {
-                await this.userManager.AddClaimAsync(user, new Claim("IsOwner", "true"));
+                await this.userManager.AddClaimAsync(user, new Claim(OwnerClaim, "true"));
             }
         }
     }

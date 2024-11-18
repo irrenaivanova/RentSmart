@@ -7,6 +7,7 @@
 
 <div class="container mt-4">
   <h3 class="text-center">@ViewData["Title"]</h3>
+  
   <div class="row g-3"> 
     @foreach (var property in this.Model)
     {
@@ -14,21 +15,23 @@
         <div class="card h-100" style="height: 200px;">
           <div class="row g-0 h-100">
             <div class="col-md-4 h-100" style="max-width: 200px;">
-              <img src="@property.ImageUrl" class="img-fluid rounded-start h-100" style="object-fit: cover; width: 100%;" alt="property image">
+              <img src="@property.ImageUrl" class="img-fluid rounded-start h-100" 
+                   style="object-fit: cover; width: 100%;" alt="property image">
             </div>
             <div class="col-md-8">
               <div class="card-body">
-                <h5 class="card-title">@property.PropertyTypeName</h5>
-                <h5 class="card-title">@property.CityName, @property.DistrictName</h5>
-                <p class="card-title">Price: @property.Price per month</p>
-                <p class="card-title">@property.Size sq.m, @property.Floor floor</p>
-                <p class="card-title">Average Rating: @property.AverageRating  </p>
+                <h5 class="card-title"><i class="fa-solid fa-house"></i> @property.PropertyTypeName</h5>
+                <p class="card-title"><i class="fa-solid fa-location-dot"></i> @property.CityName, @property.DistrictName</p>
+                <p class="card-title"><i class="fa-regular fa-money-bill-1"></i> Price: @property.Price per month</p>
+                <p class="card-title"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> @property.Size sq.m, @property.Floor floor</p>
+                <p class="card-title"><i class="fa-solid fa-star"></i> Average Rating: @property.AverageRating</p>
+                <a type="button" class="btn btn-primary btn-sm" asp-controller="Property" asp-action="Details" asp-route-id="@property.Id" >Go to Details</a>
               </div>
             </div>
           </div>
-    }
         </div>
       </div>
+    }
   </div>
 </div>
 
@@ -46,5 +49,3 @@
     </li>
   </ul>
 </nav>
-
-

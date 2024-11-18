@@ -5,10 +5,10 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using RentSmart.Data;
 using RentSmart.Data.Models;
+using static RentSmart.Common.GlobalConstants;
 
 public class CustomUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<ApplicationUser>
 {
@@ -33,17 +33,17 @@ public class CustomUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<Appli
 
         if (user.Owner != null)
         {
-            identity.AddClaim(new Claim("IsOwner", "true"));
+            identity.AddClaim(new Claim(OwnerClaim, "true"));
         }
 
         if (user.Manager != null)
         {
-            identity.AddClaim(new Claim("IsManager", "true"));
+            identity.AddClaim(new Claim(ManagerClaim, "true"));
         }
 
         if (user.Renter != null)
         {
-            identity.AddClaim(new Claim("IsRenter", "true"));
+            identity.AddClaim(new Claim(RenterClaim, "true"));
         }
 
         return principal;

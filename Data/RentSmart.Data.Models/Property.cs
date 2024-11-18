@@ -22,9 +22,6 @@
             this.Orders = new HashSet<Order>();
         }
 
-        [MaxLength(MaxLengthName)]
-        public string? Name { get; set; }
-
         [MaxLength(MaxLengthDescription)]
         public string? Description { get; set; }
 

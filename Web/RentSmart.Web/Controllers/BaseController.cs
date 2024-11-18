@@ -5,7 +5,8 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
 
-    [Authorize]
+    using static RentSmart.Common.GlobalConstants;
+
     public class BaseController : Controller
     {
         [Authorize]
@@ -17,19 +18,19 @@
         [Authorize]
         protected bool IsManager()
         {
-            return this.User.HasClaim("IsManager", "true");
+            return this.User.HasClaim(ManagerClaim, "true");
         }
 
         [Authorize]
         protected bool IsRenter()
         {
-            return this.User.HasClaim("IsRenter", "true");
+            return this.User.HasClaim(RenterClaim, "true");
         }
 
         [Authorize]
         protected bool IsOwner()
         {
-            return this.User.HasClaim("IsOwner", "true");
+            return this.User.HasClaim(OwnerClaim, "true");
         }
     }
 }

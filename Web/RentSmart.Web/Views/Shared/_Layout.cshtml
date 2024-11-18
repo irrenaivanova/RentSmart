@@ -30,12 +30,26 @@
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link" asp-area="" asp-controller="Property" asp-action="All">BrowseAll</a>
                         </li>
+                        @if (User.HasClaim(x=>(x.Type==GlobalConstants.RenterClaim && x.Value=="true") || 
+                                           (x.Type==GlobalConstants.OwnerClaim && x.Value=="true") ||
+                                           (x.Type == GlobalConstants.ManagerClaim && x.Value == "true")))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Property" asp-action="MyProperties">AllMine</a>
+                            </li>
+                        }
+                         @if (User.HasClaim(x=>x.Type==GlobalConstants.ManagerClaim && x.Value=="true"))
+                         {
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-controller="Property" asp-action="Add">AddNew</a>
+                        </li>
+                         }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
-            </div>
+            </div>  
         </nav>
     </header> 
     <div class="container mb-3">

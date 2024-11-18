@@ -46,7 +46,6 @@
         {
             var property = new Property
             {
-                Name = input.Name,
                 Description = input.Description,
                 Floor = input.Floor,
                 Size = input.Size,
@@ -142,7 +141,8 @@
                 .Where(x => x.Id == id)
                 .To<PropertyDetailsViewModel>()
                 .FirstOrDefaultAsync();
-            property.AverageRating = this.AveragePropertyRating(property.Id).ToString("0.0");
+            var averageRating = this.AveragePropertyRating(property.Id);
+            property.AverageRating = averageRating == 0 ? "No rating yet!" : $"{averageRating.ToString("0.0")} / 5";
             property.IsAvailable = this.IsPropertyAvailable(property.Id);
 
             var dbProperty = await this.propertyRepository.AllAsNoTracking()
@@ -166,7 +166,7 @@
 
             if (dbProperty.Images.Count() == 0)
             {
-                property.ImagesUrls.Add("/images/noimage.jpg/");
+                property.ImagesUrls.Add("/images/noimage.jpg");
             }
 
             return property;

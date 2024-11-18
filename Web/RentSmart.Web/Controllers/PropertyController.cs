@@ -12,6 +12,7 @@
 
     using static RentSmart.Common.NotificationConstants;
 
+    [Authorize]
     public class PropertyController : BaseController
     {
         private readonly ICityService cityService;
@@ -82,6 +83,7 @@
             return this.Redirect("/");
         }
 
+        [AllowAnonymous]
         public async Task<IActionResult> All()
         {
             var properties = await this.propertyService.GetAllAvailableAsync<PropertyInListViewModel>();
@@ -90,10 +92,11 @@
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> ById(string id)
+        public async Task<IActionResult> Details(string id)
         {
             var property = await this.propertyService.GetByIdAsync(id);
-            return this.Json(property);
+            return this.View(property);
+            //return this.Json(property);
         }
 
         public async Task<IActionResult> MyProperties()
