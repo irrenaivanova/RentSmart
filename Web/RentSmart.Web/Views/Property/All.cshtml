@@ -1,5 +1,5 @@
 ﻿@using RentSmart.Web.ViewModels.Properties.ViewModels
-@model IEnumerable<PropertyInListViewModel>
+@model PropertiesViewModelWithPaging
 @{
     ViewData["Title"] = "All Properties";
 }
@@ -7,9 +7,10 @@
 
 <div class="container mt-4">
   <h3 class="text-center">@ViewData["Title"]</h3>
+  <hr/>
   
   <div class="row g-3"> 
-    @foreach (var property in this.Model)
+    @foreach (var property in this.Model.Properties)
     {
       <div class="col-md-6">
         <div class="card h-100" style="height: 200px;">
@@ -36,16 +37,4 @@
 </div>
 
 <hr/>
-<nav class="container mb-5">
-  <ul class="pagination justify-content-center">
-    <li class="page-item disabled">
-      <a class="page-link">Previous</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">Next</a>
-    </li>
-  </ul>
-</nav>
+<partial name="_PagingPartial" model ="@Model" />

@@ -15,6 +15,7 @@
     [Authorize]
     public class PropertyController : BaseController
     {
+        private const int PropertiesPerPage = 4;
         private readonly ICityService cityService;
         private readonly IOwnerService ownerService;
         private readonly ITagService tagService;
@@ -84,11 +85,28 @@
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> All()
+        public async Task<IActionResult> All(int id = 1)
         {
-            var properties = await this.propertyService.GetAllAvailableAsync<PropertyInListViewModel>();
-            return this.View(properties);
-            return this.Json(properties);
+            if (id <= 0)
+            {
+                return this.NotFound();
+            }
+
+            var viewModel = new PropertiesViewModelWithPaging
+            {
+                Properties = await this.propertyService.GetAllAvailableAsync<PropertyInListViewModel>(id, PropertiesPerPage),
+                CurrentPage = id,
+                ItemsPerPage = PropertiesPerPage,
+                ItemsCount = this.propertyService.GetCount(),
+            };
+
+            if (id > viewModel.ItemsCount)
+            {
+                return this.NotFound();
+            }
+
+            return this.View(viewModel);
+            return this.Json(viewModel);
         }
 
         [AllowAnonymous]

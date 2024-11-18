@@ -1,0 +1,43 @@
+﻿@using RentSmart.Web.ViewModels.Properties.ViewModels
+@model PagingViewModel
+@{
+    var previousPage = Model.CurrentPage - 1;
+    var nextPage = Model.CurrentPage + 1;
+}
+
+<div>
+    <ul class="pagination justify-content-center">
+        <li class="page-item @(Model.CurrentPage==1 ? "disabled" : "")">
+            <a class="page-link" asp-action="All" asp-route-id="@previousPage">&laquo;</a>
+        </li>
+
+        @for (int i = @Model.CurrentPage - 3; i < @Model.CurrentPage; i++)
+        {
+            if (i > 0)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="All" asp-route-id="@i">@i</a>
+                </li>
+            }
+        }
+
+        <li class="page-item active">
+            <a class="page-link" asp-action="All" asp-route-id="@Model.CurrentPage">@Model.CurrentPage</a>
+        </li>
+
+        @for (int i = @Model.CurrentPage + 1; i < @Model.CurrentPage + 4; i++)
+        {
+            if (i<=Model.PagesCount)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="All" asp-route-id="@i">@i</a>
+                </li>
+            }
+        }
+
+        <li class="page-item @(Model.CurrentPage==Model.PagesCount ? "disabled" : "")">
+            <a class="page-link" asp-action="All" asp-route-id="@nextPage">&raquo;</a>
+        </li>
+
+    </ul>
+</div>

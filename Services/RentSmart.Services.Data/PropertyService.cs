@@ -119,10 +119,12 @@
             await this.orderService.UsingActiveOrder(property.OwnerId, property.Id);
         }
 
-        public async Task<IEnumerable<PropertyInListViewModel>> GetAllAvailableAsync<TPropertyInListViewModel>()
+        public async Task<IEnumerable<PropertyInListViewModel>> GetAllAvailableAsync<TPropertyInListViewModel>(int page, int propertiesPerPage)
         {
             var properties = await this.propertyRepository.AllAsNoTracking()
                  .OrderByDescending(x => x.Id)
+                 .Skip((page- 1) * propertiesPerPage)
+                 .Take(propertiesPerPage)
                  .To<PropertyInListViewModel>().ToListAsync();
 
             foreach (var property in properties)
@@ -266,6 +268,11 @@
             }
 
             return allProperties;
+        }
+
+        public int GetCount()
+        {
+            return this.propertyRepository.All().Count();
         }
     }
 }
