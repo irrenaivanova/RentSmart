@@ -60,6 +60,5 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
-    <Folder Include="wwwroot\data\" />
   </ItemGroup>
 </Project>
