@@ -1,6 +1,7 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
 using Newtonsoft.Json;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Z_ImotScraper;
 
@@ -15,8 +16,12 @@ class Program
         List<PropertyDto> properties = new List<PropertyDto>();
 
         // Number of pages that we will scraper. 11/16/2024 the number of pages with apartments in Sofia are 100.
-        int pages = 2;
+        int pages = 100;
 
+        int n = 1; // To control what is happening
+        Stopwatch stopwatch = new Stopwatch();
+        stopwatch.Start();
+        
         for (int i = 2; i <= pages; i++)
         {
             string address = $"https://imoti.info/en/for-rent/grad-sofiya/apartments/page-{i}";
@@ -39,7 +44,7 @@ class Program
                     imotUrls.Add(url);
                 }
             }
-            int n = 1;
+
             var tasks = imotUrls.Select(async (url) =>
             {
                 var property = await ScrapePropertyDetailsAsync(url, context);
@@ -47,11 +52,20 @@ class Program
                 Console.WriteLine(n++);
             });
             await Task.WhenAll(tasks);
+            
+            stopwatch.Stop();
+            TimeSpan time = stopwatch.Elapsed;
 
-            string json = JsonConvert.SerializeObject(properties, Formatting.Indented);
-            string path = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\..", @"Web\RentSmart.Web\wwwroot\data\properties.json");
+
+            Console.WriteLine(properties.Count());
+            string json = JsonConvert.SerializeObject(properties, Formatting.None);
+            string path = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\..", @"Web\RentSmart.Web\wwwroot\data\propertiesAll.json");
+            string path2 = Path.Combine(Directory.GetCurrentDirectory(), @"..\..\..\..", @"Web\RentSmart.Web\wwwroot\data\timeAll.txt");
             File.WriteAllText(path, json);
+            File.WriteAllText(path2, time.ToString());
+
         }
+
 
         static async Task<PropertyDto> ScrapePropertyDetailsAsync(string url, IBrowsingContext context)
         {
@@ -82,11 +96,14 @@ class Program
             if (heading!=null)
             {
                 string[] infos = heading.Split(", ", StringSplitOptions.RemoveEmptyEntries);
-                property.District = infos[1];
-                property.Size = double.Parse(infos[2].Replace(" sq.m", string.Empty));
-                string[] cityHelp = infos[0].Split(" ", StringSplitOptions.RemoveEmptyEntries);
-                property.City = cityHelp[cityHelp.Length - 1];
-                property.PropertyType = FindTheStringBetween(infos[0], "For Rent ", " в");
+                if(infos.Length==3)
+                {
+                    property.District = infos[1];
+                    property.Size = double.Parse(infos[2].Replace(" sq.m", string.Empty));
+                    string[] cityHelp = infos[0].Split(" ", StringSplitOptions.RemoveEmptyEntries);
+                    property.City = cityHelp[cityHelp.Length - 1];
+                    property.PropertyType = FindTheStringBetween(infos[0], "For Rent ", " в");
+                }
             }
 
             // Price
@@ -95,7 +112,11 @@ class Program
             var price = elementsPrice.FirstOrDefault()?.TextContent?.Split(" ", StringSplitOptions.RemoveEmptyEntries)[0];
             if (price!=null)
             {
-                property.PricePerMonth =decimal.Parse(price);
+                decimal priceParse;
+                if (decimal.TryParse(price,out priceParse))
+                {
+                    property.PricePerMonth =priceParse;
+                }
             }
 
             // Floor
@@ -104,7 +125,11 @@ class Program
             string? rawFloor = elementsFloor.FirstOrDefault()?.TextContent;
             if (rawFloor!=null)
             {
-                property.Floor = byte.Parse(new string(rawFloor.TakeWhile(char.IsDigit).ToArray()));
+                byte floor;
+                if (byte.TryParse(new string(rawFloor.TakeWhile(char.IsDigit).ToArray()), out floor))
+                {
+                    property.Floor = floor;
+                }
             }
 
             // Description
@@ -126,8 +151,7 @@ class Program
             return property;
         }
 
-
-            static string FindTheStringBetween(string input, string first, string second)
+        static string FindTheStringBetween(string input, string first, string second)
         {
             int startIndex = input.IndexOf(first) + first.Length;
             int endIndex = input.IndexOf(second, startIndex);
