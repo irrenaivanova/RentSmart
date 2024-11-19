@@ -15,7 +15,8 @@
     [Authorize]
     public class PropertyController : BaseController
     {
-        private const int PropertiesPerPage = 4;
+        private const int PropertiesPerPageAll = 4;
+        private const int PropertiesPerPageManager = 4;
         private readonly ICityService cityService;
         private readonly IOwnerService ownerService;
         private readonly ITagService tagService;
@@ -94,9 +95,9 @@
 
             var viewModel = new PropertiesViewModelWithPaging
             {
-                Properties = await this.propertyService.GetAllAvailableAsync<PropertyInListViewModel>(id, PropertiesPerPage),
+                Properties = await this.propertyService.GetAllAvailableAsync<PropertyInListViewModel>(id, PropertiesPerPageAll),
                 CurrentPage = id,
-                ItemsPerPage = PropertiesPerPage,
+                ItemsPerPage = PropertiesPerPageAll,
                 ItemsCount = this.propertyService.GetCount(),
             };
 
@@ -134,7 +135,7 @@
                 return this.Redirect("/");
             }
 
-            var allProperties = await this.propertyService.GetByIdAllProperties(userId, isManager, isOwner, isRenter, id, PropertiesPerPage);
+            var allProperties = await this.propertyService.GetByIdAllProperties(userId, isManager, isOwner, isRenter, id, PropertiesPerPageManager);
 
             if (id > allProperties.ManagedProperties.ItemsCount)
             {
