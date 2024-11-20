@@ -15,9 +15,5 @@
         public virtual Property Property { get; set; } = null!;
 
         public DateTime DateTime { get; set; }
-
-        public string ManagerId { get; set; } = null!;
-
-        public virtual Manager Manager { get; set; } = null!;
     }
 }

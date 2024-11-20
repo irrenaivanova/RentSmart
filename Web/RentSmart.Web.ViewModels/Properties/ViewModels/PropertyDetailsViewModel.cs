@@ -24,6 +24,8 @@
 
         public string Price { get; set; }
 
+        public int TotalLikes { get; set; }
+
         public IList<string> TagsTagNames { get; set; }
 
         public IList<string> ImagesUrls { get; set; }

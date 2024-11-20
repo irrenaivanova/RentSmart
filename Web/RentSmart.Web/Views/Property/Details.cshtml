@@ -35,6 +35,11 @@
 
 <ul class="list-group col-md-4">
   <li class="list-group-item bg-primary text-center text-white">Property Info</li>
+  <li class="list-group-item text-danger">
+      <span class="data-like" data-property-id="@Model.Id"><i class="fa-solid fa-heart"></i></span>
+      <span id="totalLikes"> @Model.TotalLikes</span>
+      <span> Total Likes</span>
+  </li>  
   <li class="list-group-item"><i class="fa-solid fa-house"></i>  @Model.PropertyTypeName</li>
   <li class="list-group-item"><i class="fa-solid fa-location-dot"></i>  @Model.CityName, @Model.DistrictName</li>
   <li class="list-group-item"><i class="fa-solid fa-up-right-and-down-left-from-center"></i>  @Model.Size sq.m, @Model.Floor floor</li>
@@ -72,6 +77,36 @@
     </ul>
      <p class="text-center mt-4"><strong>Description</strong>: @Model.Description</p>
 </div>
+<form method="post" id="antiForgeryForm">@Html.AntiForgeryToken()</form>
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+    $('.data-like').on('click', function () {
+        var property = $(this).data('property-id');
+        liked(property);
+    });
 
+    function liked(property) {
+        var data = { PropertyId: property, IsLiked: true };
+        var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
 
+        console.log("Liked function called for PropertyId:", property);
+
+        $.ajax({
+            type: "POST",
+            url: "/api/Like",
+            data: JSON.stringify(data),
+            headers: {
+                'X-CSRF-TOKEN': antiForgeryToken
+            },
+            contentType: 'application/json',
+            success: function (data) {
+                console.log("Success:", data);
+                $('#totalLikes').html(data.totalLikes);
+            }
+        });
+    }
+});
+    </script>
+}

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using RentSmart.Data;
 
@@ -11,9 +12,11 @@ using RentSmart.Data;
 namespace RentSmart.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241120072237_ReoveManagerFroAppointent")]
+    partial class ReoveManagerFroAppointent
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -800,6 +803,21 @@ namespace RentSmart.Data.Migrations
                     b.ToTable("Renters");
                 });
 
+            modelBuilder.Entity("RentSmart.Data.Models.RenterLike", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("PropertyId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "PropertyId");
+
+                    b.HasIndex("PropertyId");
+
+                    b.ToTable("RenterLikes");
+                });
+
             modelBuilder.Entity("RentSmart.Data.Models.Service", b =>
                 {
                     b.Property<int>("Id")
@@ -874,37 +892,6 @@ namespace RentSmart.Data.Migrations
                     b.HasIndex("IsDeleted");
 
                     b.ToTable("Tags");
-                });
-
-            modelBuilder.Entity("RentSmart.Data.Models.UserLike", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CreatedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("ModifiedOn")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PropertyId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PropertyId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("UserLikes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1158,7 +1145,7 @@ namespace RentSmart.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("RentSmart.Data.Models.UserLike", b =>
+            modelBuilder.Entity("RentSmart.Data.Models.RenterLike", b =>
                 {
                     b.HasOne("RentSmart.Data.Models.Property", "Property")
                         .WithMany("Likes")

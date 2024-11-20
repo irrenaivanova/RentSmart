@@ -1,4 +1,4 @@
-﻿@using RentSmart.Web.ViewModels.Properties.ViewModels
+﻿﻿@using RentSmart.Web.ViewModels.Properties.ViewModels
 @model PropertiesViewModelWithPaging
 @{
     ViewData["Title"] = "All Properties";
@@ -22,6 +22,7 @@
             <div class="col-md-8">
               <div class="card-body">
                 <h5 class="card-title"><i class="fa-solid fa-house"></i> @property.PropertyTypeName</h5>
+                <p class="card-title text-danger"><i class="fa-solid fa-heart"></i> @property.TotalLikes  Total Likes</p>
                 <p class="card-title"><i class="fa-solid fa-location-dot"></i> @property.CityName, @property.DistrictName</p>
                 <p class="card-title"><i class="fa-regular fa-money-bill-1"></i> Price: @property.Price per month</p>
                 <p class="card-title"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> @property.Size sq.m, @property.Floor floor</p>
@@ -38,3 +39,5 @@
 
 <hr/>
 <partial name="_PagingPartial" model ="@Model" />
+
+@*  <p class="card-title text-danger"><i class="fa-solid fa-heart"></i> @property.TotalLikes  Total Likes</p> *@

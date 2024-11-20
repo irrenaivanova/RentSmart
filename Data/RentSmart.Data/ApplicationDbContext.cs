@@ -37,7 +37,7 @@
 
         public DbSet<PropertyType> PropertyTypes { get; set; }
 
-        public DbSet<RenterLike> RenterLikes { get; set; }
+        public DbSet<UserLike> UserLikes { get; set; }
 
         public DbSet<Rental> Rentals { get; set; }
 

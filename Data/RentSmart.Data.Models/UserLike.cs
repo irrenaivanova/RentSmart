@@ -1,6 +1,8 @@
 ﻿namespace RentSmart.Data.Models
 {
-    public class RenterLike
+    using RentSmart.Data.Common.Models;
+
+    public class UserLike : BaseModel<int>
     {
         public string UserId { get; set; } = null!;
 

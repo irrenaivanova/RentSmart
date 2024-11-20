@@ -132,6 +132,7 @@
                 var averageRating = this.AveragePropertyRating(property.Id);
                 property.AverageRating = averageRating == 0 ? "No rating yet!" : $"{averageRating.ToString("0.0")} / 5";
                 property.IsAvailable = this.IsPropertyAvailable(property.Id);
+                property.TotalLikes = this.GetPropertyLikesCount(property.Id);
             }
 
             return properties.Where(x => x.IsAvailable);
@@ -171,6 +172,7 @@
                 property.ImagesUrls.Add("/images/noimage.jpg");
             }
 
+            property.TotalLikes = this.GetPropertyLikesCount(property.Id);
             return property;
         }
 
@@ -279,6 +281,11 @@
         public int GetCount()
         {
             return this.propertyRepository.All().Count();
+        }
+
+        public int GetPropertyLikesCount(string propertyId)
+        {
+           return this.propertyRepository.AllAsNoTracking().Where(x => x.Id == propertyId).Select(x => x.Likes.Count).FirstOrDefault();
         }
     }
 }

@@ -13,6 +13,8 @@
 
         public string Price { get; set; }
 
+        public int TotalLikes { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Property, PropertyInListViewModel>()

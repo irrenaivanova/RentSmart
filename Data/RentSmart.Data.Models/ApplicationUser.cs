@@ -19,7 +19,7 @@ namespace RentSmart.Data.Models
             this.Claims = new HashSet<IdentityUserClaim<string>>();
             this.Logins = new HashSet<IdentityUserLogin<string>>();
             this.Feedbacks = new HashSet<Feedback>();
-            this.LikedProperties = new HashSet<RenterLike>();
+            this.LikedProperties = new HashSet<UserLike>();
             this.Appointments = new HashSet<Appointment>();
         }
 
@@ -54,7 +54,7 @@ namespace RentSmart.Data.Models
 
         public virtual ICollection<Feedback> Feedbacks { get; set; }
 
-        public virtual IEnumerable<RenterLike> LikedProperties { get; set; }
+        public virtual IEnumerable<UserLike> LikedProperties { get; set; }
 
         public virtual IEnumerable<Appointment> Appointments { get; set; }
     }

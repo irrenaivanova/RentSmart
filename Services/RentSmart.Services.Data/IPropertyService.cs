@@ -23,5 +23,7 @@
         Task<UserAllPropertiesViewModel> GetByIdAllProperties(string userId, bool isManager, bool isOwner, bool isRenter, int page, int propertiesPerPage);
 
         int GetCount();
+
+        int GetPropertyLikesCount(string propertyId);
     }
 }

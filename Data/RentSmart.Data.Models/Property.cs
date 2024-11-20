@@ -16,7 +16,7 @@
         {
             this.Id = Guid.NewGuid().ToString();
             this.Tags = new HashSet<PropertyTag>();
-            this.Likes = new HashSet<RenterLike>();
+            this.Likes = new HashSet<UserLike>();
             this.Rentals = new HashSet<Rental>();
             this.Images = new HashSet<Image>();
             this.Orders = new HashSet<Order>();
@@ -55,7 +55,7 @@
 
         public virtual ICollection<PropertyTag> Tags { get; set; }
 
-        public virtual ICollection<RenterLike> Likes { get; set; }
+        public virtual ICollection<UserLike> Likes { get; set; }
 
         public virtual ICollection<Rental> Rentals { get; set; }
 
