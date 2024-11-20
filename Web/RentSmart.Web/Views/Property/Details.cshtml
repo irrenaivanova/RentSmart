@@ -6,7 +6,7 @@
 }
 @await Component.InvokeAsync("GetCountsComponent")
 
-<div class="container mt-4 row">
+<div class="container mt-4 mb-4 row">
      <h3 class="text-center">@ViewData["Title"]</h3>
      <hr/>
 <div id="carouselExample" class="carousel slide col-md-6 offset-md-1">
@@ -33,7 +33,7 @@
 
 
 
-<ul class="list-group col-md-4">
+<ul class="list-group col-md-4 mb-4">
   <li class="list-group-item bg-primary text-center text-white">Property Info</li>
   <li class="list-group-item text-danger">
       <span class="data-like" data-property-id="@Model.Id"><i class="fa-solid fa-heart"></i></span>
@@ -41,45 +41,53 @@
       <span id="totalLikes"> @Model.TotalLikes</span>
       <span> Total Likes</span>
   </li>  
-
+  <li class="list-group-item">
+     @foreach (var tag in Model.TagsTagNames)
+            {
+              <div class="badge bg-primary me-2">@tag</div>
+            } 
+  </li>
   <li class="list-group-item"><i class="fa-solid fa-house"></i>  @Model.PropertyTypeName</li>
   <li class="list-group-item"><i class="fa-solid fa-location-dot"></i>  @Model.CityName, @Model.DistrictName</li>
   <li class="list-group-item"><i class="fa-solid fa-up-right-and-down-left-from-center"></i>  @Model.Size sq.m, @Model.Floor floor</li>
   <li class="list-group-item"><i class="fa-solid fa-star"></i>  Average Rating: @Model.AverageRating</li>
   <li class="list-group-item"><i class="fa-solid fa-user"></i>  Manager: @Model.ManagerName</li>
   <li class="list-group-item"><i class="fa-solid fa-user"></i>  Owner: @Model.OwnerName</li>
-  <li class="list-group-item"><i class="fa-solid fa-check"></i> Status: @available</li>
+  <li class="list-group-item @(Model.IsAvailable ? "text-success" : "text-danger")"><i class="fa-solid fa-check"></i> Status: @available</li>
+            
     @if (Model.OriginalUrl!=null)
         {
            <li class="list-group-item"><i class="fa-solid fa-arrow-up-right-from-square"></i>  <a href="Model.OriginalUrl" target="_blank">imoti.info</a></li> 
         }
 
+
 <li class="list-group-item">
-    <div class="accordion" id="accordionExample">
-      <div class="accordion-item">
-        <h2 class="accordion-header" id="headingOne">
-          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-            <i class="fa-solid fa-info-circle"></i>    Features
-          </button>
-        </h2>
-        <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-          <div class="accordion-body">
-            @foreach (var tag in Model.TagsTagNames)
-            {
-              <div class="badge bg-secondary me-2">@tag</div>
-            }
-          </div>
-        </div>
-      </div>
+    <div id="appointment-container" class="container">
+    <form id="appointmentForm">
+        <input type="date" 
+            min="@DateTime.UtcNow.ToString("yyyy-MM-dd")" 
+            max="@DateTime.UtcNow.AddDays(20).ToString("yyyy-MM-dd")" 
+            id="appointmentDate" class="form-control mt-3"/>
+
+        <select id="appointmentTime" class="form-select mb-3">
+            <option value="" disabled selected>Select a time</option>
+        </select>
+        <button type="button" id="makeAppointment" class="btn btn-primary btn-sm">Make Appointment</button>
+    </form>
+    <div id="appointmentMessage" class="mt-3"></div>
     </div>
-  </li>
-<li class="list-group-item d-flex justify-content-center">
-  <button id="appointmentButton" class="btn btn-primary btn-sm">Make an Appointment</button>
 </li>
     </ul>
-     <p class="text-center mt-4"><strong>Description</strong>: @Model.Description</p>
+
+
+    @if (Model.Description !=null)
+    {
+            <p class="text-center mt-4"><strong>Description</strong>: @Model.Description</p>
+    }
 </div>
 <form method="post" id="antiForgeryForm">@Html.AntiForgeryToken()</form>
+
+
 
 @section Scripts{
     <script>
@@ -110,9 +118,9 @@
 });
     </script>
 
-     <script>
+    <script>
         $(document).ready(function () {
-    $('.data-dislike').on('click', function () {
+        $('.data-dislike').on('click', function () {
         var property = $(this).data('property-id');
         liked(property);
     });
@@ -137,4 +145,19 @@
     }
 });
     </script>
+
+    <script>
+        $(document).ready(function () {
+        $('#appointmentDate').on('change', function () {
+        var date = $(this).val();
+       if (date) {
+           console.log(date);
+            takedate(date); 
+        }
+         });
+    });
+
+
+    </script>
+
 }

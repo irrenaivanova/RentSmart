@@ -28,7 +28,7 @@
             }
             else
             {
-                var userLike = await this.userLikeRepository.All().FirstOrDefaultAsync(x => x.PropertyId == propertyId);
+                var userLike = await this.userLikeRepository.All().FirstOrDefaultAsync(x => x.PropertyId == propertyId && x.UserId == userId);
                 if (userLike != null)
                 {
                     this.userLikeRepository.Delete(userLike);

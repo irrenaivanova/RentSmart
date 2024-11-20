@@ -1,5 +1,6 @@
 ﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels
 {
+    using System;
     using System.Collections.Generic;
 
     using AutoMapper;
@@ -25,6 +26,8 @@
         public string Price { get; set; }
 
         public int TotalLikes { get; set; }
+
+        public DateTime AppointentDateTime { get; set; }
 
         public IList<string> TagsTagNames { get; set; }
 
