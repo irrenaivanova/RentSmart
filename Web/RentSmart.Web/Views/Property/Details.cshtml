@@ -37,9 +37,11 @@
   <li class="list-group-item bg-primary text-center text-white">Property Info</li>
   <li class="list-group-item text-danger">
       <span class="data-like" data-property-id="@Model.Id"><i class="fa-solid fa-heart"></i></span>
+      <span class="data-dislike" data-property-id="@Model.Id"><i class="fa-regular fa-heart"></i></span>
       <span id="totalLikes"> @Model.TotalLikes</span>
       <span> Total Likes</span>
   </li>  
+
   <li class="list-group-item"><i class="fa-solid fa-house"></i>  @Model.PropertyTypeName</li>
   <li class="list-group-item"><i class="fa-solid fa-location-dot"></i>  @Model.CityName, @Model.DistrictName</li>
   <li class="list-group-item"><i class="fa-solid fa-up-right-and-down-left-from-center"></i>  @Model.Size sq.m, @Model.Floor floor</li>
@@ -72,7 +74,7 @@
     </div>
   </li>
 <li class="list-group-item d-flex justify-content-center">
-  <a type="button" class="btn btn-primary btn-sm " asp-controller="Home" asp-action="Index" asp-route-id="" >Make An Appointment</a>
+  <button id="appointmentButton" class="btn btn-primary btn-sm">Make an Appointment</button>
 </li>
     </ul>
      <p class="text-center mt-4"><strong>Description</strong>: @Model.Description</p>
@@ -91,7 +93,33 @@
         var data = { PropertyId: property, IsLiked: true };
         var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
 
-        console.log("Liked function called for PropertyId:", property);
+        $.ajax({
+            type: "POST",
+            url: "/api/Like",
+            data: JSON.stringify(data),
+            headers: {
+                'X-CSRF-TOKEN': antiForgeryToken
+            },
+            contentType: 'application/json',
+            success: function (data) {
+                console.log("Success:", data);
+                $('#totalLikes').html(data.totalLikes);
+            }
+        });
+    }
+});
+    </script>
+
+     <script>
+        $(document).ready(function () {
+    $('.data-dislike').on('click', function () {
+        var property = $(this).data('property-id');
+        liked(property);
+    });
+
+    function liked(property) {
+        var data = { PropertyId: property, IsLiked: false };
+        var antiForgeryToken = $('#antiForgeryForm input[name=__RequestVerificationToken]').val();
 
         $.ajax({
             type: "POST",
