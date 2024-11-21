@@ -227,6 +227,13 @@
         {
             var allProperties = new UserAllPropertiesViewModel();
             allProperties.Id = userId;
+
+            var likedProperties = await this.propertyRepository.AllAsNoTracking()
+                .Where(x => x.Likes.Any(x => x.UserId == userId))
+                .To<LikedPropertiesViewModel>()
+                .ToListAsync();
+            allProperties.LikedProperties = likedProperties;
+
             if (isOwner)
             {
                 var ownerProperties = await this.propertyRepository.AllAsNoTracking()

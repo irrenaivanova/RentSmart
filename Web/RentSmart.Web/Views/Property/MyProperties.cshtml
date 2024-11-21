@@ -10,12 +10,15 @@
     </div>
     <hr />
     <div>
+        <partial name="_LikedPartial" model="@Model.LikedProperties" />
+    </div>
+    <div>
         <partial name="_ManagersPartial" model="@Model.ManagedProperties" />
     </div>
-    <div class-container>
+    <div class="container mt-4">
     <partial name="_OwnersPartial" model="@Model.OwnedProperties" />
     </div>
-@*     <div>
+    <div class="container mb-5">
     <partial name="_RentersPartial" model="@Model.RentedProperties" />
-    </div>  *@
+    </div> 
 </div>

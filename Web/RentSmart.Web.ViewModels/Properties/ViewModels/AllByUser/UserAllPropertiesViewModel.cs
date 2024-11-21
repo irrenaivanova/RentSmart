@@ -1,17 +1,14 @@
 ﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels.AllByUser
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
 
     public class UserAllPropertiesViewModel
     {
         public UserAllPropertiesViewModel()
         {
-            OwnedProperties = new List<OwnerPropertyInListViewModel>();
-            RentedProperties = new List<RenterPropertyInListViewModel>();
+            this.OwnedProperties = new List<OwnerPropertyInListViewModel>();
+            this.RentedProperties = new List<RenterPropertyInListViewModel>();
+            this.LikedProperties = new List<LikedPropertiesViewModel>();
         }
 
         public string Id { get; set; }
@@ -21,5 +18,7 @@
         public IList<OwnerPropertyInListViewModel> OwnedProperties { get; set; }
 
         public IList<RenterPropertyInListViewModel> RentedProperties { get; set; }
+
+        public IList<LikedPropertiesViewModel> LikedProperties { get; set; }
     }
 }

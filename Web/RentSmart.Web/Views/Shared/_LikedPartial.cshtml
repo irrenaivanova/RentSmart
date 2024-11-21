@@ -1,0 +1,21 @@
+﻿@using RentSmart.Web.ViewModels.Properties.ViewModels.AllByUser
+@model List<LikedPropertiesViewModel>
+
+<h5 class="text-center">Liked Properties</h5>
+<hr />
+
+<div class="container row mb-6">
+    @foreach (var property in Model)
+    {
+        <ul class="list-group col-md-3 mb-3 mt-4">
+@*             <li class="list-group-item bg-primary text-light">Property</li> *@
+            <li class="list-group-item bg-primary text-light"><i class="fa-solid fa-house"></i>  @property.PropertyTypeName</li>
+            <li class="list-group-item"><i class="fa-solid fa-location-dot"></i> @property.CityName, @property.DistrictName</li>
+            <li class="list-group-item"><i class="fa-solid fa-up-right-and-down-left-from-center"></i>  @property.Size sq.m, @property.Floor floor</li>
+            <li class="list-group-item"><i class="fa-regular fa-money-bill-1"></i> Price: @property.Price per month</li>
+            <li class="list-group-item">
+                <a type="button" class="btn btn-secondary btn-sm" asp-controller="Property" asp-action="Details" asp-route-id="@property.Id">Go to Details</a>
+            </li>
+        </ul>
+    }
+</div>

@@ -12,7 +12,7 @@
     {
         public OwnerPropertyInListViewModel()
         {
-            Rentals = new HashSet<RentalViewModel>();
+            this.Rentals = new HashSet<RentalViewModel>();
         }
 
         public string Id { get; set; }
