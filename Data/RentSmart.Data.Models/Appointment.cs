@@ -10,6 +10,10 @@
 
         public virtual ApplicationUser User { get; set; } = null!;
 
+        public string ManagerId { get; set; } = null!;
+
+        public virtual Manager Manager { get; set; } = null!;
+
         public string PropertyId { get; set; } = null!;
 
         public virtual Property Property { get; set; } = null!;

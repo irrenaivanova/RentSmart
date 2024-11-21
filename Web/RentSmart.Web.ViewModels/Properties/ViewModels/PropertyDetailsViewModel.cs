@@ -27,8 +27,6 @@
 
         public int TotalLikes { get; set; }
 
-        public DateTime AppointentDateTime { get; set; }
-
         public IList<string> TagsTagNames { get; set; }
 
         public IList<string> ImagesUrls { get; set; }
