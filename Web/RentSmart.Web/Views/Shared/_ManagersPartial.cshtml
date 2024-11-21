@@ -40,7 +40,7 @@
                             </div>
                         </div>
                     </div>
-                   <div class="list-group col-md-3 me-5 mt-1">
+                   <div class="list-group col-md-2 me-5 mt-1">
                                <div class="list-group-item bg-primary text-white">Rentals</div>
                                 @foreach (var rental in property.Rentals)
                                      {
@@ -49,13 +49,13 @@
                                      }   
                    </div>
 
-                   <ul class="list-group col-md-3 mt-1">
+                   <ul class="list-group col-md-4 mt-1">
                                 <li class="list-group-item bg-primary text-white">Appointments</li>
                                @foreach (var app in property.Appointments)
                                      {
                                          if(app.DateTime>DateTime.UtcNow)
                                          {
-                                            var appText = $"{app.DateTime.ToString("dd/MM/yyyy")} - {app.FutureRenterName}";
+                                            var appText = $"{app.DateTime.ToString("dd/MM/yyyy HH:mm")} - {app.FutureRenterName}";
                                             <li class="list-group-item">@appText</li>
                                          }        
                                      }

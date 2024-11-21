@@ -25,8 +25,6 @@
 
         public bool IsCurrentRental { get; set; }
 
-        public RentalViewModelWithRating Ratings { get; set; }
-
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Property, RenterPropertyInListViewModel>()

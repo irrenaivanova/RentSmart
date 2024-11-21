@@ -1,0 +1,44 @@
+﻿@using RentSmart.Web.ViewModels.Properties.ViewModels
+@model List<OwnerPropertyInListViewModel>
+
+<h5 class="text-center">Owned Properties</h5>
+<hr />
+
+<div class="row g-3 mb-5">
+    @foreach (var property in this.Model)
+    {
+        var available = property.IsAvailable ? "Available" : "Occupied";
+
+        <div class="col-md-6">
+            <div class="card h-100">
+                <ul class="row g-0 h-100">
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fa-solid fa-house"></i> @property.PropertyTypeName </h5>
+                            <p class="card-title">
+                                <i class="fa-solid fa-location-dot"></i> @property.CityName, @property.DistrictName
+                            </p>
+                            <p class="card-title">
+                                <i class="fa-regular fa-money-bill-1"></i> Price: @property.Price per month
+                            </p>
+                            <p class="card-title">
+                                <i class="fa-solid fa-up-right-and-down-left-from-center"></i> 
+                                @property.Size sq.m, @property.Floor floor
+                            </p>
+                            <p class="card-title @(property.IsAvailable ? "text-success" : "text-danger")">
+                                <i class="fa-solid fa-check"></i> Status: @available
+                            </p>
+                        </div>
+                    </div>
+                   <div class="list-group col-md-5 me-5 mt-1">
+                               <div class="list-group-item bg-primary text-white">Rentals</div>
+                                @foreach (var rental in property.Rentals)
+                                     {
+                                     var nameContract = $"/pdf/contracts/{rental.ContractUrl}.pdf";
+                                     <a href="@nameContract" class="list-group-item list-group-item-action">@rental.Id / @rental.RentDate.ToString("dd/MM/yyyy")</a>
+                                     }   
+                   </div>
+            </div>
+        </div>
+    }
+</div>
