@@ -17,6 +17,12 @@
 
         public string ImageUrl { get; set; }
 
+        public string PropertyTypeName { get; set; }
+
+        public double Size { get; set; }
+
+        public byte Floor { get; set; }
+
         public bool IsCurrentRental { get; set; }
 
         public RentalViewModelWithRating Ratings { get; set; }

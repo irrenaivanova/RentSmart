@@ -242,6 +242,8 @@
 
             if (isManager)
             {
+                var totalManagerPropertiesCount = await this.propertyRepository.AllAsNoTracking()
+                    .Where(x => x.Manager.UserId == userId).CountAsync();
                 var managerProperties = await this.propertyRepository.AllAsNoTracking()
                     .Where(x => x.Manager.UserId == userId)
                     .OrderByDescending(x => x.CreatedOn)
@@ -257,7 +259,7 @@
                 allProperties.ManagedProperties.Properties = managerProperties;
                 allProperties.ManagedProperties.ItemsPerPage = propertiesPerPage;
                 allProperties.ManagedProperties.CurrentPage = page;
-                allProperties.ManagedProperties.ItemsCount = managerProperties.Count();
+                allProperties.ManagedProperties.ItemsCount = totalManagerPropertiesCount;
             }
 
             if (isRenter)

@@ -4,6 +4,8 @@
 
     public class PagingViewModel
     {
+        public string Action { get; set; }
+
         public int CurrentPage { get; set; }
 
         public int ItemsCount { get; set; }

@@ -99,6 +99,7 @@
                 CurrentPage = id,
                 ItemsPerPage = PropertiesPerPageAll,
                 ItemsCount = this.propertyService.GetCount(),
+                Action = "All",
             };
 
             if (id > viewModel.ItemsCount)
@@ -136,6 +137,7 @@
             }
 
             var allProperties = await this.propertyService.GetByIdAllProperties(userId, isManager, isOwner, isRenter, id, PropertiesPerPageManager);
+            allProperties.ManagedProperties.Action = "MyProperties";
 
             if (id > allProperties.ManagedProperties.ItemsCount)
             {

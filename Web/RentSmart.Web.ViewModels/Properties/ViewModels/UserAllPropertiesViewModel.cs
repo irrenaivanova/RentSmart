@@ -10,8 +10,8 @@
     {
         public UserAllPropertiesViewModel()
         {
-            this.OwnedProperties = new List<OwnerPropertyInListViewModel>();
-            this.RentedProperties = new List<RenterPropertyInListViewModel>();
+            OwnedProperties = new List<OwnerPropertyInListViewModel>();
+            RentedProperties = new List<RenterPropertyInListViewModel>();
         }
 
         public string Id { get; set; }

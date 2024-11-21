@@ -25,4 +25,8 @@
     <ProjectReference Include="..\..\Services\RentSmart.Services.Mapping\RentSmart.Services.Mapping.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Properties\ViewModels\AllByUser\" />
+  </ItemGroup>
+
 </Project>

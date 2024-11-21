@@ -11,7 +11,7 @@
     {
         public OwnerPropertyInListViewModel()
         {
-              this.Rentals = new HashSet<RentalViewModel>();
+            Rentals = new HashSet<RentalViewModel>();
         }
 
         public string Id { get; set; }
@@ -21,6 +21,14 @@
         public string CityName { get; set; }
 
         public string ImageUrl { get; set; }
+
+        public string PropertyTypeName { get; set; }
+
+        public double Size { get; set; }
+
+        public byte Floor { get; set; }
+
+        public string Price { get; set; }
 
         public bool IsAvailable { get; set; }
 
@@ -34,7 +42,9 @@
                            x.Images.FirstOrDefault().RemoteImageUrl :
                            x.Images.FirstOrDefault() == null ?
                            "/images/noimage.jpg" :
-                           "/images/properties/" + x.Images.FirstOrDefault().Id + "." + x.Images.FirstOrDefault().Extension));
+                           "/images/properties/" + x.Images.FirstOrDefault().Id + "." + x.Images.FirstOrDefault().Extension))
+                                              .ForMember(x => x.Price, opt =>
+                            opt.MapFrom(x => x.PricePerMonth.ToString("0.00") + " €"));
         }
     }
 }

@@ -31,8 +31,6 @@
   </button>
 </div>
 
-
-
 <ul class="list-group col-md-4 mb-4">
   <li class="list-group-item bg-primary text-center text-white">Property Info</li>
   <li class="list-group-item text-danger">
@@ -59,9 +57,11 @@
         {
            <li class="list-group-item"><i class="fa-solid fa-arrow-up-right-from-square"></i>  <a href="Model.OriginalUrl" target="_blank">imoti.info</a></li> 
         }
-
 <form method="post" id="antiForgeryForm">@Html.AntiForgeryToken()</form>
-<li class="list-group-item">
+
+@if (User.Identity.IsAuthenticated)
+{
+    <li class="list-group-item">
         <input type="date" 
             data-property-id="@Model.Id"
             min="@DateTime.UtcNow.ToString("yyyy-MM-dd")" 
@@ -74,6 +74,8 @@
         <button type="button" id="makeAppointment" class="btn btn-primary btn-sm">Make Appointment</button>
     <div id="appointmentMessage" class="mt-3 text-danger"></div>
 </li>
+}
+
     </ul>
     @if (Model.Description !=null)
     {

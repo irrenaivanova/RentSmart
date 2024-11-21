@@ -4,16 +4,18 @@
     ViewData["Title"] = "My Properties";
 }
 
-<div>
-    <h4>Welcome, @User.Identity.Name</h4>
+<div> 
+    <div class="container mt-4">
+        <h3 class="text-center">@ViewData["Title"]</h3>
+    </div>
     <hr />
     <div>
         <partial name="_ManagersPartial" model="@Model.ManagedProperties" />
     </div>
-@*     <div>
-        <partial name="_OwnersPartial" model="@Model.OwnedProperties" />
+    @*     <div>
+    <partial name="_OwnersPartial" model="@Model.OwnedProperties" />
     </div>
     <div>
-        <partial name="_RentersPartial" model="@Model.RentedProperties" />
+    <partial name="_RentersPartial" model="@Model.RentedProperties" />
     </div> *@
 </div>

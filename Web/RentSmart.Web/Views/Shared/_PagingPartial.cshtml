@@ -16,13 +16,13 @@
             if (i > 0)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-action="All" asp-route-id="@i">@i</a>
+                    <a class="page-link" asp-action="@Model.Action" asp-route-id="@i">@i</a>
                 </li>
             }
         }
 
         <li class="page-item active">
-            <a class="page-link" asp-action="All" asp-route-id="@Model.CurrentPage">@Model.CurrentPage</a>
+            <a class="page-link" asp-action="@Model.Action" asp-route-id="@Model.CurrentPage">@Model.CurrentPage</a>
         </li>
 
         @for (int i = @Model.CurrentPage + 1; i < @Model.CurrentPage + 4; i++)
@@ -30,13 +30,13 @@
             if (i<=Model.PagesCount)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-action="All" asp-route-id="@i">@i</a>
+                    <a class="page-link" asp-action="@Model.Action" asp-route-id="@i">@i</a>
                 </li>
             }
         }
 
         <li class="page-item @(Model.CurrentPage==Model.PagesCount ? "disabled" : "")">
-            <a class="page-link" asp-action="All" asp-route-id="@nextPage">&raquo;</a>
+            <a class="page-link" asp-action="@Model.Action" asp-route-id="@nextPage">&raquo;</a>
         </li>
 
     </ul>
