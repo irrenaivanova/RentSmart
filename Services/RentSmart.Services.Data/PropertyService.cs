@@ -288,6 +288,25 @@
             return allProperties;
         }
 
+        public async Task DeleteAsync(string propertyId)
+        {
+            var property = await this.propertyRepository.All().FirstOrDefaultAsync(x => x.Id == propertyId);
+            if (property == null)
+            {
+                throw new Exception("You are trying to delete an Nonexisting Property!");
+            }
+
+            this.propertyRepository.Delete(property);
+            await this.propertyRepository.SaveChangesAsync();
+        }
+
+        public T GetById<T>(string id)
+        {
+            return this.propertyRepository.AllAsNoTracking()
+                         .Where(x => x.Id == id)
+                         .To<T>().FirstOrDefault();;
+        }
+
         public int GetCount()
         {
             return this.propertyRepository.All().Count();

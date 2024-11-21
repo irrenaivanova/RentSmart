@@ -12,6 +12,6 @@
 
         public int ItemsPerPage { get; set; }
 
-        public int PagesCount => (int)Math.Ceiling(ItemsCount * 1.0 / ItemsPerPage);
+        public int PagesCount => (int)Math.Ceiling(this.ItemsCount * 1.0 / this.ItemsPerPage);
     }
 }

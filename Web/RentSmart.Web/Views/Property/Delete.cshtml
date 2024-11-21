@@ -1,0 +1,27 @@
+﻿@using RentSmart.Web.ViewModels.Properties
+@model DeleteViewModel
+
+@{
+    ViewData["Title"] = "Deleting...";
+}
+
+<h5 class="text-center">@ViewData["Title"]</h5>
+<hr />
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title text-center">@Model.PropertyTypeName apartment In @Model.DistrictName, @Model.CityName with @Model.Size sqr.m., on @Model.Floor floor</p>
+                <p class="text-danger text-center mt-3">Are you sure you want to delete it?</p>
+            </div>
+            <div class="card-footer justify-content-center">
+                <form asp-action="DeleteConfirmed" method="post">
+                    <input type="hidden" asp-for="@Model.Id" />
+                    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                    <a asp-action="MyProperties" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

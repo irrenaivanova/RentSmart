@@ -7,6 +7,7 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using RentSmart.Services.Data;
+    using RentSmart.Web.ViewModels.Properties;
     using RentSmart.Web.ViewModels.Properties.InputModels;
     using RentSmart.Web.ViewModels.Properties.ViewModels;
 
@@ -52,6 +53,40 @@
             var viewModel = new AddPropertyInputModel();
             await this.PopulateInputModelAsync(viewModel);
             return this.View(viewModel);
+        }
+
+        [HttpGet]
+        public IActionResult Delete(string id)
+        {
+            DeleteViewModel prop = this.propertyService.GetById<DeleteViewModel>(id);
+            if (prop == null)
+            {
+                this.TempData[ErrorMessage] = "You are trying to delete an Nonexisting Property!";
+            }
+
+            return this.View(prop);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            if (!this.IsManager())
+            {
+                this.TempData[ErrorMessage] = "Only managers can delete properties!";
+                return this.RedirectToAction("MyProperties");
+            }
+
+            try
+            {
+                await this.propertyService.DeleteAsync(id);
+                this.TempData[SuccessMessage] = "You have deleted the property successfully!";
+            }
+            catch (Exception ex)
+            {
+                this.TempData[ErrorMessage] = ex.Message;
+            }
+
+            return this.RedirectToAction("MyProperties");
         }
 
         [HttpPost]

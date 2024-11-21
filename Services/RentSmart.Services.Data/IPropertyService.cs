@@ -26,5 +26,9 @@
         int GetCount();
 
         int GetPropertyLikesCount(string propertyId);
+
+        Task DeleteAsync(string propertyId);
+
+        T GetById<T>(string id);
     }
 }
