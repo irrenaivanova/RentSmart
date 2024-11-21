@@ -62,5 +62,7 @@
         public virtual ICollection<Image> Images { get; set; }
 
         public virtual ICollection<Order> Orders { get; set; }
+
+        public virtual ICollection<Appointment> Appointments { get; set; }
     }
 }

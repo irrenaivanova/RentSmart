@@ -1,33 +1,68 @@
-﻿﻿@using RentSmart.Web.ViewModels.Properties.ViewModels
+﻿﻿@using RentSmart.Web.ViewModels.Properties.ViewModels.AllByUser
 @model ManagerViewWithPaging
 
 
-    <h5 class="text-center">Managed Properties</h5>
-    <hr />
-  <div class="row g-3"> 
+<h5 class="text-center">Managed Properties</h5>
+<hr />
+
+<div class="row g-3">
     @foreach (var property in this.Model.Properties)
     {
-      <div class="col-md-6">
-        <div class="card h-100" style="height: 200px;">
-          <div class="row g-0 h-100">
-            <div class="col-md-4 h-100" style="max-width: 200px;">
-              <img src="@property.ImageUrl" class="img-fluid rounded-start h-100" 
-                   style="object-fit: cover; width: 100%;" alt="property image">
+        var available = property.IsAvailable ? "Available" : "Occupied";
+
+        <div class="col-md-10 offset-md-1">
+            <div class="card h-100">
+                <ul class="row g-0 h-100">
+                    <div class="col-md-3 h-100" style="max-width: 200px;">
+                        <img src="@property.ImageUrl" class="img-fluid rounded-start h-100"
+                             style="object-fit: cover; width: 100%;" alt="property image">
+                    </div>
+                    <div class="col-md-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fa-solid fa-house"></i> @property.PropertyTypeName </h5>
+                            <p class="card-title">
+                                <i class="fa-solid fa-location-dot"></i> @property.CityName, @property.DistrictName
+                            </p>
+                            <p class="card-title">
+                                <i class="fa-regular fa-money-bill-1"></i> Price: @property.Price per month
+                            </p>
+                            <p class="card-title">
+                                <i class="fa-solid fa-up-right-and-down-left-from-center"></i> 
+                                @property.Size sq.m, @property.Floor floor
+                            </p>
+                            <p class="card-title @(property.IsAvailable ? "text-success" : "text-danger")">
+                                <i class="fa-solid fa-check"></i> Status: @available
+                            </p>
+                            <div class="card-title">
+                                <a type="button" class="btn btn-sm btn-primary" asp-controller="Property" asp-action="Edit" asp-route-id="@property.Id">Edit</a>
+                                <a type="button" class="btn btn-sm btn-primary" asp-controller="Rent" asp-action="Make" asp-route-id="@property.Id">Make A Rent</a>
+                                <a type="button" class="btn btn-sm btn-danger" asp-controller="Property" asp-action="Delete" asp-route-id="@property.Id">Delete</a>
+                            </div>
+                        </div>
+                    </div>
+                   <div class="list-group col-md-3 me-5 mt-1">
+                               <div class="list-group-item bg-primary text-white">Rentals</div>
+                                @foreach (var rental in property.Rentals)
+                                     {
+                                     var nameContract = $"/pdf/contracts/{rental.ContractUrl}.pdf";
+                                     <a href="@nameContract" class="list-group-item list-group-item-action">@rental.Id / @rental.RentDate.ToString("dd/MM/yyyy")</a>
+                                     }   
+                   </div>
+
+                   <ul class="list-group col-md-3 mt-1">
+                                <li class="list-group-item bg-primary text-white">Appointments</li>
+                               @foreach (var app in property.Appointments)
+                                     {
+                                         if(app.DateTime>DateTime.UtcNow)
+                                         {
+                                            var appText = $"{app.DateTime.ToString("dd/MM/yyyy")} - {app.FutureRenterName}";
+                                            <li class="list-group-item">@appText</li>
+                                         }        
+                                     }
+                   </ul>
             </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h5 class="card-title"><i class="fa-solid fa-house"></i> @property.PropertyTypeName</h5>
-                <p class="card-title"><i class="fa-solid fa-location-dot"></i> @property.CityName, @property.DistrictName</p>
-                <p class="card-title"><i class="fa-regular fa-money-bill-1"></i> Price: @property.Price per month</p>
-                <p class="card-title"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> @property.Size sq.m, @property.Floor floor</p>
-                <a type="button" class="btn btn-primary btn-sm" asp-controller="Property" asp-action="Details" asp-route-id="@property.Id" >Go to Details</a>
-              </div>
-            </div>
-          </div>
         </div>
-      </div>
     }
-  </div>
 </div>
 
 <hr/>

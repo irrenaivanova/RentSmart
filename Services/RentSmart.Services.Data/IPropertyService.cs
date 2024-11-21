@@ -5,6 +5,7 @@
 
     using RentSmart.Web.ViewModels.Properties.InputModels;
     using RentSmart.Web.ViewModels.Properties.ViewModels;
+    using RentSmart.Web.ViewModels.Properties.ViewModels.AllByUser;
 
     public interface IPropertyService
     {

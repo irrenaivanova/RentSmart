@@ -1,4 +1,4 @@
-﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels
+﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels.AllByUser
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -11,8 +11,8 @@
     {
         public ManagerPropertyInListViewModel()
         {
-            this.Appointments = new HashSet<AppointmentViewModel>();
-            this.Rentals = new HashSet<RentalViewModel>();
+            Appointments = new HashSet<AppointmentViewModel>();
+            Rentals = new HashSet<RentalViewModel>();
         }
 
         public string Id { get; set; }

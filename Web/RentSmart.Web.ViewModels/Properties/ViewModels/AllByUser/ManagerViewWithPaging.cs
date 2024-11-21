@@ -1,7 +1,8 @@
-﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels
+﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels.AllByUser
 {
     using System.Collections;
     using System.Collections.Generic;
+    using RentSmart.Web.ViewModels;
 
     public class ManagerViewWithPaging : PagingViewModel
     {

@@ -13,6 +13,7 @@
     using RentSmart.Services.Mapping;
     using RentSmart.Web.ViewModels.Properties.InputModels;
     using RentSmart.Web.ViewModels.Properties.ViewModels;
+    using RentSmart.Web.ViewModels.Properties.ViewModels.AllByUser;
 
     public class PropertyService : IPropertyService
     {

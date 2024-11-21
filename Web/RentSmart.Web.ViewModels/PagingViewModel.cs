@@ -1,4 +1,4 @@
-﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels
+﻿namespace RentSmart.Web.ViewModels
 {
     using System;
 
@@ -12,6 +12,6 @@
 
         public int ItemsPerPage { get; set; }
 
-        public int PagesCount => (int)Math.Ceiling(this.ItemsCount * 1.0 / this.ItemsPerPage);
+        public int PagesCount => (int)Math.Ceiling(ItemsCount * 1.0 / ItemsPerPage);
     }
 }

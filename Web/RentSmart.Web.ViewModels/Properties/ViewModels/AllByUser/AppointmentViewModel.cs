@@ -1,4 +1,4 @@
-﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels
+﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels.AllByUser
 {
     using System;
 
@@ -10,15 +10,14 @@
     {
         public int Id { get; set; }
 
-        public string DateTime { get; set; }
+        public DateTime DateTime { get; set; }
 
         public string FutureRenterName { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Appointment, AppointmentViewModel>()
-                .ForMember(x => x.FutureRenterName, opt => opt.MapFrom(x => $"{x.User.FirstName} {x.User.LastName}"))
-                .ForMember(x => x.DateTime, opt => opt.MapFrom(x => x.DateTime.ToString("g")));
+                .ForMember(x => x.FutureRenterName, opt => opt.MapFrom(x => $"{x.User.FirstName} {x.User.LastName}"));
         }
     }
 }

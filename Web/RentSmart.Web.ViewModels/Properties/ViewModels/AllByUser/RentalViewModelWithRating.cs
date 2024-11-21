@@ -1,4 +1,4 @@
-﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels
+﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels.AllByUser
 {
     using AutoMapper;
     using RentSmart.Data.Models;

@@ -1,4 +1,4 @@
-﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels
+﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels.AllByUser
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -7,13 +7,8 @@
     using RentSmart.Data.Models;
     using RentSmart.Services.Mapping;
 
-    public class OwnerPropertyInListViewModel : IMapFrom<Property>, IHaveCustomMappings
+    public class RenterPropertyInListViewModel : IMapFrom<Property>, IHaveCustomMappings
     {
-        public OwnerPropertyInListViewModel()
-        {
-            Rentals = new HashSet<RentalViewModel>();
-        }
-
         public string Id { get; set; }
 
         public string DistrictName { get; set; }
@@ -28,23 +23,19 @@
 
         public byte Floor { get; set; }
 
-        public string Price { get; set; }
+        public bool IsCurrentRental { get; set; }
 
-        public bool IsAvailable { get; set; }
-
-        public IEnumerable<RentalViewModel> Rentals { get; set; }
+        public RentalViewModelWithRating Ratings { get; set; }
 
         public void CreateMappings(IProfileExpression configuration)
         {
-            configuration.CreateMap<Property, OwnerPropertyInListViewModel>()
+            configuration.CreateMap<Property, RenterPropertyInListViewModel>()
                        .ForMember(x => x.ImageUrl, opt =>
                            opt.MapFrom(x => x.Images.FirstOrDefault().RemoteImageUrl != null ?
                            x.Images.FirstOrDefault().RemoteImageUrl :
                            x.Images.FirstOrDefault() == null ?
                            "/images/noimage.jpg" :
-                           "/images/properties/" + x.Images.FirstOrDefault().Id + "." + x.Images.FirstOrDefault().Extension))
-                                              .ForMember(x => x.Price, opt =>
-                            opt.MapFrom(x => x.PricePerMonth.ToString("0.00") + " €"));
+                           "/images/properties/" + x.Images.FirstOrDefault().Id + "." + x.Images.FirstOrDefault().Extension));
         }
     }
 }
