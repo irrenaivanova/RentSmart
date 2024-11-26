@@ -11,14 +11,29 @@
     <hr />
     <div>
         <partial name="_LikedPartial" model="@Model.LikedProperties" />
+        @if(@Model.LikedProperties.Count == 0)
+        {
+            <p class="text-center">No properties!</p>
+        }
     </div>
     <div>
+        @if (@Model.ManagedProperties.Properties.Count() > 0)
+        {
         <partial name="_ManagersPartial" model="@Model.ManagedProperties" />
+        }
     </div>
     <div class="container mt-4">
+        @if (@Model.OwnedProperties.Count > 0)
+        {
     <partial name="_OwnersPartial" model="@Model.OwnedProperties" />
+
+        }
     </div>
     <div class="container mb-5">
+        @if (@Model.RentedProperties.Count > 0)
+        {
     <partial name="_RentersPartial" model="@Model.RentedProperties" />
+
+        }
     </div> 
 </div>

@@ -123,7 +123,7 @@
         public async Task<IEnumerable<PropertyInListViewModel>> GetAllAvailableAsync<TPropertyInListViewModel>(int page, int propertiesPerPage)
         {
             var properties = await this.propertyRepository.AllAsNoTracking()
-                 .OrderByDescending(x => x.Id)
+                 .OrderByDescending(x => x.CreatedOn)
                  .Skip((page - 1) * propertiesPerPage)
                  .Take(propertiesPerPage)
                  .To<PropertyInListViewModel>().ToListAsync();
@@ -315,6 +315,11 @@
         public int GetPropertyLikesCount(string propertyId)
         {
            return this.propertyRepository.AllAsNoTracking().Where(x => x.Id == propertyId).Select(x => x.Likes.Count).FirstOrDefault();
+        }
+
+        public string GetManagerUserId(string propertyId)
+        {
+            return this.propertyRepository.AllAsNoTracking().Where(x => x.Id == propertyId).Select(x => x.Manager.UserId).FirstOrDefault();
         }
     }
 }

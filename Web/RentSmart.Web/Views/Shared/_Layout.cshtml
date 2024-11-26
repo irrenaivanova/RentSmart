@@ -32,9 +32,7 @@
                         <li class="nav-item me-2">
                             <a class="nav-link" asp-area="" asp-controller="Property" asp-action="All">All Available</a>
                         </li>
-                        @if (User.HasClaim(x=>(x.Type==GlobalConstants.RenterClaim && x.Value=="true") || 
-                                           (x.Type==GlobalConstants.OwnerClaim && x.Value=="true") ||
-                                           (x.Type == GlobalConstants.ManagerClaim && x.Value == "true")))
+                        @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item me-2">
                                 <a class="nav-link" asp-area="" asp-controller="Property" asp-action="MyProperties"><i class="fa-solid fa-list-check"></i> My Properties</a>

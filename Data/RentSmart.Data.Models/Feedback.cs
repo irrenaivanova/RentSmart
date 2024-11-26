@@ -5,8 +5,6 @@
 
     using RentSmart.Data.Common.Models;
 
-    using static RentSmart.Common.EntityValidationConstants.Feedback;
-
     public class Feedback : BaseDeletableModel<int>
     {
         public Feedback()
@@ -19,7 +17,7 @@
         public ApplicationUser ApplicationUser { get; set; } = null!;
 
         [Required]
-        [MaxLength(MaxLengthText)]
+        [MaxLength(2000)]
         public string FeedbackText { get; set; } = null!;
 
         public int RentalId { get; set; }

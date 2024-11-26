@@ -30,5 +30,7 @@
         Task DeleteAsync(string propertyId);
 
         T GetById<T>(string id);
+
+        string GetManagerUserId(string propertyId);
     }
 }

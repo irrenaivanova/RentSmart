@@ -40,11 +40,6 @@
             public const int MaxRate = 5;
         }
 
-        public static class Feedback
-        {
-            public const int MaxLengthText = 1000;
-        }
-
         public static class Service
         {
             public const int MaxLengthName = 50;
@@ -55,6 +50,12 @@
         {
             public const int MinLengthName = 2;
             public const int MaxLengthName = 50;
+        }
+
+        public static class Rental
+        {
+            public const int MinRentalDuration = 1;
+            public const int MaxRentalDuration = 24;
         }
     }
 }

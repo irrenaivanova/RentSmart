@@ -1,4 +1,4 @@
-﻿namespace RentSmart.Web.ViewModels.Properties.InputModels
+﻿namespace RentSmart.Web.ViewModels.Owner
 {
     using RentSmart.Data.Models;
     using RentSmart.Services.Mapping;

@@ -4,6 +4,7 @@
     using System.ComponentModel.DataAnnotations;
 
     using Microsoft.AspNetCore.Http;
+    using RentSmart.Web.ViewModels.Owner;
 
     public class AddPropertyInputModel : BasePropertyInputModel
     {

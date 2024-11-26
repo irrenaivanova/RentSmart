@@ -65,5 +65,9 @@
     }
 </div>
 
-<hr/>
+@if(this.Model.Properties.Count()>0)
+{
+    <hr/>
 <partial name="_PagingPartial" model ="@Model" />
+}
+

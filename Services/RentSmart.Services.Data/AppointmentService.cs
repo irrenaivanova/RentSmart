@@ -29,7 +29,21 @@
                             .Where(x => x.Id == propertyId)
                             .SelectMany(x => x.Manager.Appointments.Where(a => a.DateTime.Date == DateTime.Parse(date)))
                             .ToListAsync();
-            var busyHours = appointments.Select(x => $"{x.DateTime.Hour}:00");
+            List<string> busyHours = appointments.Select(x => $"{x.DateTime.Hour}:00").ToList();
+
+            var dateInput = DateTime.Parse(date).Date;
+            if (dateInput == DateTime.Now.Date)
+            {
+                var hourNow = DateTime.Now.Hour;
+                for (int i = 10; i <= 16; i++)
+                {
+                    if (i <= hourNow)
+                    {
+                        busyHours.Add($"{i}:00");
+                    }
+                }
+            }
+
             var dailyHours = new List<string>() { "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00" };
             var hours = dailyHours.Where(x => !busyHours.Contains(x)).ToList();
             return hours;

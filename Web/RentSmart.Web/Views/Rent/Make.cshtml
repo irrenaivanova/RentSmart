@@ -1,0 +1,79 @@
+﻿@using RentSmart.Web.ViewModels.RentContract
+@model MakeRentInputModel
+@{
+    ViewData["Title"] = "Make a Rent";
+}
+
+
+<h3 class="text-center">@ViewData["Title"]</h3>
+
+<div class="container mt-4 col-md-8 offset-md-2">
+    <form method="post">
+        <div class="row mb-3">
+            <hr />
+            <div class="col-md-4">
+                <label class="form-label">Type</label>
+                <input type="text" class="form-control" value="@Model.PropertyTypeName" readonly />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">District</label>
+                <input type="text" class="form-control" value="@Model.DistrictName" readonly />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">City</label>
+                <input type="text" class="form-control" value="@Model.CityName" readonly />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label class="form-label">Size (sq.m)</label>
+                <input type="text" class="form-control" value="@Model.Size" readonly />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Floor</label>
+                <input type="text" class="form-control" value="@Model.Floor" readonly />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Price</label>
+                <input type="text" class="form-control" value="@Model.Price" readonly />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-4 offset-md-2">
+                <label class="form-label">Manager</label>
+                <input type="text" class="form-control" value="@Model.ManagerName" readonly />
+            </div>
+            <div class="col-md-4">
+                <label class="form-label">Owner</label>
+                <input type="text" class="form-control" value="@Model.OwnerName" readonly />
+            </div>
+        </div>
+        <hr/>
+        <div class="row mb-3">
+            <div class="col-md-4 text-warning">
+                <label asp-for="RenterId" class="form-label"></label>
+                <select asp-for="RenterId" class="form-control">
+                    <option value="" disabled selected>Select....</option>
+                    @foreach (var renter in Model.Renters)
+                    {
+                        <option value="@renter.Id">@renter.Email (@renter.FirstName @renter.LastName)</option>
+                    }
+                </select>
+                <span asp-validation-for="RenterId" class="text-danger"></span>
+            </div>
+            <div class="col-md-4 text-warning">
+                <label asp-for="StartDate" class="form-label"></label>
+                <input type="date" min="@DateTime.UtcNow.ToString("yyyy-MM-dd")"  value="@DateTime.UtcNow.ToString("yyyy-MM-dd")" asp-for ="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="col-md-4 text-warning">
+            <label asp-for="MonthsDuration" class="form-label"></label>
+            <input asp-for="MonthsDuration" class="form-control" />
+            <span asp-validation-for="MonthsDuration" class="text-danger"></span>
+        </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>

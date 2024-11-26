@@ -19,7 +19,7 @@
         private const int PropertiesPerPageAll = 4;
         private const int PropertiesPerPageManager = 4;
         private readonly ICityService cityService;
-        private readonly IOwnerService ownerService;
+        private readonly IUserService userService;
         private readonly ITagService tagService;
         private readonly IPropertyTypeService propertyTypeService;
         private readonly IPropertyService propertyService;
@@ -27,14 +27,14 @@
 
         public PropertyController(
             ICityService cityService,
-            IOwnerService ownerService,
+            IUserService userService,
             ITagService tagService,
             IPropertyTypeService propertyTypeService,
             IPropertyService propertyService,
             IWebHostEnvironment environment)
         {
             this.cityService = cityService;
-            this.ownerService = ownerService;
+            this.userService = userService;
             this.tagService = tagService;
             this.propertyTypeService = propertyTypeService;
             this.propertyService = propertyService;
@@ -174,11 +174,6 @@
             var allProperties = await this.propertyService.GetByIdAllProperties(userId, isManager, isOwner, isRenter, id, PropertiesPerPageManager);
             allProperties.ManagedProperties.Action = "MyProperties";
 
-            if (id > allProperties.ManagedProperties.ItemsCount)
-            {
-                return this.NotFound();
-            }
-
             return this.View(allProperties);
             return this.Json(allProperties);
         }
@@ -187,7 +182,7 @@
         {
             viewModel.Cities = await this.cityService.GetAllCitiesAsync();
             viewModel.Tags = await this.tagService.GetAllTagsAsync();
-            viewModel.Owners = await this.ownerService.GetAllOwnerSAsync();
+            viewModel.Owners = await this.userService.GetAllOwnerSAsync();
             viewModel.PropertyTypes = await this.propertyTypeService.AllPropertyTypesAsync();
         }
     }

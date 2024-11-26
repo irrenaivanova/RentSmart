@@ -19,7 +19,7 @@ namespace RentSmart.Web.Controllers
         {
             var user = db.Users
                 .Include(u => u.Manager) 
-                .FirstOrDefault(x => x.Id == "e322294b-0c38-4d37-a550-f35e33f475a3");
+                .FirstOrDefault(x => x.Id == "77a54852-30f7-490a-8a2d-2e7f27ca2a00");
            
             if (user != null && user.Manager == null)
             {
