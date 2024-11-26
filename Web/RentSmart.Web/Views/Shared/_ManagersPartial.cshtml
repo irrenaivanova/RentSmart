@@ -35,7 +35,7 @@
                             </p>
                             <div class="card-title">
                                 <a type="button" class="btn btn-sm btn-primary" asp-controller="Property" asp-action="Edit" asp-route-id="@property.Id">Edit</a>
-                                <a type="button" class="btn btn-sm btn-primary" asp-controller="Rent" asp-action="Make" asp-route-id="@property.Id">Make A Rent</a>
+                                <a type="button" class="btn btn-sm btn-primary @(property.IsAvailable ? "" : "disabled")" asp-controller="Rent" asp-action="Make" asp-route-id="@property.Id">Make A Rent</a>
                                 <a type="button" class="btn btn-sm btn-danger" asp-controller="Property" asp-action="Delete" asp-route-id="@property.Id">Delete</a>
                             </div>
                         </div>

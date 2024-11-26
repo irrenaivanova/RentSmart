@@ -120,23 +120,25 @@
             await this.orderService.UsingActiveOrder(property.OwnerId, property.Id);
         }
 
-        public async Task<IEnumerable<PropertyInListViewModel>> GetAllAvailableAsync<TPropertyInListViewModel>(int page, int propertiesPerPage)
+        public async Task<List<PropertyInListViewModel>> GetAllAvailableAsync<TPropertyInListViewModel>(int page, int propertiesPerPage)
         {
             var properties = await this.propertyRepository.AllAsNoTracking()
                  .OrderByDescending(x => x.CreatedOn)
-                 .Skip((page - 1) * propertiesPerPage)
-                 .Take(propertiesPerPage)
-                 .To<PropertyInListViewModel>().ToListAsync();
+                 .To<PropertyInListViewModel>()
+                 .ToListAsync();
+
+            properties = properties.Where(x => this.IsPropertyAvailable(x.Id)).Skip((page - 1) * propertiesPerPage)
+                 .Take(propertiesPerPage).ToList();
 
             foreach (var property in properties)
             {
                 var averageRating = this.AveragePropertyRating(property.Id);
                 property.AverageRating = averageRating == 0 ? "No rating yet!" : $"{averageRating.ToString("0.0")} / 5";
-                property.IsAvailable = this.IsPropertyAvailable(property.Id);
+                property.IsAvailable = true;
                 property.TotalLikes = this.GetPropertyLikesCount(property.Id);
             }
 
-            return properties.Where(x => x.IsAvailable);
+            return properties;
         }
 
         public async Task<PropertyDetailsViewModel> GetByIdAsync(string id)
@@ -304,12 +306,12 @@
         {
             return this.propertyRepository.AllAsNoTracking()
                          .Where(x => x.Id == id)
-                         .To<T>().FirstOrDefault();;
+                         .To<T>().FirstOrDefault();
         }
 
-        public int GetCount()
+        public int GetCountsAvailable()
         {
-            return this.propertyRepository.All().Count();
+            return this.propertyRepository.AllAsNoTracking().ToList().Where(x => this.IsPropertyAvailable(x.Id)).Count();
         }
 
         public int GetPropertyLikesCount(string propertyId)

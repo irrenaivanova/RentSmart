@@ -51,15 +51,15 @@
         <hr/>
         <div class="row mb-3">
             <div class="col-md-4 text-warning">
-                <label asp-for="RenterId" class="form-label"></label>
-                <select asp-for="RenterId" class="form-control">
+                <label asp-for="UserId" class="form-label"></label>
+                <select asp-for="UserId" class="form-control">
                     <option value="" disabled selected>Select....</option>
-                    @foreach (var renter in Model.Renters)
+                    @foreach (var renter in Model.FutureRenters)
                     {
                         <option value="@renter.Id">@renter.Email (@renter.FirstName @renter.LastName)</option>
                     }
                 </select>
-                <span asp-validation-for="RenterId" class="text-danger"></span>
+                <span asp-validation-for="UserId" class="text-danger"></span>
             </div>
             <div class="col-md-4 text-warning">
                 <label asp-for="RentDate" class="form-label"></label>

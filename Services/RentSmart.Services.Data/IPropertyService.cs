@@ -17,13 +17,13 @@
 
         Task<string> PropertyCurrentRenterId(string propertyId);
 
-        Task<IEnumerable<PropertyInListViewModel>> GetAllAvailableAsync<TPropertyInListViewModel>(int page, int propertiesPerPage);
+        Task<List<PropertyInListViewModel>> GetAllAvailableAsync<TPropertyInListViewModel>(int page, int propertiesPerPage);
 
         Task<PropertyDetailsViewModel> GetByIdAsync(string id);
 
         Task<UserAllPropertiesViewModel> GetByIdAllProperties(string userId, bool isManager, bool isOwner, bool isRenter, int page, int propertiesPerPage);
 
-        int GetCount();
+        int GetCountsAvailable();
 
         int GetPropertyLikesCount(string propertyId);
 

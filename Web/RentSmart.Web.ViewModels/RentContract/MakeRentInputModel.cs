@@ -12,11 +12,11 @@
 
     using static RentSmart.Common.EntityValidationConstants.Rental;
 
-    public class MakeRentInputModel : IMapFrom<Property>, IHaveCustomMappings
+    public class MakeRentInputModel : IMapFrom<Property>, IMapTo<ContractViewModel>, IHaveCustomMappings
     {
             public MakeRentInputModel()
             {
-                this.Renters = new List<RenterInputModel>();
+                this.FutureRenters = new List<RenterInputModel>();
             }
 
             public string Id { get; set; }
@@ -39,9 +39,9 @@
 
             [Required]
             [Display(Name = "Renter")]
-            public string RenterId { get; set; }
+            public string UserId { get; set; }
 
-            public IEnumerable<RenterInputModel> Renters { get; set; }
+            public IEnumerable<RenterInputModel> FutureRenters { get; set; }
 
             [Required]
             [Range(MinRentalDuration, MaxRentalDuration)]

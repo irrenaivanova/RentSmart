@@ -31,6 +31,5 @@
         public int DurationInMonths { get; set; }
 
         public DateTime RentDate { get; set; }
-
     }
 }

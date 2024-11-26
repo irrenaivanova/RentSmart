@@ -133,11 +133,11 @@
                 Properties = await this.propertyService.GetAllAvailableAsync<PropertyInListViewModel>(id, PropertiesPerPageAll),
                 CurrentPage = id,
                 ItemsPerPage = PropertiesPerPageAll,
-                ItemsCount = this.propertyService.GetCount(),
+                ItemsCount = this.propertyService.GetCountsAvailable(),
                 Action = "All",
             };
 
-            if (id > viewModel.ItemsCount)
+            if (id > viewModel.PagesCount)
             {
                 return this.NotFound();
             }
@@ -173,6 +173,11 @@
 
             var allProperties = await this.propertyService.GetByIdAllProperties(userId, isManager, isOwner, isRenter, id, PropertiesPerPageManager);
             allProperties.ManagedProperties.Action = "MyProperties";
+
+            if (id > allProperties.ManagedProperties.PagesCount && allProperties.ManagedProperties.PagesCount == 0)
+            {
+                return this.NotFound();
+            }
 
             return this.View(allProperties);
             return this.Json(allProperties);

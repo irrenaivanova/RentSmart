@@ -34,7 +34,7 @@
             {
                 ManagersCount = this.managerRepository.AllAsNoTracking().Count(),
                 OwnersCount = this.ownerRepository.AllAsNoTracking().Count(),
-                PropertiesCount = this.propertyRepository.AllAsNoTracking().Select(x => this.propertyService.IsPropertyAvailable(x.Id)).Count(),
+                PropertiesCount = this.propertyRepository.AllAsNoTracking().ToList().Where(x => this.propertyService.IsPropertyAvailable(x.Id)).Count(),
                 RentalsCount = this.rentalRepository.AllAsNoTracking().Count(),
             };
         }
