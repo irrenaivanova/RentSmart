@@ -62,14 +62,14 @@
                 <span asp-validation-for="RenterId" class="text-danger"></span>
             </div>
             <div class="col-md-4 text-warning">
-                <label asp-for="StartDate" class="form-label"></label>
-                <input type="date" min="@DateTime.UtcNow.ToString("yyyy-MM-dd")"  value="@DateTime.UtcNow.ToString("yyyy-MM-dd")" asp-for ="StartDate" class="form-control" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
+                <label asp-for="RentDate" class="form-label"></label>
+                <input type="date" min="@DateTime.UtcNow.ToString("yyyy-MM-dd")"  value="@DateTime.UtcNow.ToString("yyyy-MM-dd")" asp-for ="RentDate" class="form-control" />
+                <span asp-validation-for="RentDate" class="text-danger"></span>
             </div>
             <div class="col-md-4 text-warning">
-            <label asp-for="MonthsDuration" class="form-label"></label>
-            <input asp-for="MonthsDuration" class="form-control" />
-            <span asp-validation-for="MonthsDuration" class="text-danger"></span>
+                <label asp-for="DurationInMonths" class="form-label"></label>
+                <input asp-for="DurationInMonths" class="form-control" />
+                <span asp-validation-for="DurationInMonths" class="text-danger"></span>
         </div>
         </div>
         <div class="text-center">

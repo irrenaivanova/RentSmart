@@ -15,13 +15,16 @@
     {
         private readonly IDeletableEntityRepository<Owner> ownerRepository;
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
+        private readonly IDeletableEntityRepository<Renter> renterRepository;
 
         public UserService(
             IDeletableEntityRepository<Owner> ownerRepository,
-            IDeletableEntityRepository<ApplicationUser> userRepository)
+            IDeletableEntityRepository<ApplicationUser> userRepository,
+            IDeletableEntityRepository<Renter> renterRepository)
         {
             this.ownerRepository = ownerRepository;
             this.userRepository = userRepository;
+            this.renterRepository = renterRepository;
         }
 
         public async Task<IEnumerable<OwnerInputModel>> GetAllOwnerSAsync()
@@ -49,6 +52,25 @@
                 });
 
             return futureUsers;
+        }
+
+        public async Task<string> GetTheRenterByUserId(string userId)
+        {
+            var renter = await this.renterRepository.All().Where(x => x.UserId == userId)
+                .FirstOrDefaultAsync();
+
+            if (renter == null)
+            {
+                var newRenter = new Renter()
+                {
+                    UserId = userId,
+                };
+                await this.renterRepository.AddAsync(newRenter);
+                await this.renterRepository.SaveChangesAsync();
+                return newRenter.Id;
+            }
+
+            return renter.Id;
         }
     }
 }

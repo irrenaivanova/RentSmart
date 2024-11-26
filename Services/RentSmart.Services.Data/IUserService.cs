@@ -10,5 +10,7 @@
         Task<IEnumerable<OwnerInputModel>> GetAllOwnerSAsync();
 
         Task<IEnumerable<RenterInputModel>> GetAllFutureRentersAsync(string propertyId);
+
+        Task<string> GetTheRenterByUserId(string userId);
     }
 }

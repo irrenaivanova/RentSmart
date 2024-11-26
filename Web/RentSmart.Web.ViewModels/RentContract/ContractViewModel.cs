@@ -6,23 +6,25 @@
     using RentSmart.Data.Models;
     using RentSmart.Services.Mapping;
 
-    public class ContractViewModel : IMapFrom<Rental>, IHaveCustomMappings
+    public class ContractViewModel : IMapFrom<MakeRentInputModel>
     {
-        public string PropertyDistrictName { get; set; }
+        public string DistrictName { get; set; }
 
-        public string PropertyCityName { get; set; }
+        public string CityName { get; set; }
 
-        public double PropertySize { get; set; }
+        public double Size { get; set; }
 
-        public byte PropertyFloor { get; set; }
+        public byte Floor { get; set; }
 
         public string PropertyTypeName { get; set; }
 
-        public string PropertyPrice { get; set; }
+        public string Price { get; set; }
 
-        public string PropertyManagerName { get; set; }
+        public string ManagerName { get; set; }
 
-        public string PropertyOwnerName { get; set; }
+        public string OwnerName { get; set; }
+
+        public string RenterName { get; set; }
 
         public string ContractDate { get; set; }
 
@@ -30,13 +32,5 @@
 
         public DateTime RentDate { get; set; }
 
-        public void CreateMappings(IProfileExpression configuration)
-        {
-            configuration.CreateMap<Property, ContractViewModel>()
-                 .ForMember(x => x.PropertyManagerName, opt => opt.MapFrom(x => $"{x.Manager.User.FirstName} {x.Manager.User.LastName}"))
-                 .ForMember(x => x.PropertyOwnerName, opt => opt.MapFrom(x => $"{x.Owner.User.FirstName} {x.Owner.User.LastName}"))
-                 .ForMember(x => x.PropertyPrice, opt =>
-                        opt.MapFrom(x => x.PricePerMonth.ToString("0.00") + " €"));
-        }
     }
 }

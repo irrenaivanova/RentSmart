@@ -45,11 +45,11 @@
 
             [Required]
             [Range(MinRentalDuration, MaxRentalDuration)]
-            public int MonthsDuration { get; set; }
+            public int DurationInMonths { get; set; }
 
             [Required]
             [Display(Name = "Start Date")]
-            public DateTime StartDate { get; set; }
+            public DateTime RentDate { get; set; }
 
             public void CreateMappings(IProfileExpression configuration)
             {
