@@ -8,7 +8,7 @@
     {
         public void Configure(EntityTypeBuilder<Rating> builder)
         {
-            builder.Property(x => x.AverageRating).HasComputedColumnSql("((ConditionAndMaintenanceRate + Location + ValueForMoney) / 3.0)");
+            builder.Property(x => x.AverageRating).HasComputedColumnSql("CAST((ConditionAndMaintenanceRate + Location + ValueForMoney) / 3.0 AS FLOAT)");
         }
     }
 }

@@ -19,7 +19,7 @@
     {
         private const int MaxNumberOfCostumTags = 3;
         private const int MaxNumberOfImages = 5;
-        private readonly string[] allowedExtensions = new[] { "jpg", "png", "gif" };
+        private readonly string[] allowedExtensions = ["jpg", "png", "gif"];
         private readonly IDeletableEntityRepository<Property> propertyRepository;
         private readonly IDeletableEntityRepository<District> districtRepository;
         private readonly IDeletableEntityRepository<Tag> tagRepository;
@@ -60,10 +60,7 @@
             property.Manager = manager;
 
             var district = this.districtRepository.All().FirstOrDefault(x => x.Name == input.DistrictName);
-            if (district == null)
-            {
-                district = new District { Name = input.DistrictName };
-            }
+            district ??= new District { Name = input.DistrictName };
 
             property.District = district;
             foreach (var tagInput in input.TagIds)
@@ -79,12 +76,7 @@
 
             foreach (var tagName in input.CustomTags)
             {
-                var tag = this.tagRepository.All().FirstOrDefault(x => x.Name == tagName);
-                if (tag == null)
-                {
-                    tag = new Tag { Name = tagName };
-                }
-
+                var tag = this.tagRepository.All().FirstOrDefault(x => x.Name == tagName) ?? new Tag { Name = tagName };
                 property.Tags.Add(new PropertyTag { Tag = tag, Property = property });
             }
 
@@ -133,7 +125,7 @@
             foreach (var property in properties)
             {
                 var averageRating = this.AveragePropertyRating(property.Id);
-                property.AverageRating = averageRating == 0 ? "No rating yet!" : $"{averageRating.ToString("0.0")} / 5";
+                property.AverageRating = averageRating == 0 ? "No rating yet!" : $"{averageRating:0.0} / 5";
                 property.IsAvailable = true;
                 property.TotalLikes = this.GetPropertyLikesCount(property.Id);
             }
@@ -148,7 +140,7 @@
                 .To<PropertyDetailsViewModel>()
                 .FirstOrDefaultAsync();
             var averageRating = this.AveragePropertyRating(property.Id);
-            property.AverageRating = averageRating == 0 ? "No rating yet!" : $"{averageRating.ToString("0.0")} / 5";
+            property.AverageRating = averageRating == 0 ? "No rating yet!" : $"{averageRating:0.0} / 5";
             property.IsAvailable = this.IsPropertyAvailable(property.Id);
 
             var dbProperty = await this.propertyRepository.AllAsNoTracking()
@@ -170,7 +162,7 @@
                 property.ImagesUrls.Add(stringImage);
             }
 
-            if (dbProperty.Images.Count() == 0)
+            if (dbProperty.Images.Count == 0)
             {
                 property.ImagesUrls.Add("/images/noimage.jpg");
             }

@@ -16,7 +16,7 @@
             <li class="list-group-item @(property.IsCurrentRental ? "text-success" : "text-danger")"><i class="fa-solid fa-check"></i> Status: @current</li>
 
             <li class="list-group-item">
-                <a type="button" class="btn btn-primary btn-sm" asp-controller="Rate" asp-action="Make" asp-route-id="">Rate the property</a>
+                <a type="button" class="btn btn-primary btn-sm @(property.IsCurrentRental ? "disabled" : "")" asp-controller="Rate" asp-action="Make" asp-route-id="@property.Id">Rate the property</a>
             </li>         
     </ul>
 }

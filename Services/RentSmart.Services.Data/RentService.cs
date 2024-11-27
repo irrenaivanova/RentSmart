@@ -3,6 +3,7 @@
     using System;
     using System.Threading.Tasks;
 
+    using Microsoft.EntityFrameworkCore;
     using RentSmart.Data.Common.Repositories;
     using RentSmart.Data.Models;
 
@@ -20,6 +21,19 @@
             this.propertyService = propertyService;
             this.userService = userService;
             this.rentalRepository = rentalRepository;
+        }
+
+        public async Task AddRatingAsync(int rentalId, int conditionAndMaintenanceRate, int location, int valueForMoney)
+        {
+            var rental = await this.rentalRepository.All().FirstOrDefaultAsync(x => x.Id == rentalId);
+            var newRating = new Rating()
+            {
+                ConditionAndMaintenanceRate = conditionAndMaintenanceRate,
+                Location = location,
+                ValueForMoney = valueForMoney,
+            };
+            rental.Rating = newRating;
+            await this.rentalRepository.SaveChangesAsync();
         }
 
         public async Task<(int RentalId, string RentalContractUrl)> AddRentAsync(string propertyId, string userId, DateTime rentDate, int durationInMonths)

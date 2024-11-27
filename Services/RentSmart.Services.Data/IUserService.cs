@@ -12,5 +12,9 @@
         Task<IEnumerable<RenterInputModel>> GetAllFutureRentersAsync(string propertyId);
 
         Task<string> GetTheRenterByUserId(string userId);
+
+        Task<bool> IsThisUserPassedRentalOfTheProperty(string userId, string propertyId);
+
+        Task<int> GetRentalId(string userId, string propertyId);
     }
 }

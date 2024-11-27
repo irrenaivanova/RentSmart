@@ -9,5 +9,7 @@
     public interface IRentService
     {
         Task<(int RentalId, string RentalContractUrl)> AddRentAsync(string propertyId, string userId, DateTime rentDate, int durationInMonths);
+
+        Task AddRatingAsync(int rentalId, int conditionAndMaintenanceRate, int location, int valueForMoney);
     }
 }

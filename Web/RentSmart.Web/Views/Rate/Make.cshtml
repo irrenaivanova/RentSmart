@@ -1,0 +1,59 @@
+﻿﻿@using RentSmart.Web.ViewModels.Rate
+@model RateOfProperty
+@{
+    ViewData["Title"] = "Rate The Property";
+}
+
+<form method="post" class="row mb-5">
+    <fieldset class="col-md-6 offset-md-3 row">
+        <h5 class="text-center">@ViewData["Title"]</h5>
+        <hr />
+        <div class="col-md-6">
+        <div>
+            <label class="form-label">Property Type</label>
+            <input type="text" class="form-control" value="@Model.PropertyTypeName" disabled />
+        </div>
+        <div>
+            <label class="form-label">City</label>
+            <input type="text" class="form-control" value="@Model.CityName" disabled />
+        </div>
+        <div>
+            <label class="form-label">District</label>
+            <input type="text" class="form-control" value="@Model.DistrictName" disabled />
+        </div>
+        </div>
+        <div class="col-md-6">
+        <div>
+            <label class="form-label">Size</label>
+            <input type="text" class="form-control" value="@Model.Size" disabled />
+        </div>
+        <div>
+            <label class="form-label">Floor</label>
+            <input type="text" class="form-control" value="@Model.Floor" disabled />
+        </div>
+        </div>
+        
+        <div class="col-md-6 offset-md-3">
+        <div>
+            <label asp-for="ConditionAndMaintenanceRate" class="form-label mt-4">Condition And Maintenance</label>
+            <input asp-for="ConditionAndMaintenanceRate" class="form-control">
+            <span asp-validation-for="ConditionAndMaintenanceRate" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="Location" class="form-label mt-4">Location</label>
+            <input asp-for="Location" class="form-control">
+            <span asp-validation-for="Location" class="text-danger"></span>
+        </div>
+        <div>
+            <label asp-for="ValueForMoney" class="form-label mt-4">Value For Money</label>
+            <input asp-for="ValueForMoney" class="form-control">
+            <span asp-validation-for="ValueForMoney" class="text-danger"></span>
+        </div>
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Rate</button>
+        <input type="hidden" name="RentalId" value="@Model.RentalId" />
+        <input type="hidden" name="Id" value="@Model.Id" />
+    </div>
+        </div>
+    </fieldset>
+</form>
