@@ -26,7 +26,7 @@
                 <p class="card-title"><i class="fa-solid fa-location-dot"></i> @property.CityName, @property.DistrictName</p>
                 <p class="card-title"><i class="fa-regular fa-money-bill-1"></i> Price: @property.Price per month</p>
                 <p class="card-title"><i class="fa-solid fa-up-right-and-down-left-from-center"></i> @property.Size sq.m, @property.Floor floor</p>
-                <p class="card-title"><i class="fa-solid fa-star"></i> Average Rating: @property.AverageRating</p>
+                <p class="card-title text-danger"><i class="fa-solid fa-star"></i> Average Rating: @property.AverageRating</p>
                 <a type="button" class="btn btn-primary btn-sm" asp-controller="Property" asp-action="Details" asp-route-id="@property.Id" >Go to Details</a>
               </div>
             </div>

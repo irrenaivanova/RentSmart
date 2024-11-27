@@ -8,6 +8,6 @@
 
     public interface IRentService
     {
-        Task AddRentAsync(string propertyId, string userId, DateTime rentDate, int durationInMonths);
+        Task<(int RentalId, string RentalContractUrl)> AddRentAsync(string propertyId, string userId, DateTime rentDate, int durationInMonths);
     }
 }

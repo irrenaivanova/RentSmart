@@ -165,9 +165,9 @@
             bool isManager = this.IsManager();
             bool isOwner = this.IsOwner();
             bool isRenter = this.IsRenter();
-            if (!isManager && !isOwner && !isRenter)
+            if (!this.User.Identity.IsAuthenticated)
             {
-                this.TempData[ErrorMessage] = "Access to 'My Properties' is limited to managers, owners or renters!";
+                this.TempData[ErrorMessage] = "Access to 'My Properties' is limited to registered users!";
                 return this.Redirect("/");
             }
 

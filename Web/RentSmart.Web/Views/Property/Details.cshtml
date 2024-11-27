@@ -48,7 +48,7 @@
   <li class="list-group-item"><i class="fa-solid fa-house"></i>  @Model.PropertyTypeName</li>
   <li class="list-group-item"><i class="fa-solid fa-location-dot"></i>  @Model.CityName, @Model.DistrictName</li>
   <li class="list-group-item"><i class="fa-solid fa-up-right-and-down-left-from-center"></i>  @Model.Size sq.m, @Model.Floor floor</li>
-  <li class="list-group-item"><i class="fa-solid fa-star"></i>  Average Rating: @Model.AverageRating</li>
+  <li class="list-group-item text-danger"><i class="fa-solid fa-star"></i>  Average Rating: @Model.AverageRating</li>
   <li class="list-group-item"><i class="fa-solid fa-user"></i>  Manager: @Model.ManagerName</li>
   <li class="list-group-item"><i class="fa-solid fa-user"></i>  Owner: @Model.OwnerName</li>
   <li class="list-group-item @(Model.IsAvailable ? "text-success" : "text-danger")"><i class="fa-solid fa-check"></i> Status: @available</li>

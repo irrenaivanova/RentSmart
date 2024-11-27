@@ -22,7 +22,7 @@
             this.rentalRepository = rentalRepository;
         }
 
-        public async Task AddRentAsync(string propertyId, string userId, DateTime rentDate, int durationInMonths)
+        public async Task<(int RentalId, string RentalContractUrl)> AddRentAsync(string propertyId, string userId, DateTime rentDate, int durationInMonths)
         {
             var renterId = await this.userService.GetTheRenterByUserId(userId);
             var rental = new Rental()
@@ -35,6 +35,7 @@
 
             await this.rentalRepository.AddAsync(rental);
             await this.rentalRepository.SaveChangesAsync();
+            return (rental.Id, rental.ContractUrl);
         }
     }
 }

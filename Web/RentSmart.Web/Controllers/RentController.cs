@@ -1,20 +1,24 @@
 ﻿namespace RentSmart.Web.Controllers
 {
     using System;
+    using System.IO;
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using RentSmart.Data.Models;
     using RentSmart.Services.Data;
 
     using RentSmart.Web.ViewModels.RentContract;
-
+    using Rotativa.AspNetCore;
+    using static RentSmart.Common.EntityValidationConstants;
     using static RentSmart.Common.GlobalConstants;
     using static RentSmart.Common.NotificationConstants;
+    using ApplicationUser = Data.Models.ApplicationUser;
 
     [Authorize]
     public class RentController : BaseController
@@ -23,17 +27,20 @@
         private readonly IPropertyService propertyService;
         private readonly IUserService userService;
         private readonly IRentService rentService;
+        private readonly IWebHostEnvironment environent;
 
         public RentController(
             UserManager<ApplicationUser> userManager,
             IPropertyService propertyService,
             IUserService userService,
-            IRentService rentService)
+            IRentService rentService,
+            IWebHostEnvironment environment)
         {
             this.userManager = userManager;
             this.propertyService = propertyService;
             this.userService = userService;
             this.rentService = rentService;
+            this.environent = environment;
         }
 
         public IActionResult Contract()
@@ -82,6 +89,8 @@
                 return this.View(input);
             }
 
+            (int rentalId, string rentalContractUrl) = await this.rentService.AddRentAsync(input.Id, input.UserId, input.RentDate, input.DurationInMonths);
+
             var contractViewModel = new ContractViewModel()
             {
                 DurationInMonths = input.DurationInMonths,
@@ -95,16 +104,32 @@
                 PropertyTypeName = input.PropertyTypeName,
                 Size = input.Size,
                 RentDate = input.RentDate,
+                RentalId = rentalId,
+                RentalContractUrl = rentalContractUrl,
             };
             var renter = await this.userManager.FindByIdAsync(input.UserId);
             var renterName = $"{renter.FirstName} {renter.LastName}";
             contractViewModel.RenterName = renterName;
             await this.AddRenterClaim(input.UserId);
 
-            await this.rentService.AddRentAsync(input.Id, input.UserId, input.RentDate, input.DurationInMonths);
-            this.TempData[SuccessMessage] = "Rental contract added successfully!";
+            var pdf = new ViewAsPdf("Contract", contractViewModel)
+            {
+                PageSize = Rotativa.AspNetCore.Options.Size.A4,
+                PageOrientation = Rotativa.AspNetCore.Options.Orientation.Portrait,
+            };
+            var pdfBytes = await pdf.BuildFile(this.ControllerContext);
+            var fileName = $"{contractViewModel.RentalContractUrl}.pdf";
+            var filePath = Path.Combine(environent.WebRootPath, "pdf/contracts", fileName);
+            var directoryPath = Path.GetDirectoryName(filePath);
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+            }
 
-            return this.View("~/Views/Rent/Contract.cshtml", contractViewModel);
+            await System.IO.File.WriteAllBytesAsync(filePath, pdfBytes);
+
+            this.TempData[SuccessMessage] = "Rental contract made successfully and it can be found on MyProperties page as PDF!";
+            return this.RedirectToAction("MyProperties", "Property");
         }
 
         private async Task AddRenterClaim(string userId)

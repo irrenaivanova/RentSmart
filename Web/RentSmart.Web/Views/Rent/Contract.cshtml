@@ -2,34 +2,36 @@
 @model ContractViewModel
 @{
     ViewData["Title"] = "Contract";
+    Layout = null;
 }
 
 <div class="container mt-5 mb-5">
     <div class="card shadow">
         <div class="card-header bg-primary text-white text-center">
-            <h4>Rental Contract</h4>
+            <h4 class="text-center"><strong>Tenant Contract Number @Model.RentalId from @Model.ContractDate</strong></h4>
         </div>
         <div class="card-body">
-            <p><strong>Date:</strong> @Model.ContractDate</p>
-            <p><strong>Landlord:</strong> [Landlord's Full Name], residing at [Landlord's Address].</p>
-            <p><strong>Tenant:</strong> [Tenant's Full Name], residing at [Tenant's Address].</p>
-            <p><strong>Property:</strong> The property located at [Full Address of the Property].</p>
-            <p><strong>Term:</strong> The tenancy begins on [Start Date] and continues until [End Date] or until terminated by either party with [notice period] written notice.</p>
-            <p><strong>Rent:</strong> The Tenant agrees to pay <strong>[Amount]</strong> per month, due on the <strong>[Day]</strong> of each month.</p>
-            <p><strong>Security Deposit:</strong> The Tenant will provide a deposit of <strong>[Amount]</strong>, refundable upon vacating the property, subject to deductions for damages beyond normal wear and tear.</p>
+            <p><strong>Property:</strong>  @Model.PropertyTypeName, located in @Model.DistrictName, @Model.CityName</p>
+            <p><strong>Details:</strong>  @Model.Size sq.m. on @Model.Floor floor</p>
+            <p><strong>Landlord:</strong> @Model.OwnerName</p>
+            <p><strong>Tenant:</strong> @Model.RenterName</p>
+            <p><strong>Manager:</strong>@Model.ManagerName</p>
+            <p><strong>Term:</strong> The tenancy begins on @Model.RentDate and lasts @Model.DurationInMonths months and can be terminated by either party with one-month written notice.</p>
+            <p><strong>Rent:</strong> The Tenant agrees to pay <strong>@Model.Price</strong> per month, due on the <strong>5</strong> of each month.</p>
+            <p><strong>Security Deposit:</strong> The Tenant will provide a deposit of <strong>@Model.Price</strong>, refundable upon vacating the property, subject to deductions for damages beyond normal wear and tear.</p>
             <p><strong>Obligations:</strong></p>
             <ul>
                 <li><strong>Tenant:</strong> Keep the property clean and pay for any damage caused.</li>
                 <li><strong>Landlord:</strong> Maintain the property in habitable condition.</li>
             </ul>
-            <p><strong>Termination:</strong> Either party may terminate this agreement with [notice period] written notice.</p>
+            <p><strong>Termination:</strong> Either party may terminate this agreement with one-month written notice.</p>
         </div>
         <div class="card-footer text-center">
-            <div class="row">
-                <div class="col-md-6">
+            <div class="row mt-5">
+                <div class="col-md-6 text-center">
                     <p>______________________<br><strong>Landlord</strong></p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-6 mt-5 text-center">
                     <p>______________________<br><strong>Tenant</strong></p>
                 </div>
             </div>

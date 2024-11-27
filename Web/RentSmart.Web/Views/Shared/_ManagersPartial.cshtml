@@ -45,7 +45,7 @@
                                 @foreach (var rental in property.Rentals)
                                      {
                                      var nameContract = $"/pdf/contracts/{rental.ContractUrl}.pdf";
-                                     <a href="@nameContract" class="list-group-item list-group-item-action">@rental.Id / @rental.RentDate.ToString("dd/MM/yyyy")</a>
+                                     <a href="@nameContract" class="list-group-item list-group-item-action" target="_blank">@rental.Id / @rental.RentDate.ToString("dd.MM.yyyy")</a>
                                      }   
                    </div>
 

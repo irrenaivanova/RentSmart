@@ -25,7 +25,7 @@
     using RentSmart.Web.Infrastructure.Factories;
     using RentSmart.Web.Infrastructure.ModelBinders;
     using RentSmart.Web.ViewModels;
-
+    using Rotativa.AspNetCore;
     using static RentSmart.Web.Infrastructure.Extensions.WebApplicationBuilderExtensions;
 
     public class Program
@@ -116,6 +116,9 @@
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            // Rotativa 
+            RotativaConfiguration.Setup(app.Environment.WebRootPath, "Rotativa");
 
             app.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");

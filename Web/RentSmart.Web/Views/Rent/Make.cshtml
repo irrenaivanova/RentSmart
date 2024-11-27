@@ -14,38 +14,46 @@
             <div class="col-md-4">
                 <label class="form-label">Type</label>
                 <input type="text" class="form-control" value="@Model.PropertyTypeName" readonly />
+                <input type="hidden" name="PropertyTypeName" value="@Model.PropertyTypeName" />
             </div>
             <div class="col-md-4">
                 <label class="form-label">District</label>
                 <input type="text" class="form-control" value="@Model.DistrictName" readonly />
+                <input type="hidden" name="DistrictName" value="@Model.DistrictName" />
             </div>
             <div class="col-md-4">
                 <label class="form-label">City</label>
                 <input type="text" class="form-control" value="@Model.CityName" readonly />
+                <input type="hidden" name="CityName" value="@Model.CityName" />
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-md-4">
                 <label class="form-label">Size (sq.m)</label>
                 <input type="text" class="form-control" value="@Model.Size" readonly />
+                <input type="hidden" name="Size" value="@Model.Size" />
             </div>
             <div class="col-md-4">
                 <label class="form-label">Floor</label>
                 <input type="text" class="form-control" value="@Model.Floor" readonly />
+                <input type="hidden" name="Floor" value="@Model.Floor" />
             </div>
             <div class="col-md-4">
                 <label class="form-label">Price</label>
                 <input type="text" class="form-control" value="@Model.Price" readonly />
+                <input type="hidden" name="Price" value="@Model.Price" />
             </div>
         </div>
         <div class="row mb-3">
             <div class="col-md-4 offset-md-2">
                 <label class="form-label">Manager</label>
                 <input type="text" class="form-control" value="@Model.ManagerName" readonly />
+                <input type="hidden" name="ManagerName" value="@Model.ManagerName" />
             </div>
             <div class="col-md-4">
                 <label class="form-label">Owner</label>
                 <input type="text" class="form-control" value="@Model.OwnerName" readonly />
+                <input type="hidden" name="OwnerName" value="@Model.OwnerName" />
             </div>
         </div>
         <hr/>
