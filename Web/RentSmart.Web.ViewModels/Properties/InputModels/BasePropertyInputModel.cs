@@ -5,7 +5,7 @@
 
     using static RentSmart.Common.EntityValidationConstants.Property;
 
-    public class BasePropertyInputModel
+    public abstract class BasePropertyInputModel
     {
         public BasePropertyInputModel()
         {

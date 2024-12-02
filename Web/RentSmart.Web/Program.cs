@@ -26,6 +26,7 @@
     using RentSmart.Web.Infrastructure.ModelBinders;
     using RentSmart.Web.ViewModels;
     using Rotativa.AspNetCore;
+
     using static RentSmart.Web.Infrastructure.Extensions.WebApplicationBuilderExtensions;
 
     public class Program
@@ -34,6 +35,9 @@
         {
             var builder = WebApplication.CreateBuilder(args);
             var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
+
+            // Load production configuration file for using API keys 
+            builder.Configuration.AddJsonFile("appsettings.Production.json", optional: true, reloadOnChange: true);
 
             ConfigureServices(builder.Services, builder.Configuration);
             var app = builder.Build();
@@ -111,6 +115,16 @@
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            // adding cache control headers trying to resolve the problem with showing cookie consent 
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate";
+                context.Response.Headers["Pragma"] = "no-cache";
+                context.Response.Headers["Expires"] = "0";
+                await next();
+            });
+
 
             app.UseRouting();
 
