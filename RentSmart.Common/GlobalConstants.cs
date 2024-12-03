@@ -13,5 +13,7 @@
         public const string OwnerClaim = "IsOwner";
 
         public const string RenterClaim = "IsRenter";
+
+        public const string SystemEmail = "irrenka_@abv.bg";
     }
 }
