@@ -61,6 +61,11 @@
                     options.CheckConsentNeeded = context => true;
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
+            services.AddAuthentication().AddFacebook(opt =>
+            {
+                opt.AppId = configuration["Authentication:Facebook:AppId"];
+                opt.AppSecret = configuration["Authentication:Facebook:AppSecret"];
+            });
 
             services.AddControllersWithViews(
                 options =>
