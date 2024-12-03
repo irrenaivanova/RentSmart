@@ -1,6 +1,7 @@
 ﻿namespace RentSmart.Web.ViewModels.Contact
 {
     using System.ComponentModel.DataAnnotations;
+    using RentSmart.Web.Infrastructure.Attributes;
 
     public class ContactFormViewModel
     {
@@ -22,7 +23,7 @@
         [MaxLength(1000)]
         public string Content { get; set; }
 
-        //[GoogleReCaptchaValidation]
-        //public string RecaptchaValue { get; set; }
+        [GoogleReCaptchaValidation]
+        public string RecaptchaValue { get; set; }
     }
 }

@@ -4,7 +4,7 @@
     this.ViewData["Title"] = "Contact Us";
 }
 
-<form method="post" class="container col-md-6">
+<form method="post" class="container col-md-6" id="contactForm">
     <h4>@ViewData["Title"]</h4>
     <div class="form-group">
         <label asp-for="Name" class="form-label mt-2"></label>
@@ -17,7 +17,7 @@
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Title" class="form-label mt-2"></labelggggggggg
+        <label asp-for="Title" class="form-label mt-2"></label>
         <input asp-for="Title" class="form-control" />
         <span asp-validation-for="Title" class="text-danger"></span>
     </div>
@@ -26,18 +26,28 @@
         <textarea asp-for="Content" class="form-control" rows="5"></textarea>
         <span asp-validation-for="Content" class="text-danger"></span>
     </div>
-@*     <input type="hidden" id="RecaptchaValue" name="RecaptchaValue" /> *@
-    <button type="submit" class="btn btn-primary mt-2">Send a message</button>
+    <input type="hidden" id="RecaptchaValue" name="RecaptchaValue" />
+    <button type="submit" class="btn btn-primary mt-2">Send Message</button>
 </form>
 
-@* @section Scripts
+@section Scripts
 {
-    <script src="https://www.google.com/recaptcha/api.js?render=@this.Configuration["GoogleReCaptcha:Key"]"></script>
+    <script src="https://www.google.com/recaptcha/api.js?render=6LfKc5EqAAAAAEdr8vPf_nDlyzxFUeA1kwQHmXtc"></script>
     <script>
-        grecaptcha.ready(function () {
-            grecaptcha.execute('@this.Configuration["GoogleReCaptcha:Key"]', { action: 'contact_form' }).then(function (token) {
-                document.getElementById("RecaptchaValue").value = token;
+        const form = document.getElementById("contactForm");
+        form.addEventListener("submit", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Execute reCAPTCHA
+            grecaptcha.ready(function () {
+                grecaptcha.execute('6LfKc5EqAAAAAEdr8vPf_nDlyzxFUeA1kwQHmXtc', { action: 'contact_form' }).then(function (token) {
+                    // Assign the token to the hidden input
+                    document.getElementById("RecaptchaValue").value = token;
+
+                    // Resubmit the form programmatically
+                    form.submit();
+                });
             });
         });
     </script>
-} *@
+}

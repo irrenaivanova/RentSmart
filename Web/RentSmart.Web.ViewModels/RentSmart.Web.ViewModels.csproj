@@ -23,6 +23,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\RentSmart.Data.Models\RentSmart.Data.Models.csproj" />
     <ProjectReference Include="..\..\Services\RentSmart.Services.Mapping\RentSmart.Services.Mapping.csproj" />
+    <ProjectReference Include="..\RentSmart.Web.Infrastructure\RentSmart.Web.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
