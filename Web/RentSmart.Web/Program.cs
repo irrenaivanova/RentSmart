@@ -66,7 +66,7 @@
             .AddGoogle(opt =>
             {
                 opt.ClientId = configuration["Authentication:Google:ClientId"];
-                opt.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+                opt.ClientSecret = configuration["Authentication:Google:AppSecret"];
             });
 
             services.AddControllersWithViews(

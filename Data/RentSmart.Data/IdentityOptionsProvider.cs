@@ -1,6 +1,7 @@
 ﻿namespace RentSmart.Data
 {
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.Extensions.Configuration;
 
     public static class IdentityOptionsProvider
     {
