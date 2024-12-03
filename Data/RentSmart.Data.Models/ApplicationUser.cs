@@ -40,11 +40,11 @@ namespace RentSmart.Data.Models
         public virtual ICollection<IdentityUserLogin<string>> Logins { get; set; }
 
         [MaxLength(MaxLengthName)]
-        public string FirstName { get; set; } = null!;
+        public string? FirstName { get; set; }
 
         [MaxLength(MaxLengthName)]
 
-        public string LastName { get; set; } = null!;
+        public string? LastName { get; set; }
 
         public virtual Renter? Renter { get; set; }
 
