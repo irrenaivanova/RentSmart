@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
+    using RentSmart.Data.Models;
     using RentSmart.Services.Data;
     using RentSmart.Web.ViewModels.Properties;
     using RentSmart.Web.ViewModels.Properties.InputModels;
@@ -55,6 +56,73 @@
             return this.View(viewModel);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Add(AddPropertyInputModel input)
+        {
+            if (!this.IsManager())
+            {
+                this.TempData[ErrorMessage] = "Only managers can add properties!";
+                return this.RedirectToAction("/");
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                await this.PopulateInputModelAsync(input);
+                return this.View(input);
+            }
+
+            var userId = this.GetUserId();
+            try
+            {
+                await this.propertyService.AddAsync(input, userId, $"{this.environment.WebRootPath}/images");
+            }
+            catch (Exception ex)
+            {
+                this.ModelState.AddModelError(string.Empty, ex.Message);
+                await this.PopulateInputModelAsync(input);
+                return this.View(input);
+            }
+
+            this.TempData[SuccessMessage] = "Property added successfully!";
+            return this.Redirect("/");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            string userId = this.GetUserId();
+            if (!this.userService.IsManagerOfTheProperty(userId, id))
+            {
+                this.TempData[ErrorMessage] = "Only the manager of the property can edit it!";
+                return this.RedirectToAction(nameof(this.MyProperties));
+            }
+
+            EditPropertyInputModel viewModel = this.propertyService.GetById<EditPropertyInputModel>(id);
+            await this.PopulateEditModelAsync(viewModel);
+            return this.View(viewModel);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditPropertyInputModel input)
+        {
+            string userId = this.GetUserId();
+            if (!this.userService.IsManagerOfTheProperty(userId, input.Id))
+            {
+                this.TempData[ErrorMessage] = "Only the manager of the property can edit it!";
+                return this.RedirectToAction(nameof(this.MyProperties));
+            }
+
+            if (!this.ModelState.IsValid)
+            {
+                await this.PopulateEditModelAsync(input);
+                return this.View(input);
+            }
+
+            await this.propertyService.UpdateAsync(input);
+            this.TempData[SuccessMessage] = "Property edited successfully!";
+            return this.RedirectToAction(nameof(this.Details), "Property", new { id = input.Id });
+        }
+
         [HttpGet]
         public IActionResult Delete(string id)
         {
@@ -89,37 +157,6 @@
             return this.RedirectToAction("MyProperties");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Add(AddPropertyInputModel input)
-        {
-            if (!this.IsManager())
-            {
-                this.TempData[ErrorMessage] = "Only managers can add properties!";
-                return this.RedirectToAction("/");
-            }
-
-            if (!this.ModelState.IsValid)
-            {
-                await this.PopulateInputModelAsync(input);
-                return this.View(input);
-            }
-
-            var userId = this.GetUserId();
-            try
-            {
-                await this.propertyService.AddAsync(input, userId, $"{this.environment.WebRootPath}/images");
-            }
-            catch (Exception ex)
-            {
-                this.ModelState.AddModelError(string.Empty, ex.Message);
-                await this.PopulateInputModelAsync(input);
-                return this.View(input);
-            }
-
-            this.TempData[SuccessMessage] = "Property added successfully!";
-            return this.Redirect("/");
-        }
-
         [AllowAnonymous]
         public async Task<IActionResult> All(int id = 1)
         {
@@ -143,7 +180,6 @@
             }
 
             return this.View(viewModel);
-            return this.Json(viewModel);
         }
 
         [AllowAnonymous]
@@ -151,7 +187,8 @@
         {
             var property = await this.propertyService.GetByIdAsync(id);
             return this.View(property);
-            //return this.Json(property);
+
+            // return this.Json(property);
         }
 
         public async Task<IActionResult> MyProperties(int id = 1)
@@ -180,7 +217,6 @@
             }
 
             return this.View(allProperties);
-            return this.Json(allProperties);
         }
 
         private async Task PopulateInputModelAsync(AddPropertyInputModel viewModel)
@@ -188,6 +224,12 @@
             viewModel.Cities = await this.cityService.GetAllCitiesAsync();
             viewModel.Tags = await this.tagService.GetAllTagsAsync();
             viewModel.Owners = await this.userService.GetAllOwnerSAsync();
+            viewModel.PropertyTypes = await this.propertyTypeService.AllPropertyTypesAsync();
+        }
+
+        private async Task PopulateEditModelAsync(EditPropertyInputModel viewModel)
+        {
+            viewModel.Cities = await this.cityService.GetAllCitiesAsync();
             viewModel.PropertyTypes = await this.propertyTypeService.AllPropertyTypesAsync();
         }
     }

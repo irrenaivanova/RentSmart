@@ -294,6 +294,26 @@
             await this.propertyRepository.SaveChangesAsync();
         }
 
+        public async Task UpdateAsync(EditPropertyInputModel input)
+        {
+            var property = await this.propertyRepository.All().FirstOrDefaultAsync(x => x.Id == input.Id);
+            property.PricePerMonth = input.PricePerMonth;
+            property.CityId = input.CityId;
+            property.Description = input.Description;
+            property.Floor = input.Floor;
+            property.Size = input.Size;
+            property.PropertyTypeId = input.PropertyTypeId;
+
+            var district = await this.districtRepository.All().Where(x => x.Name == input.DistrictName).FirstOrDefaultAsync();
+            if (district == null)
+            {
+                district = new District() { Name = input.DistrictName };
+            }
+
+            property.District = district;
+            await this.propertyRepository.SaveChangesAsync();
+        }
+
         public T GetById<T>(string id)
         {
             return this.propertyRepository.AllAsNoTracking()

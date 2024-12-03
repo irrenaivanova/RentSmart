@@ -24,8 +24,7 @@ namespace RentSmart.Web.Infrastructure.Attributes
             }
 
             var configuration = (IConfiguration)validationContext.GetService(typeof(IConfiguration));
-            //if (configuration == null || string.IsNullOrWhiteSpace(configuration["GoogleReCaptcha:Secret"]))
-                if (configuration == null )
+            if (configuration == null || string.IsNullOrWhiteSpace(configuration["GoogleReCaptcha:Secret"]))
                 {
                 return new ValidationResult(
                     "Google reCAPTCHA validation failed. Secret key not found.",
@@ -36,7 +35,7 @@ namespace RentSmart.Web.Infrastructure.Attributes
             var content = new FormUrlEncodedContent(
                 new[]
                     {
-                        new KeyValuePair<string, string>("secret","6LfKc5EqAAAAAEoHcXE5CPK7O0LIa3Io-W8dCk_4"),
+                        new KeyValuePair<string, string>("secret", configuration["GoogleReCaptcha:Secret"]),
                         new KeyValuePair<string, string>("response", value.ToString()),
                     });
             var httpResponse = httpClient.PostAsync($"https://www.google.com/recaptcha/api/siteverify", content)

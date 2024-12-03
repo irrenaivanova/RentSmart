@@ -11,6 +11,8 @@
     {
         Task AddAsync(AddPropertyInputModel input, string userId, string imagePath);
 
+        Task UpdateAsync(EditPropertyInputModel input);
+
         double AveragePropertyRating(string propertyId);
 
         bool IsPropertyAvailable(string propertyId);

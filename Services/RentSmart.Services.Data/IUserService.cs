@@ -16,5 +16,7 @@
         Task<bool> IsThisUserPassedRentalOfTheProperty(string userId, string propertyId);
 
         Task<int> GetRentalId(string userId, string propertyId);
+
+        bool IsManagerOfTheProperty(string userId, string propertyId);
     }
 }

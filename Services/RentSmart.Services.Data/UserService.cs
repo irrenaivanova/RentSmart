@@ -17,17 +17,25 @@
         private readonly IDeletableEntityRepository<ApplicationUser> userRepository;
         private readonly IDeletableEntityRepository<Renter> renterRepository;
         private readonly IDeletableEntityRepository<Rental> rentalRepository;
+        private readonly IDeletableEntityRepository<Manager> managerRepository;
 
         public UserService(
             IDeletableEntityRepository<Owner> ownerRepository,
             IDeletableEntityRepository<ApplicationUser> userRepository,
             IDeletableEntityRepository<Renter> renterRepository,
-            IDeletableEntityRepository<Rental> rentalRepository)
+            IDeletableEntityRepository<Rental> rentalRepository,
+            IDeletableEntityRepository<Manager> managerRepository)
         {
             this.ownerRepository = ownerRepository;
             this.userRepository = userRepository;
             this.renterRepository = renterRepository;
             this.rentalRepository = rentalRepository;
+            this.managerRepository = managerRepository;
+        }
+
+        public bool IsManagerOfTheProperty(string userId, string propertyId)
+        {
+            return this.managerRepository.AllAsNoTracking().Where(x => x.User.Id == userId && x.Properties.Any(x => x.Id == propertyId)).Any();
         }
 
         public async Task<IEnumerable<OwnerInputModel>> GetAllOwnerSAsync()
