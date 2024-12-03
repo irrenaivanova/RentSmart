@@ -4,10 +4,19 @@
 }
 
 <div class="text-center">
-    <h3 class="display-4">Welcome to @GlobalConstants.SystemName!</h3>
+    <h5 class="display-5">Welcome to @GlobalConstants.SystemName!</h5>
     @await Component.InvokeAsync("GetCountsComponent")
+</div>
+<div class="container mt-3 mb-3 d-flex justify-content-center">
+    <img src="~/images/home.jpg" class="img-fluid rounded" alt="Home" style="height: 400px; object-fit: cover; width: 100%;">
 </div>
 
 
-Find Your Dream Home
-find the perfect home, RentSmart you home, manage your home
+<div class="list-group col-md-4 offset-md-4 text-center mb-2">
+<a asp-action="All" asp-controller="Property" class="list-group-item list-group-item-action active">Find Your Dream Home</a>
+</div>
+
+<div class="list-group col-md-4 offset-md-4 text-center">
+<a asp-action="Order" asp-controller="Make" class="list-group-item list-group-item-action active">RentSmart Your Home</a>
+</div
+
