@@ -55,7 +55,7 @@
 
             this.TempData[SuccessMessage] = "Thank you for contacting us! You can expect a response at the email you provided!";
 
-            return this.RedirectToAction("Index","Home");
+            return this.RedirectToAction("Index", "Home");
         }
     }
 }

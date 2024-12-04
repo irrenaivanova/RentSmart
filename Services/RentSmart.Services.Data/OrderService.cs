@@ -8,6 +8,7 @@
     using Microsoft.EntityFrameworkCore;
     using RentSmart.Data.Common.Repositories;
     using RentSmart.Data.Models;
+    using RentSmart.Services.Mapping;
 
     using Service = RentSmart.Data.Models.Service;
 
@@ -83,6 +84,11 @@
             }
 
             return false;
+        }
+
+        public List<T> GetAllAsync<T>()
+        {
+            return this.serviceRepository.AllAsNoTracking().To<T>().ToList();
         }
 
         private async Task<Order> HasTheOwnerRightOrderAsync(string ownerId)

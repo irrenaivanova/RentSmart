@@ -25,7 +25,6 @@
                            x.Images.FirstOrDefault() == null ?
                            "/images/noimage.jpg" :
                            "/images/properties/" + x.Images.FirstOrDefault().Id + "." + x.Images.FirstOrDefault().Extension));
-;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace RentSmart.Web.Controllers
 {
     using System;
+
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
@@ -10,6 +11,7 @@
     using Microsoft.AspNetCore.Mvc;
     using RentSmart.Data.Models;
     using RentSmart.Services.Data;
+    using RentSmart.Web.ViewModels.Service;
 
     using static RentSmart.Common.GlobalConstants;
     using static RentSmart.Common.NotificationConstants;
@@ -28,9 +30,10 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Make()
+        public IActionResult Make()
         {
-            return this.View();
+            var services = this.orderService.GetAllAsync<ServiceViewModel>();
+            return this.View(services);
         }
 
         [Authorize]

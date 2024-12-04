@@ -1,6 +1,7 @@
 ﻿namespace RentSmart.Web.ViewModels.Contact
 {
     using System.ComponentModel.DataAnnotations;
+
     using RentSmart.Web.Infrastructure.Attributes;
 
     public class ContactFormViewModel

@@ -1,5 +1,52 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@using RentSmart.Web.ViewModels.Service
+@model IEnumerable<ServiceViewModel>
 @{
+    ViewData["Title"] = "Our Services";
 }
+
+<h3 class="text-center">@ViewData["Title"]</h3>
+@foreach (var service in Model)
+{
+    <div class="card text-center mt-3 col-md-6 offset-md-3">
+        <div class="card-header text-white bg-primary">
+            @service.Name
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Duration: @service.Duration</h4>
+            <p class="card-text">@service.Description</p>
+            <p class="card-text">Price: @service.Price</p>
+            <form method="post" asp-action="Make" id="orderForm">
+                <input type="hidden" name="id" asp-for="@service.Id" />
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalOrder">Buy Service</button>
+            </form>
+        </div>
+        <div class="card-footer text-body-secondary">
+            After your purchase, we will email you within three working days to discuss your property's details!
+        </div>
+    </div>
+} 
+
+
+<!-- Modal -->
+<div class="modal" id="modalOrder" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Confirm order</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    Do you confirm the order?
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="document.getElementById('orderForm').submit()">Yes!</button>
+            </div>
+        </div>
+    </div>
+</div>
+

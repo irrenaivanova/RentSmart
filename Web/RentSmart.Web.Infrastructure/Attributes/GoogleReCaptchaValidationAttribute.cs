@@ -1,17 +1,18 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Net.Http;
-using System.Net;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using System.Threading.Tasks;
-
-namespace RentSmart.Web.Infrastructure.Attributes
+﻿namespace RentSmart.Web.Infrastructure.Attributes
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Text;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
+    using System.Threading.Tasks;
+
+    using Microsoft.Extensions.Configuration;
+
     public class GoogleReCaptchaValidationAttribute : ValidationAttribute
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)

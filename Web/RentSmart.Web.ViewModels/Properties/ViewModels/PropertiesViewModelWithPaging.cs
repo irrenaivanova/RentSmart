@@ -1,6 +1,7 @@
 ﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels
 {
     using System.Collections.Generic;
+
     using RentSmart.Web.ViewModels;
 
     public class PropertiesViewModelWithPaging : PagingViewModel
