@@ -125,7 +125,7 @@
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            // adding cache control headers trying to resolve the problem with showing cookie consent 
+            // adding cache control headers trying to resolve the problem with showing cookie consent
             app.Use(async (context, next) =>
             {
                 context.Response.Headers["Cache-Control"] = "no-store, no-cache, must-revalidate";
@@ -134,13 +134,12 @@
                 await next();
             });
 
-
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // Rotativa 
+            // Rotativa
             RotativaConfiguration.Setup(app.Environment.WebRootPath, "Rotativa");
 
             app.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");

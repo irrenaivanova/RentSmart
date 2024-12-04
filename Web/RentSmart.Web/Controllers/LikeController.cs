@@ -1,6 +1,7 @@
 ﻿namespace RentSmart.Web.Controllers
 {
     using System.Threading.Tasks;
+
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using RentSmart.Services.Data;
@@ -26,7 +27,7 @@
         public async Task<ActionResult<PostLikeResponseModel>> Post(PostLikeInputModel input)
         {
             var userId = this.GetUserId();
-            await this.likeService.SetLikeAsync(input.PropertyId,userId, input.IsLiked);
+            await this.likeService.SetLikeAsync(input.PropertyId, userId, input.IsLiked);
             var likes = this.propertyService.GetPropertyLikesCount(input.PropertyId);
             return new PostLikeResponseModel { TotalLikes = likes };
         }

@@ -15,10 +15,11 @@
 
     using RentSmart.Web.ViewModels.RentContract;
     using Rotativa.AspNetCore;
-    using static RentSmart.Common.EntityValidationConstants;
+
     using static RentSmart.Common.GlobalConstants;
     using static RentSmart.Common.NotificationConstants;
-    using ApplicationUser = Data.Models.ApplicationUser;
+
+    using ApplicationUser = RentSmart.Data.Models.ApplicationUser;
 
     [Authorize]
     public class RentController : BaseController
@@ -119,7 +120,7 @@
             };
             var pdfBytes = await pdf.BuildFile(this.ControllerContext);
             var fileName = $"{contractViewModel.RentalContractUrl}.pdf";
-            var filePath = Path.Combine(environent.WebRootPath, "pdf/contracts", fileName);
+            var filePath = Path.Combine(this.environent.WebRootPath, "pdf/contracts", fileName);
             var directoryPath = Path.GetDirectoryName(filePath);
             if (!Directory.Exists(directoryPath))
             {

@@ -27,13 +27,11 @@
             this.orderService = orderService;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Make()
         {
             return this.View();
         }
-
 
         [Authorize]
         [HttpPost]
