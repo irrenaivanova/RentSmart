@@ -1,11 +1,13 @@
 ﻿#pragma warning disable
 namespace RentSmart.Web.Controllers
 {
+    using Hangfire;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using RentSmart.Data;
     using RentSmart.Data.Models;
     using RentSmart.Services.Messaging;
+    using System;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
@@ -47,6 +49,17 @@ namespace RentSmart.Web.Controllers
             html.AppendLine($"<h3>something</h3>");
             await this.sender.SendEmailAsync("recepti@recepti.com", "MoiteRecepti", "irrenaivanova@gmail.com", "name", html.ToString());
             return RedirectToAction("Index","Home");
+        }
+
+        public IActionResult HangFire()
+        {
+            // Create a background job
+            BackgroundJob.Enqueue(() => Console.WriteLine("This is a background job!"));
+
+            // Create a recurring job
+            RecurringJob.AddOrUpdate(() => Console.WriteLine("This job runs periodically."), Cron.Minutely);
+
+            return View();
         }
     }
 }

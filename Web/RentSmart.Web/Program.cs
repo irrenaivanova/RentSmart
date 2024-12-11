@@ -1,6 +1,9 @@
 ﻿namespace RentSmart.Web
 {
+    using Hangfire;
+    using Hangfire.SqlServer;
     using System;
+    using System.Configuration;
     using System.Reflection;
 
     using Microsoft.AspNetCore.Builder;
@@ -28,6 +31,7 @@
     using Rotativa.AspNetCore;
 
     using static RentSmart.Web.Infrastructure.Extensions.WebApplicationBuilderExtensions;
+    using System.Collections.Generic;
 
     public class Program
     {
@@ -41,9 +45,8 @@
                 .AddJsonFile("appsettings.Production.json", optional: false, reloadOnChange: true);
 
             var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
+            var hangfireConnectionString = builder.Configuration.GetConnectionString("HangfireConnection") ?? throw new InvalidOperationException("Connection string 'HangfireConnection' not found."); 
             ConfigureServices(builder.Services, builder.Configuration);
-
-
 
             var app = builder.Build();
             Configure(app);
@@ -57,6 +60,11 @@
 
             services.AddDefaultIdentity<ApplicationUser>(IdentityOptionsProvider.GetIdentityOptions)
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+
+            // Add Hangfire services, SQL storage and server
+            var hangfireConnectionString = configuration.GetConnectionString("HangfireConnection");
+            services.AddHangfire(configuration => configuration.UseSqlServerStorage(hangfireConnectionString));
+            services.AddHangfireServer();
 
             // Register the custom claims principal factory
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, CustomUserClaimsPrincipalFactory>();
@@ -132,6 +140,9 @@
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+
+            // Enable Hangfire Dashboard 
+            app.UseHangfireDashboard("/hangfire");
 
             // adding cache control headers trying to resolve the problem with showing cookie consent
             app.Use(async (context, next) =>
