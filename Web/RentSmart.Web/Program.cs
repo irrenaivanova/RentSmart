@@ -67,16 +67,16 @@
                     options.MinimumSameSitePolicy = SameSiteMode.None;
                 });
 
-            //services.AddAuthentication().AddFacebook(opt =>
-            //{
-            //    opt.AppId = configuration["Authentication:Facebook:AppId"];
-            //    opt.AppSecret = configuration["Authentication:Facebook:AppSecret"];
-            //})
-            //.AddGoogle(opt =>
-            //{
-            //    opt.ClientId = configuration["Authentication:Google:ClientId"];
-            //    opt.ClientSecret = configuration["Authentication:Google:ClientSecret"];
-            //});
+            services.AddAuthentication().AddFacebook(opt =>
+            {
+                opt.AppId = configuration["Authentication:Facebook:AppId"];
+                opt.AppSecret = configuration["Authentication:Facebook:AppSecret"];
+            })
+            .AddGoogle(opt =>
+            {
+                opt.ClientId = configuration["Authentication:Google:ClientId"];
+                opt.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+            });
 
             services.AddControllersWithViews(
                 options =>

@@ -5,15 +5,20 @@ namespace RentSmart.Web.Controllers
     using Microsoft.EntityFrameworkCore;
     using RentSmart.Data;
     using RentSmart.Data.Models;
+    using RentSmart.Services.Messaging;
     using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext db;
+        private readonly IEmailSender sender;
 
-        public AdminController(ApplicationDbContext db)
+        public AdminController(ApplicationDbContext db, IEmailSender sender)
         {
             this.db = db;
+            this.sender = sender;
         }
         public IActionResult Index()
         {
@@ -32,6 +37,16 @@ namespace RentSmart.Web.Controllers
 
             }
             return RedirectToAction("/");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SendToEmail()
+        {
+            var html = new StringBuilder();
+            html.AppendLine($"<h1>Name</h1>");
+            html.AppendLine($"<h3>something</h3>");
+            await this.sender.SendEmailAsync("recepti@recepti.com", "MoiteRecepti", "irrenaivanova@gmail.com", "name", html.ToString());
+            return RedirectToAction("Index","Home");
         }
     }
 }

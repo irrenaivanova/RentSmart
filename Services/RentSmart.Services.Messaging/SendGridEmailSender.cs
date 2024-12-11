@@ -14,6 +14,11 @@
 
         public SendGridEmailSender(string apiKey)
         {
+            if (string.IsNullOrWhiteSpace(apiKey))
+            {
+                throw new ArgumentException("API Key cannot be null or empty.", nameof(apiKey));
+            }
+
             this.client = new SendGridClient(apiKey);
         }
 

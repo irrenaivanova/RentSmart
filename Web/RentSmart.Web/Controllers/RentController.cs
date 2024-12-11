@@ -1,6 +1,7 @@
 ﻿namespace RentSmart.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Security.Claims;
@@ -12,7 +13,7 @@
     using Microsoft.AspNetCore.Mvc;
     using RentSmart.Data.Models;
     using RentSmart.Services.Data;
-
+    using RentSmart.Services.Messaging;
     using RentSmart.Web.ViewModels.RentContract;
     using Rotativa.AspNetCore;
 
@@ -29,19 +30,22 @@
         private readonly IUserService userService;
         private readonly IRentService rentService;
         private readonly IWebHostEnvironment environent;
+        private readonly IEmailSender sender;
 
         public RentController(
             UserManager<ApplicationUser> userManager,
             IPropertyService propertyService,
             IUserService userService,
             IRentService rentService,
-            IWebHostEnvironment environment)
+            IWebHostEnvironment environment,
+            IEmailSender sender)
         {
             this.userManager = userManager;
             this.propertyService = propertyService;
             this.userService = userService;
             this.rentService = rentService;
             this.environent = environment;
+            this.sender = sender;
         }
 
         public IActionResult Contract()
@@ -62,7 +66,7 @@
             }
 
             MakeRentInputModel propertyRent = this.propertyService.GetById<MakeRentInputModel>(id);
-            await this.PopulateInputModelWithOwnersAsync(propertyRent);
+            await this.PopulateInputModelWithFutureRenterAsync(propertyRent);
             return this.View(propertyRent);
         }
 
@@ -82,11 +86,12 @@
             if (!ifAvailable)
             {
                 this.TempData[ErrorMessage] = "This property is currently occupied. A new rental cannot be created at this time.";
+                return this.RedirectToAction("MyProperties", "Property");
             }
 
             if (!this.ModelState.IsValid)
             {
-                await this.PopulateInputModelWithOwnersAsync(input);
+                await this.PopulateInputModelWithFutureRenterAsync(input);
                 return this.View(input);
             }
 
@@ -129,7 +134,18 @@
 
             await System.IO.File.WriteAllBytesAsync(filePath, pdfBytes);
 
-            this.TempData[SuccessMessage] = "Rental contract made successfully and it can be found on MyProperties page as PDF!";
+            string emailContent = "You will find your new rental contract attached!";
+            string contractName = $"RentalContract {contractViewModel.RentalId} / {contractViewModel.RentDate.ToString("d")}.pdf";
+            var emailAttach = new EmailAttachment()
+            {
+                Content = pdfBytes,
+                FileName = contractName,
+                MimeType = "application/pdf",
+            };
+            await this.sender.SendEmailAsync(SystemEmailSender, $"RentSmart {contractViewModel.ManagerName}", renter.Email, contractName, emailContent, new List<EmailAttachment>() { emailAttach });
+
+
+            this.TempData[SuccessMessage] = "Rental contract is made successfully. It can be found on MyProperties page as PDF and is sent by email!";
             return this.RedirectToAction("MyProperties", "Property");
         }
 
@@ -144,7 +160,7 @@
             }
         }
 
-        private async Task PopulateInputModelWithOwnersAsync(MakeRentInputModel propertyRent)
+        private async Task PopulateInputModelWithFutureRenterAsync(MakeRentInputModel propertyRent)
         {
             propertyRent.FutureRenters = await this.userService.GetAllFutureRentersAsync(propertyRent.Id);
         }

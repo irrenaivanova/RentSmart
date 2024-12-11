@@ -10,6 +10,8 @@
     using RentSmart.Web.ViewModels.Contact;
 
     using static RentSmart.Common.NotificationConstants;
+    using static RentSmart.Common.GlobalConstants;
+    using System;
 
     public class ContactController : BaseController
     {
@@ -41,17 +43,17 @@
                 Name = model.Name,
                 Email = model.Email,
                 Title = model.Title,
-                Content = model.Content,
+                Content = $"{model.Email} ({model.Name}) send: Title:{model.Title} {Environment.NewLine} {model.Content}",
             };
             await this.contactsRepository.AddAsync(contactForm);
             await this.contactsRepository.SaveChangesAsync();
 
-            //await this.emailSender.SendEmailAsync(
-            //    model.Email,
-            //    model.Name,
-            //    GlobalConstants.SystemEmail,
-            //    model.Title,
-            //    model.Content);
+            await this.emailSender.SendEmailAsync(
+                SystemEmailSender,
+                "Contact Form RentSmart",
+                SystemEmailReceiver,
+                model.Title,
+                contactForm.Content);
 
             this.TempData[SuccessMessage] = "Thank you for contacting us! You can expect a response at the email you provided!";
 

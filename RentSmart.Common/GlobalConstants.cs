@@ -14,6 +14,8 @@
 
         public const string RenterClaim = "IsRenter";
 
-        public const string SystemEmail = "irrenka_@abv.bg";
+        public const string SystemEmailSender = "irrenaivanova@gmail.com";
+
+        public const string SystemEmailReceiver = "irrenka_@abv.bg";
     }
 }
