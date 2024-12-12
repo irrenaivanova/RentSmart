@@ -28,9 +28,7 @@
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Rental, RentDto>()
-                 .ForMember(x => x.RenterUserName, opt => opt.MapFrom(x => $"{x.Renter.User.FirstName} {x.Renter.User.LastName}"))
-                 .ForMember(x => x.RenterUserName, opt => opt.MapFrom(x => x.Renter.User.Email));
+                 .ForMember(x => x.RenterUserName, opt => opt.MapFrom(x => $"{x.Renter.User.FirstName} {x.Renter.User.LastName}"));
         }
-
     }
 }
