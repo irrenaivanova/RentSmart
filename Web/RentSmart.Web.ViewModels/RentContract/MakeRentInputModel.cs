@@ -55,7 +55,7 @@
             {
                 configuration.CreateMap<Property, MakeRentInputModel>()
                      .ForMember(x => x.ManagerName, opt => opt.MapFrom(x => $"{x.Manager.User.FirstName} {x.Manager.User.LastName}"))
-                       .ForMember(x => x.OwnerName, opt => opt.MapFrom(x => $"{x.Owner.User.FirstName} {x.Manager.User.LastName}"))
+                     .ForMember(x => x.OwnerName, opt => opt.MapFrom(x => $"{x.Owner.User.FirstName} {x.Manager.User.LastName}"))
                      .ForMember(x => x.Price, opt =>
                             opt.MapFrom(x => x.PricePerMonth.ToString("0.00") + " €"));
             }

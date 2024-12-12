@@ -22,6 +22,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\RentSmart.Data.Models\RentSmart.Data.Models.csproj" />
     <ProjectReference Include="..\..\Data\RentSmart.Data\RentSmart.Data.csproj" />
+    <ProjectReference Include="..\RentSmart.Services.Mapping\RentSmart.Services.Mapping.csproj" />
+    <ProjectReference Include="..\RentSmart.Services.Messaging\RentSmart.Services.Messaging.csproj" />
   </ItemGroup>
 
 </Project>

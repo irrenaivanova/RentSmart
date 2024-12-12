@@ -1,16 +1,13 @@
 ﻿namespace RentSmart.Web
 {
-    using Hangfire;
-    using Hangfire.SqlServer;
     using System;
-    using System.Configuration;
     using System.Reflection;
 
+    using Hangfire;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.ModelBinding;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
@@ -31,7 +28,6 @@
     using Rotativa.AspNetCore;
 
     using static RentSmart.Web.Infrastructure.Extensions.WebApplicationBuilderExtensions;
-    using System.Collections.Generic;
 
     public class Program
     {
@@ -45,7 +41,7 @@
                 .AddJsonFile("appsettings.Production.json", optional: false, reloadOnChange: true);
 
             var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
-            var hangfireConnectionString = builder.Configuration.GetConnectionString("HangfireConnection") ?? throw new InvalidOperationException("Connection string 'HangfireConnection' not found."); 
+            var hangfireConnectionString = builder.Configuration.GetConnectionString("HangfireConnection") ?? throw new InvalidOperationException("Connection string 'HangfireConnection' not found.");
             ConfigureServices(builder.Services, builder.Configuration);
 
             var app = builder.Build();
@@ -111,6 +107,8 @@
 
             // Add all services from assembly of PropertyService through extension method using reflection
             services.AddApplicationServices(typeof(PropertyService));
+
+            services.AddScoped<RentalNotificationService>();
         }
 
         private static void Configure(WebApplication app)
@@ -141,8 +139,11 @@
             app.UseStaticFiles();
             app.UseCookiePolicy();
 
-            // Enable Hangfire Dashboard 
+            // Enable Hangfire Dashboard
             app.UseHangfireDashboard("/hangfire");
+
+            // Add recurring job for notifyExpiringRentals
+            RecurringJob.AddOrUpdate<RentalNotificationService>("NotifyExpiringRentals", service => service.NotifyExpiringRentals(), Cron.Daily);
 
             // adding cache control headers trying to resolve the problem with showing cookie consent
             app.Use(async (context, next) =>
