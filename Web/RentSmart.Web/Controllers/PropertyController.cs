@@ -17,7 +17,7 @@
     [Authorize]
     public class PropertyController : BaseController
     {
-        private const int PropertiesPerPageAll = 10;
+        private const int PropertiesPerPageAll = 8;
         private const int PropertiesPerPageManager = 6;
         private readonly ICityService cityService;
         private readonly IUserService userService;

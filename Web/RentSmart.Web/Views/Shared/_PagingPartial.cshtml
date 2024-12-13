@@ -1,4 +1,4 @@
-﻿@using RentSmart.Web.ViewModels
+﻿﻿@using RentSmart.Web.ViewModels
 @model PagingViewModel
 @{
     var previousPage = Model.CurrentPage - 1;
@@ -11,7 +11,21 @@
             <a class="page-link" asp-action="All" asp-route-id="@previousPage">&laquo;</a>
         </li>
 
-        @for (int i = @Model.CurrentPage - 3; i < @Model.CurrentPage; i++)
+
+        @if (Model.CurrentPage - 2 >= 2)
+        {
+            <li class="page-item">
+                <a class="page-link" asp-action="@Model.Action" asp-route-id="1">1</a>
+            </li>
+            @if (Model.CurrentPage - 2 > 2)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="@Model.Action" asp-route-id="@(Model.CurrentPage-3)">...</a>
+                </li>
+            }     
+        }
+
+        @for (int i = @Model.CurrentPage - 2; i < @Model.CurrentPage; i++)
         {
             if (i > 0)
             {
@@ -25,14 +39,27 @@
             <a class="page-link" asp-action="@Model.Action" asp-route-id="@Model.CurrentPage">@Model.CurrentPage</a>
         </li>
 
-        @for (int i = @Model.CurrentPage + 1; i < @Model.CurrentPage + 4; i++)
+        @for (int i = @Model.CurrentPage + 1; i < @Model.CurrentPage + 3; i++)
         {
-            if (i<=Model.PagesCount)
+            if (i <= Model.PagesCount)
             {
                 <li class="page-item">
                     <a class="page-link" asp-action="@Model.Action" asp-route-id="@i">@i</a>
                 </li>
             }
+        }
+
+        @if (Model.CurrentPage + 2 < Model.PagesCount)
+        {
+            @if (Model.CurrentPage + 2 < Model.PagesCount - 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="@Model.Action" asp-route-id="@(Model.CurrentPage+3)">...</a>
+                </li>
+            }
+            <li class="page-item">
+                <a class="page-link" asp-action="@Model.Action" asp-route-id="@Model.PagesCount">@Model.PagesCount</a>
+            </li>
         }
 
         <li class="page-item @(Model.CurrentPage==Model.PagesCount ? "disabled" : "")">
@@ -41,3 +68,7 @@
 
     </ul>
 </div>
+
+
+
+

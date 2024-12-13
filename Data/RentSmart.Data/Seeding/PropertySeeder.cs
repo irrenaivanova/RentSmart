@@ -46,14 +46,17 @@
                 var propType = await dbContext.PropertyTypes.FirstOrDefaultAsync(x => x.Name == propertyDto.PropertyType);
                 if (propType == null)
                 {
-                    propType = new PropertyType { Name =  propertyDto.PropertyType };
+                    propType = new PropertyType { Name = propertyDto.PropertyType };
+                    dbContext.PropertyTypes.Add(propType);
                 }
 
                 property.PropertyType = propType;
+
                 var city = await dbContext.Cities.FirstOrDefaultAsync(x => x.Name == propertyDto.City);
                 if (city == null)
                 {
                     city = new City { Name = propertyDto.City };
+                    dbContext.Cities.Add(city);
                 }
                 property.City = city;
 
@@ -61,19 +64,21 @@
                 if (district == null)
                 {
                     district = new District { Name = propertyDto.District };
+                    dbContext.Districts.Add(district);
                 }
 
                 property.District = district;
 
-                foreach (var tagName in propertyDto.Tags)
+                foreach (var tagName in propertyDto.Tags.Distinct())
                 {
                     var tag = await dbContext.Tags.FirstOrDefaultAsync(x => x.Name == tagName);
                     if (tag == null)
                     {
                         tag = new Tag { Name = tagName };
+                        dbContext.Tags.Add(tag);
                     }
 
-                    property.Tags.Add(new PropertyTag { Tag = tag });
+                    property.Tags.Add(new PropertyTag { Tag = tag , Property = property});
                 }
 
                 var manager = await dbContext.Managers.OrderBy(x => Guid.NewGuid()).FirstOrDefaultAsync();
@@ -83,6 +88,7 @@
                 property.Owner = owner;
 
                 await dbContext.Properties.AddAsync(property);
+                await dbContext.SaveChangesAsync();
             }
         }
     }
