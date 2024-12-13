@@ -9,6 +9,11 @@
   <PropertyGroup>
     <CodeAnalysisRuleSet>..\..\Rules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="appsettings.Development.json" />
+    <Content Remove="appsettings.Production.json" />
+  </ItemGroup>
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\stylecop.json" />
 	</ItemGroup>
@@ -68,5 +73,10 @@
   <ItemGroup>
     <Folder Include="Areas\Identity\Data\" />
     <Folder Include="wwwroot\pdf\contracts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appsettings.Development.json" />
+    <None Include="appsettings.Production.json" />
   </ItemGroup>
 </Project>

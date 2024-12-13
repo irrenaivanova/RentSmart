@@ -12,6 +12,8 @@
     using static RentSmart.Common.NotificationConstants;
     using static RentSmart.Common.GlobalConstants;
     using System;
+    using static RentSmart.Common.EntityValidationConstants;
+    using System.Text;
 
     public class ContactController : BaseController
     {
@@ -53,7 +55,19 @@
                 "Contact Form RentSmart",
                 SystemEmailReceiver,
                 model.Title,
-                contactForm.Content);
+            contactForm.Content);
+
+            var html = new StringBuilder();
+            html.AppendLine($"<h3>Thank you for contacting us!</h3>");
+            html.AppendLine($"<p>Dear {contactForm.Name},</p>");
+            html.AppendLine($"<p>Thanks for getting in touch! We’ve received your message and will get back to you as soon as we can — usually within 3 days.</p>");
+
+            await this.emailSender.SendEmailAsync(
+                 SystemEmailSender,
+                 "RentSmart",
+                 contactForm.Email,
+                 "Thank you for contacting us!",
+                 html.ToString());
 
             this.TempData[SuccessMessage] = "Thank you for contacting us! You can expect a response at the email you provided!";
 

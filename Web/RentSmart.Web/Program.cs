@@ -41,7 +41,6 @@
                 .AddJsonFile("appsettings.Production.json", optional: false, reloadOnChange: true);
 
             var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
-            var hangfireConnectionString = builder.Configuration.GetConnectionString("HangfireConnection") ?? throw new InvalidOperationException("Connection string 'HangfireConnection' not found.");
             ConfigureServices(builder.Services, builder.Configuration);
 
             var app = builder.Build();
@@ -58,7 +57,7 @@
                 .AddRoles<ApplicationRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
             // Add Hangfire services, SQL storage and server
-            var hangfireConnectionString = configuration.GetConnectionString("HangfireConnection");
+            var hangfireConnectionString = configuration.GetConnectionString("DefaultConnection");
             services.AddHangfire(configuration => configuration.UseSqlServerStorage(hangfireConnectionString));
             services.AddHangfireServer();
 
