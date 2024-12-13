@@ -1,5 +1,7 @@
 ﻿namespace RentSmart.Web.Controllers
 {
+    using System;
+    using System.Text;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
@@ -9,11 +11,9 @@
     using RentSmart.Services.Messaging;
     using RentSmart.Web.ViewModels.Contact;
 
-    using static RentSmart.Common.NotificationConstants;
-    using static RentSmart.Common.GlobalConstants;
-    using System;
     using static RentSmart.Common.EntityValidationConstants;
-    using System.Text;
+    using static RentSmart.Common.GlobalConstants;
+    using static RentSmart.Common.NotificationConstants;
 
     public class ContactController : BaseController
     {

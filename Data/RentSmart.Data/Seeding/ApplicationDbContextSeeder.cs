@@ -28,6 +28,7 @@
                               new ServicesSeeder(),
                               new CitySeeder(),
                               new TagSeeder(),
+                              new UserSeeder(),
                           };
 
             foreach (var seeder in seeders)
