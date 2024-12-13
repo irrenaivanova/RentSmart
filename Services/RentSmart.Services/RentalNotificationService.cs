@@ -41,7 +41,7 @@
 
             foreach (var rental in exp)
             {
-                var subject = $"RentalContract {rental.Id} / {rental.RentDate.ToString("d")}";
+                var subject = $"RentalContract {rental.Id} is expiring";
                 var html = new StringBuilder();
                 html.AppendLine($"<h1>Notification about RentalContract {rental.Id} / {rental.RentDate.ToString("d")}</h1>");
                 html.AppendLine($"<h3>Dear {rental.Renter.User.FirstName} {rental.Renter.User.LastName},</h3>");

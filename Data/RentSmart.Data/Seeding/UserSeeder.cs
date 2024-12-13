@@ -15,10 +15,10 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            //if (dbContext.Users.Any())
-            //{
-            //    return;
-            //}
+            if (dbContext.Users.Any())
+            {
+                return;
+            }
 
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();

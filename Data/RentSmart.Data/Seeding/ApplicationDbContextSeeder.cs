@@ -30,6 +30,8 @@
                               new TagSeeder(),
                               new UserSeeder(),
                               new PropertySeeder(),
+                              new UserLikeSeeder(),
+                              new RentalSeeder(),
                           };
 
             foreach (var seeder in seeders)
