@@ -32,6 +32,7 @@
                               new PropertySeeder(),
                               new UserLikeSeeder(),
                               new RentalSeeder(),
+                              new AppointmentSeeder(),
                           };
 
             foreach (var seeder in seeders)
