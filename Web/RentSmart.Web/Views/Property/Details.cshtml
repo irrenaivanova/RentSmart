@@ -47,6 +47,7 @@
         </li>
   <li class="list-group-item"><i class="fa-solid fa-house"></i>  @Model.PropertyTypeName</li>
   <li class="list-group-item"><i class="fa-solid fa-location-dot"></i>  @Model.CityName, @Model.DistrictName</li>
+  <li class="list-group-item"><i class="fa-regular fa-money-bill-1"></i> Price: @Model.Price per month</li>
   <li class="list-group-item"><i class="fa-solid fa-up-right-and-down-left-from-center"></i>  @Model.Size sq.m, @Model.Floor floor</li>
   <li class="list-group-item text-danger"><i class="fa-solid fa-star"></i>  Average Rating: @Model.AverageRating</li>
   <li class="list-group-item"><i class="fa-solid fa-user"></i>  Manager: @Model.ManagerName</li>
@@ -55,7 +56,7 @@
             
     @if (Model.OriginalUrl!=null)
         {
-           <li class="list-group-item"><i class="fa-solid fa-arrow-up-right-from-square"></i>  <a href="Model.OriginalUrl" target="_blank">imoti.info</a></li> 
+           <li class="list-group-item"><i class="fa-solid fa-arrow-up-right-from-square"></i>  <a href="@Model.OriginalUrl" target="_blank">imoti.info</a></li> 
         }
 <form method="post" id="antiForgeryForm">@Html.AntiForgeryToken()</form>
 

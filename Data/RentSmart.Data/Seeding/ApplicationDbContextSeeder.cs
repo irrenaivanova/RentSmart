@@ -29,6 +29,7 @@
                               new CitySeeder(),
                               new TagSeeder(),
                               new UserSeeder(),
+                              new PropertySeeder(),
                           };
 
             foreach (var seeder in seeders)

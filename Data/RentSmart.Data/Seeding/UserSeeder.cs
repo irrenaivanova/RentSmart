@@ -15,10 +15,11 @@
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
         {
-            if (dbContext.Users.Any())
-            {
-                return;
-            }
+            //if (dbContext.Users.Any())
+            //{
+            //    return;
+            //}
+
             var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
             var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
 
@@ -93,20 +94,25 @@
                 }
             }
 
-            // Seed 3 Users
-            for (int i = 1; i <= 3; i++)
+            // Seed 10 Renters
+            for (int i = 1; i <= 10; i++)
             {
                 var firstName = names[random.Next(names.Count)];
                 var lastName = familyNames[random.Next(familyNames.Count)];
-                var user = new ApplicationUser
+                var renterUser = new ApplicationUser
                 {
                     FirstName = firstName,
                     LastName = lastName,
-                    Email = $"user{i}@example.com",
-                    UserName = $"user{i}@example.com",
+                    Email = $"renter{i}@example.com",
+                    UserName = $"renter{i}@example.com",
                 };
-                var password = user.Email;
-                await userManager.CreateAsync(user, password);
+                var password = renterUser.Email;
+                var userResult = await userManager.CreateAsync(renterUser, password);
+                if (userResult.Succeeded)
+                {
+                    var renter = new Renter { UserId = renterUser.Id };
+                    dbContext.Renters.Add(renter);
+                }
             }
 
             // Seed user with my own email for testing purposes
