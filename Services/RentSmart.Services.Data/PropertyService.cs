@@ -112,25 +112,34 @@
             await this.orderService.UsingActiveOrder(property.OwnerId, property.Id);
         }
 
-        public async Task<List<PropertyInListViewModel>> GetAllAvailableAsync<TPropertyInListViewModel>(int page, int propertiesPerPage)
+        public async Task<(List<PropertyInListViewModel> Properties, int Count)> GetAllAvailableAsync(int page, PropertiesViewModelWithPaging model)
         {
-            var properties = await this.propertyRepository.AllAsNoTracking()
+            var propertiesQuery = this.propertyRepository.AllAsNoTracking()
                  .OrderByDescending(x => x.CreatedOn)
-                 .To<PropertyInListViewModel>()
-                 .ToListAsync();
+                 .AsQueryable();
 
-            properties = properties.Where(x => this.IsPropertyAvailable(x.Id)).Skip((page - 1) * propertiesPerPage)
-                 .Take(propertiesPerPage).ToList();
+            var properties = await propertiesQuery
+                  .To<PropertyInListViewModel>()
+                  .ToListAsync();
 
             foreach (var property in properties)
             {
                 var averageRating = this.AveragePropertyRating(property.Id);
                 property.AverageRating = averageRating == 0 ? "No rating yet!" : $"{averageRating:0.0} / 5";
-                property.IsAvailable = true;
+                property.IsAvailable = this.IsPropertyAvailable(property.Id);
                 property.TotalLikes = this.GetPropertyLikesCount(property.Id);
             }
 
-            return properties;
+            // TODO: Add an IsAvailable field to filter available properties directly in the database, avoiding the need to retrieve and process all records.
+            var propertiesAllAv = properties
+                  .Where(x => x.IsAvailable)
+                  .ToList();
+
+            var propertiesForPage = propertiesAllAv
+                  .Skip((page - 1) * model.ItemsPerPage)
+                  .Take(model.ItemsPerPage).ToList();
+
+            return (propertiesForPage, propertiesAllAv.Count());
         }
 
         public async Task<PropertyDetailsViewModel> GetByIdAsync(string id)

@@ -33,9 +33,9 @@
                         DurationInMonths = 1,
                         Rating = new Rating
                         {
-                            ConditionAndMaintenanceRate = random.Next(1,6),
-                            Location = random.Next(1,6),
-                            ValueForMoney = random.Next(1,6),
+                            ConditionAndMaintenanceRate = random.Next(3, 6),
+                            Location = random.Next(3, 6),
+                            ValueForMoney = random.Next(3, 6),
                         },
                     };
                     dbContext.Rentals.Add(rental);

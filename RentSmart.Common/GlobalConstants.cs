@@ -17,5 +17,9 @@
         public const string SystemEmailSender = "irrenaivanova@gmail.com";
 
         public const string SystemEmailReceiver = "irrenka_@abv.bg";
+
+        public const int DefaultPage = 1;
+
+        public const int DefaultItemsPerPage = 8;
     }
 }

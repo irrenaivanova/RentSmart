@@ -1,6 +1,7 @@
 ﻿namespace RentSmart.Web.Controllers
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Authorization;
@@ -17,7 +18,6 @@
     [Authorize]
     public class PropertyController : BaseController
     {
-        private const int PropertiesPerPageAll = 8;
         private const int PropertiesPerPageManager = 6;
         private readonly ICityService cityService;
         private readonly IUserService userService;
@@ -131,7 +131,12 @@
             {
                 this.TempData[ErrorMessage] = "You are trying to delete an Nonexisting Property!";
             }
-
+            string userId = this.GetUserId();
+            if (!this.userService.IsManagerOfTheProperty(userId, id))
+            {
+                this.TempData[ErrorMessage] = "Only the manager of the property can edit it!";
+                return this.RedirectToAction(nameof(this.MyProperties));
+            }
             return this.View(prop);
         }
 
@@ -142,6 +147,13 @@
             {
                 this.TempData[ErrorMessage] = "Only managers can delete properties!";
                 return this.RedirectToAction("MyProperties");
+            }
+
+            string userId = this.GetUserId();
+            if (!this.userService.IsManagerOfTheProperty(userId, id))
+            {
+                this.TempData[ErrorMessage] = "Only the manager of the property can edit it!";
+                return this.RedirectToAction(nameof(this.MyProperties));
             }
 
             try
@@ -158,19 +170,20 @@
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> All(int id = 1)
+        public async Task<IActionResult> All([FromQuery]PropertiesViewModelWithPaging model, int id = 1)
         {
-            if (id <= 0)
+            if (model.CurrentPage <= 0)
             {
                 return this.NotFound();
             }
 
+            var (properties, count) = await this.propertyService.GetAllAvailableAsync(id, model);
             var viewModel = new PropertiesViewModelWithPaging
             {
-                Properties = await this.propertyService.GetAllAvailableAsync<PropertyInListViewModel>(id, PropertiesPerPageAll),
+                Properties = properties,
+                ItemsCount = count,
                 CurrentPage = id,
-                ItemsPerPage = PropertiesPerPageAll,
-                ItemsCount = this.propertyService.GetCountsAvailable(),
+                ItemsPerPage = model.ItemsPerPage,
                 Action = "All",
             };
 

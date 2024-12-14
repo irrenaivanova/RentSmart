@@ -19,7 +19,7 @@
 
         Task<string> PropertyCurrentRenterId(string propertyId);
 
-        Task<List<PropertyInListViewModel>> GetAllAvailableAsync<TPropertyInListViewModel>(int page, int propertiesPerPage);
+        Task<(List<PropertyInListViewModel> Properties, int Count)> GetAllAvailableAsync(int page, PropertiesViewModelWithPaging model);
 
         Task<PropertyDetailsViewModel> GetByIdAsync(string id);
 
