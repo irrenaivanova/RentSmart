@@ -209,7 +209,7 @@
             var propertyTypes = await this.propertyTypeService.AllPropertyTypesAsync();
             viewModel.PropertyTypes = propertyTypes.Select(x => x.Name).OrderBy(x => x).ToList();
 
-            viewModel.Districts = await this.districtService.GetAllDistrictsAsync();
+            viewModel.DistrictsAll = await this.districtService.GetAllDistrictsAsync();
             viewModel.SortingOptions = Enum.GetValues(typeof(PropertySorting))
                 .Cast<PropertySorting>()
                 .Select(x => new SelectListItem
@@ -217,6 +217,10 @@
                     Value = ((int)x).ToString(),
                     Text = x.ToString(),
                 });
+            viewModel.SearchString = string.Empty;
+            viewModel.PropertyType = null;
+            viewModel.Sorting = null;
+
         }
 
         [AllowAnonymous]

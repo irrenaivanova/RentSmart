@@ -29,9 +29,6 @@ namespace RentSmart.Web.ViewModels.Properties.ViewModels
 
         public IEnumerable<PropertyInListViewModel> Properties { get; set; }
 
-        [Display(Name = "Search by word")]
-        [MinLength(3, ErrorMessage = "The search string must be at least 3 characters.")]
-        [MaxLength(30, ErrorMessage = "The search string cannot exceed 30 characters.")]
         public string? SearchString { get; set; }
 
         [Display(Name = "Sort By")]

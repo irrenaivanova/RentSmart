@@ -118,6 +118,13 @@
                  .OrderByDescending(x => x.CreatedOn)
                  .AsQueryable();
 
+            if (!string.IsNullOrWhiteSpace(model.PropertyType))
+            {
+                propertiesQuery = propertiesQuery
+                    .Where(h => h.PropertyType.Name == model.PropertyType);
+            }
+
+
             var properties = await propertiesQuery
                   .To<PropertyInListViewModel>()
                   .ToListAsync();

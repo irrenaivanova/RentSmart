@@ -5,44 +5,53 @@
 }
 @await Component.InvokeAsync("GetCountsComponent")
 
-<form method="get" class="container row p-4 my-4 border rounded border-primary">
+<form method="get" class="container row p-3 my-4 border rounded border-second">
    
-    <fieldset>
+    <fieldset class="row">
+        <div class="col-md-2">
         <div>
-            <label asp-for="ItemsPerPage" class="form-label mt-4">Properties Per Page</label>
-            <select asp-for="ItemsPerPage" >
-                <option value="6">6</option>
-                <option value="8" selected>8</option> 
-                <option value="10">10</option>
-            </select>
-        </div>
-
-        <div>
-            <label asp-for="SearchString" class="form-label mt-4"></label>
+            <label asp-for="SearchString" class="form-label"></label>
             <input asp-for="SearchString" class="form-control">
             <span asp-validation-for="SearchString" class="text-danger"></span>
         </div>
-
-        <div>
-            <label asp-for="Sorting" class="form-label mt-4"></label>
+        <div class="mt-4 row">
+            <div class="col-md-6">
+            <select asp-for="ItemsPerPage" class="form-select me-2" style="width: 80px;">
+                <option value="6">6</option>
+                <option value="8" selected>8</option>
+                <option value="10">10</option>
+            </select>
+            </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+        </div>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="PropertyType" class="form-label">Property Type</label>
+            <select asp-for="PropertyType" class="form-select">
+                <option value="" disabled selected>Select....</option>
+                @foreach (var propertyType in Model.PropertyTypes)
+                {
+                    <option value="@propertyType">@propertyType</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="PricePerMonth" class="form-label"></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text">€</span>
+                <input asp-for="PricePerMonth" class="form-control">
+                <span asp-validation-for="PricePerMonth" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="Sorting" class="form-label"></label>
             <select asp-for="Sorting" class="form-control" asp-items="Model.SortingOptions"></select>
             </select>
         </div>
-
-
-    <div>
-    <label asp-for="PropertyType" class="form-label mt-4">Property Type</label>
-    <select asp-for="PropertyType" class="form-select">
-        <option value="" disabled selected>Select....</option>
-        @foreach (var propertyType in Model.PropertyTypes)
-        {
-            <option value="@propertyType">@propertyType</option>
-        }
-    </select>
-    </div>
-
-        <div>
-            <label asp-for="Districts" class="form-label mt-4">Select Districts</label>
+        <div class="col-md-2">
+            <label asp-for="Districts" class="form-label">Select Districts</label>
             <select name="Districts" multiple class="form-control">
                 @foreach (var district in Model.DistrictsAll)
                 {
@@ -50,9 +59,8 @@
                 }
             </select>
         </div>
-
-        <div>
-            <label asp-for="Tags" class="form-label mt-4">Select Tags</label>
+        <div class="col-md-2">
+            <label asp-for="Tags" class="form-label">Select Tags</label>
             <select name="Tags" multiple class="form-control">
                 @foreach (var tag in Model.AllTags)
                 {
@@ -60,29 +68,8 @@
                 }
             </select>
         </div>
-
-        <div>
-            <label asp-for="PricePerMonth" class="form-label mt-4"></label>
-            <div class="input-group mb-3">
-                <span class="input-group-text">€</span>
-                <input asp-for="PricePerMonth" class="form-control">
-                <span asp-validation-for="PricePerMonth" class="text-danger"></span>
-            </div>
-        </div>
-
-        <div class="mt-4">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-
     </fieldset>
-
 </form>
-
-
-
-
-
-
 
 <div class="container mt-4">
   <h3 class="text-center">@ViewData["Title"]</h3>
