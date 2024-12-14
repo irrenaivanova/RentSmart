@@ -21,5 +21,7 @@
         public const int DefaultPage = 1;
 
         public const int DefaultItemsPerPage = 8;
+
+        public const decimal DefaultPricePerMonte = 800;
     }
 }

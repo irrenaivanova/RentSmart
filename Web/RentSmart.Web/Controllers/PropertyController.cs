@@ -7,14 +7,16 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using RentSmart.Data.Models;
     using RentSmart.Services.Data;
     using RentSmart.Web.ViewModels.Properties;
     using RentSmart.Web.ViewModels.Properties.InputModels;
     using RentSmart.Web.ViewModels.Properties.ViewModels;
-
+    using RentSmart.Web.ViewModels.Properties.ViewModels.Enums;
     using static RentSmart.Common.NotificationConstants;
 
+    // TODO: Combine some service in one 
     [Authorize]
     public class PropertyController : BaseController
     {
@@ -25,6 +27,7 @@
         private readonly IPropertyTypeService propertyTypeService;
         private readonly IPropertyService propertyService;
         private readonly IWebHostEnvironment environment;
+        private readonly IDistrictService districtService;
 
         public PropertyController(
             ICityService cityService,
@@ -32,7 +35,8 @@
             ITagService tagService,
             IPropertyTypeService propertyTypeService,
             IPropertyService propertyService,
-            IWebHostEnvironment environment)
+            IWebHostEnvironment environment,
+            IDistrictService districtService)
         {
             this.cityService = cityService;
             this.userService = userService;
@@ -40,6 +44,7 @@
             this.propertyTypeService = propertyTypeService;
             this.propertyService = propertyService;
             this.environment = environment;
+            this.districtService = districtService;
         }
 
         [HttpGet]
@@ -192,7 +197,26 @@
                 return this.NotFound();
             }
 
+            await this.PopulateSearchModel(viewModel);
             return this.View(viewModel);
+        }
+
+        private async Task PopulateSearchModel(PropertiesViewModelWithPaging viewModel)
+        {
+            var tags = await this.tagService.GetAllTagsAsync();
+            viewModel.AllTags = tags.Select(x => x.Name).OrderBy(x => x).ToList();
+
+            var propertyTypes = await this.propertyTypeService.AllPropertyTypesAsync();
+            viewModel.PropertyTypes = propertyTypes.Select(x => x.Name).OrderBy(x => x).ToList();
+
+            viewModel.Districts = await this.districtService.GetAllDistrictsAsync();
+            viewModel.SortingOptions = Enum.GetValues(typeof(PropertySorting))
+                .Cast<PropertySorting>()
+                .Select(x => new SelectListItem
+                {
+                    Value = ((int)x).ToString(),
+                    Text = x.ToString(),
+                });
         }
 
         [AllowAnonymous]
