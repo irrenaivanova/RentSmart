@@ -16,6 +16,8 @@
 
         public int TotalLikes { get; set; }
 
+        public double? AverageRatingDouble { get; set; }
+
         public void CreateMappings(IProfileExpression configuration)
         {
             configuration.CreateMap<Property, PropertyInListViewModel>()

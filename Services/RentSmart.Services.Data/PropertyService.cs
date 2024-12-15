@@ -14,6 +14,7 @@
     using RentSmart.Web.ViewModels.Properties.InputModels;
     using RentSmart.Web.ViewModels.Properties.ViewModels;
     using RentSmart.Web.ViewModels.Properties.ViewModels.AllByUser;
+    using RentSmart.Web.ViewModels.Properties.ViewModels.Enums;
 
     public class PropertyService : IPropertyService
     {
@@ -121,9 +122,52 @@
             if (!string.IsNullOrWhiteSpace(model.PropertyType))
             {
                 propertiesQuery = propertiesQuery
-                    .Where(h => h.PropertyType.Name == model.PropertyType);
+                    .Where(x => x.PropertyType.Name == model.PropertyType);
             }
 
+            propertiesQuery = propertiesQuery.Where(x => x.PricePerMonth <= model.PricePerMonth);
+
+            if (model.Districts.Any())
+            {
+                propertiesQuery = propertiesQuery.Where(x => model.Districts.Contains(x.District.Name));
+            }
+
+            if (model.Tags.Any())
+            {
+                foreach (var tag in model.Tags)
+                {
+                    propertiesQuery = propertiesQuery.Where(x => x.Tags.Any(x => x.Tag.Name == tag));
+                }
+            }
+
+            if (!string.IsNullOrWhiteSpace(model.SearchString))
+            {
+                string wildCard = $"%{model.SearchString.ToLower()}%";
+
+                propertiesQuery = propertiesQuery
+                    .Where(x => EF.Functions.Like(x.City.Name, wildCard) ||
+                                EF.Functions.Like(x.District.Name, wildCard) ||
+                                EF.Functions.Like(x.PricePerMonth.ToString(), wildCard) ||
+                                EF.Functions.Like(x.Manager.User.LastName, wildCard) ||
+                                EF.Functions.Like(x.Manager.User.FirstName, wildCard) ||
+                                x.Tags.Any(t => EF.Functions.Like(t.Tag.Name, wildCard)));
+            }
+
+            if (model.Sorting.HasValue)
+            {
+                propertiesQuery = model.Sorting switch
+                {
+                    PropertySorting.Newest => propertiesQuery.OrderByDescending(x => x.CreatedOn),
+                    PropertySorting.Oldest => propertiesQuery.OrderBy(x => x.CreatedOn),
+                    PropertySorting.PriceDescending => propertiesQuery.OrderByDescending(x => x.PricePerMonth),
+                    PropertySorting.PriceAscending => propertiesQuery.OrderBy(x => x.PricePerMonth),
+                    _ => propertiesQuery.OrderBy(x => x.CreatedOn),
+                };
+            }
+            else
+            {
+                propertiesQuery = propertiesQuery.OrderBy(x => x.CreatedOn);
+            }
 
             var properties = await propertiesQuery
                   .To<PropertyInListViewModel>()
@@ -132,19 +176,26 @@
             foreach (var property in properties)
             {
                 var averageRating = this.AveragePropertyRating(property.Id);
+                property.AverageRatingDouble = averageRating;
                 property.AverageRating = averageRating == 0 ? "No rating yet!" : $"{averageRating:0.0} / 5";
                 property.IsAvailable = this.IsPropertyAvailable(property.Id);
                 property.TotalLikes = this.GetPropertyLikesCount(property.Id);
+            }
+
+
+            if (model.Sorting.HasValue && (model.Sorting == PropertySorting.TotalLikes || model.Sorting == PropertySorting.AverageRating))
+            {
+                properties = model.Sorting switch
+                {
+                    PropertySorting.TotalLikes => properties.OrderByDescending(x => x.TotalLikes).ToList(),
+                    PropertySorting.AverageRating => properties.OrderByDescending(x => x.AverageRatingDouble).ToList(),
+                };
             }
 
             // TODO: Add an IsAvailable field to filter available properties directly in the database, avoiding the need to retrieve and process all records.
             var propertiesAllAv = properties
                   .Where(x => x.IsAvailable)
                   .ToList();
-
-            //var propertiesForPage = propertiesAllAv
-            //      .Skip((page - 1) * model.ItemsPerPage)
-            //      .Take(model.ItemsPerPage).ToList();
 
             return (propertiesAllAv, propertiesAllAv.Count());
         }
@@ -200,7 +251,7 @@
             }
 
             var ratings = property.Rentals.Select(x => x.Rating?.AverageRating).Where(x => x.HasValue).ToList();
-            return ratings.Count > 0 ? (double)ratings.Average() : 0;
+            return ratings.Count() > 0 ? (double)ratings.Average() : 0;
         }
 
         public bool IsPropertyAvailable(string propertyId)

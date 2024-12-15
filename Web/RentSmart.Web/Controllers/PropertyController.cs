@@ -19,7 +19,7 @@
     using static RentSmart.Common.GlobalConstants;
     using Microsoft.IdentityModel.Tokens;
 
-    // TODO: Combine some service in one 
+    // TODO: Combine some service in one
     [Authorize]
     public class PropertyController : BaseController
     {
@@ -188,9 +188,19 @@
         [AllowAnonymous]
         public async Task<IActionResult> All([FromQuery] PropertiesViewModelWithPaging model, int id = 1)
         {
-            if (model.CurrentPage < 0)
+            if (model.CurrentPage <= 0)
             {
                 return this.NotFound();
+            }
+
+            if (!string.IsNullOrEmpty(model.DistrictString))
+            {
+                model.Districts = model.DistrictString.Split(',').ToList();
+            }
+
+            if (!string.IsNullOrEmpty(model.TagString))
+            {
+                model.Tags = model.TagString.Split(',').ToList();
             }
 
             var (properties, count) = await this.propertyService.GetAllAvailableAsync(id, model);
@@ -206,9 +216,11 @@
                 PropertyType = model.PropertyType,
                 PricePerMonth = model.PricePerMonth,
                 Sorting = model.Sorting,
+                Districts = model.Districts,
+                Tags = model.Tags,
             };
 
-            if (id > viewModel.PagesCount)
+            if (viewModel.PagesCount != 0 && id > viewModel.PagesCount)
             {
                 return this.NotFound();
             }

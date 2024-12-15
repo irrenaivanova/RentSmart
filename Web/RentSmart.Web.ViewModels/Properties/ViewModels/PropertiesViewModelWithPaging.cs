@@ -40,6 +40,10 @@ namespace RentSmart.Web.ViewModels.Properties.ViewModels
 
         public string? PropertyType { get; set; }
 
+        public string? DistrictString { get; set; }
+
+        public string? TagString { get; set; }
+
         public IEnumerable<string> PropertyTypes { get; set; }
 
         public IEnumerable<string> Tags { get; set; }

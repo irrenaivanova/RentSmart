@@ -29,7 +29,7 @@
         public string? SearchString { get; set; }
 
         [Display(Name = "Sort By")]
-        public PropertySorting? Sorting { get; set; }
+        public string? Sorting { get; set; }
 
         [Range(typeof(decimal), PricePerMonthMinValue, PricePerMonthMaxValue)]
         [Display(Name = "Max Monthly Price")]
