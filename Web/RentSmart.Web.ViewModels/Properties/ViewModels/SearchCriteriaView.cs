@@ -1,23 +1,22 @@
-﻿# nullable enable
-namespace RentSmart.Web.ViewModels.Properties.ViewModels
+﻿namespace RentSmart.Web.ViewModels.Properties.ViewModels
 {
+    using Microsoft.AspNetCore.Mvc.Rendering;
+    using RentSmart.Web.ViewModels.Properties.ViewModels.Enums;
+    using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using Microsoft.AspNetCore.Mvc.Rendering;
-    using RentSmart.Web.ViewModels;
-    using RentSmart.Web.ViewModels.Properties.ViewModels.Enums;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
 
     using static RentSmart.Common.EntityValidationConstants.Property;
     using static RentSmart.Common.GlobalConstants;
 
-    public class PropertiesViewModelWithPaging : PagingViewModel
+    public class SearchCriteriaView
     {
-        public PropertiesViewModelWithPaging()
+        public SearchCriteriaView()
         {
-            this.Properties = new List<PropertyInListViewModel>();
-            this.CurrentPage = DefaultPage;
-            this.ItemsPerPage = DefaultItemsPerPage;
-            this.PricePerMonth = DefaultPricePerMonth;
+            this.PricePerMonthMax = DefaultPricePerMonth;
 
             this.PropertyTypes = new HashSet<string>();
             this.Tags = new HashSet<string>();
@@ -27,8 +26,6 @@ namespace RentSmart.Web.ViewModels.Properties.ViewModels
 
         }
 
-        public IEnumerable<PropertyInListViewModel> Properties { get; set; }
-
         public string? SearchString { get; set; }
 
         [Display(Name = "Sort By")]
@@ -36,7 +33,7 @@ namespace RentSmart.Web.ViewModels.Properties.ViewModels
 
         [Range(typeof(decimal), PricePerMonthMinValue, PricePerMonthMaxValue)]
         [Display(Name = "Max Monthly Price")]
-        public decimal PricePerMonth { get; set; }
+        public decimal PricePerMonthMax { get; set; }
 
         public string? PropertyType { get; set; }
 

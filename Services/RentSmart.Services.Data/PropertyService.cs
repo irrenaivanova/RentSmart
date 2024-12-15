@@ -142,11 +142,11 @@
                   .Where(x => x.IsAvailable)
                   .ToList();
 
-            var propertiesForPage = propertiesAllAv
-                  .Skip((page - 1) * model.ItemsPerPage)
-                  .Take(model.ItemsPerPage).ToList();
+            //var propertiesForPage = propertiesAllAv
+            //      .Skip((page - 1) * model.ItemsPerPage)
+            //      .Take(model.ItemsPerPage).ToList();
 
-            return (propertiesForPage, propertiesAllAv.Count());
+            return (propertiesAllAv, propertiesAllAv.Count());
         }
 
         public async Task<PropertyDetailsViewModel> GetByIdAsync(string id)

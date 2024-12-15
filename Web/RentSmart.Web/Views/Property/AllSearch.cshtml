@@ -1,0 +1,80 @@
+﻿@using RentSmart.Web.ViewModels.Properties.ViewModels
+@model PropertiesViewModelWithPaging
+@{
+    ViewData["Title"] = "Search Available";
+
+}
+
+@await Component.InvokeAsync("GetCountsComponent")
+<div class="container mt-3 mb-3 d-flex justify-content-center">
+    <img src="~/images/home.jpg" class="img-fluid rounded" alt="Home" style="height: 300px; object-fit: cover; width: 100%;">
+</div>
+
+<form method="get" action="All" class="container row p-3 my-4 border rounded border-primary">
+   
+    <fieldset class="row">
+        <div class="col-md-2">
+        <div>
+            <label asp-for="SearchString" class="form-label"></label>
+            <input asp-for="SearchString" class="form-control">
+            <span asp-validation-for="SearchString" class="text-danger"></span>
+        </div>
+        <div class="mt-4 row">
+            <div class="col-md-6">
+            <select asp-for="ItemsPerPage" class="form-select me-2" style="width: 80px;">
+                <option value="6">6</option>
+                <option value="8" selected>8</option>
+                <option value="10">10</option>
+            </select>
+            </div>
+                <div class="col-md-6">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </div>
+        </div>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="PropertyType" class="form-label">Property Type</label>
+            <select asp-for="PropertyType" class="form-select">
+                <option value="" disabled selected>Select....</option>
+                @foreach (var propertyType in Model.PropertyTypes)
+                {
+                    <option value="@propertyType">@propertyType</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="PricePerMonth" class="form-label"></label>
+            <div class="input-group mb-3">
+                <span class="input-group-text">€</span>
+                <input asp-for="PricePerMonth" class="form-control">
+                <span asp-validation-for="PricePerMonth" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="Sorting" class="form-label"></label>
+            <select asp-for="Sorting" class="form-control" asp-items="Model.SortingOptions"></select>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="Districts" class="form-label">Select Districts</label>
+            <select name="Districts" multiple class="form-control">
+                @foreach (var district in Model.DistrictsAll)
+                {
+                    <option value="@district">@district</option>
+                }
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label asp-for="Tags" class="form-label">Tags (the property will match all selected tags)</label>
+            <select name="Tags" multiple class="form-control">
+                @foreach (var tag in Model.AllTags)
+                {
+                    <option value="@tag">@tag</option>
+                }
+            </select>
+        </div>
+    </fieldset>
+</form>
+
+
+

@@ -8,6 +8,7 @@
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using Newtonsoft.Json;
     using RentSmart.Data.Models;
     using RentSmart.Services.Data;
     using RentSmart.Web.ViewModels.Properties;
@@ -15,6 +16,8 @@
     using RentSmart.Web.ViewModels.Properties.ViewModels;
     using RentSmart.Web.ViewModels.Properties.ViewModels.Enums;
     using static RentSmart.Common.NotificationConstants;
+    using static RentSmart.Common.GlobalConstants;
+    using Microsoft.IdentityModel.Tokens;
 
     // TODO: Combine some service in one 
     [Authorize]
@@ -175,21 +178,34 @@
         }
 
         [AllowAnonymous]
-        public async Task<IActionResult> All([FromQuery]PropertiesViewModelWithPaging model, int id = 1)
+        public async Task<IActionResult> AllSearch()
         {
-            if (model.CurrentPage <= 0)
+            var viewModel = new PropertiesViewModelWithPaging();
+            await this.PopulateSearchModel(viewModel);
+            return this.View(viewModel);
+        }
+
+        [AllowAnonymous]
+        public async Task<IActionResult> All([FromQuery] PropertiesViewModelWithPaging model, int id = 1)
+        {
+            if (model.CurrentPage < 0)
             {
                 return this.NotFound();
             }
 
             var (properties, count) = await this.propertyService.GetAllAvailableAsync(id, model);
+
             var viewModel = new PropertiesViewModelWithPaging
             {
-                Properties = properties,
+                Properties = properties.Skip((id - 1) * model.ItemsPerPage).Take(model.ItemsPerPage).ToList(),
                 ItemsCount = count,
                 CurrentPage = id,
                 ItemsPerPage = model.ItemsPerPage,
                 Action = "All",
+                SearchString = model.SearchString,
+                PropertyType = model.PropertyType,
+                PricePerMonth = model.PricePerMonth,
+                Sorting = model.Sorting,
             };
 
             if (id > viewModel.PagesCount)
@@ -197,7 +213,6 @@
                 return this.NotFound();
             }
 
-            await this.PopulateSearchModel(viewModel);
             return this.View(viewModel);
         }
 
