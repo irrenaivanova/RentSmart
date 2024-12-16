@@ -62,6 +62,7 @@
                     ManagerId = property.ManagerId,
                 };
                 dbContext.Appointments.Add(appointment);
+                return;
             }
         }
     }

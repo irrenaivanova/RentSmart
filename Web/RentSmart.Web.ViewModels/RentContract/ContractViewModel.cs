@@ -8,7 +8,6 @@
 
     public class ContractViewModel : IMapFrom<MakeRentInputModel>
     {
-
         public int RentalId { get; set; }
 
         public string RentalContractUrl { get; set; }

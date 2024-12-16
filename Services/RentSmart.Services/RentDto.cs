@@ -8,7 +8,6 @@
 
     public class RentDto : IMapFrom<Rental>, IHaveCustomMappings
     {
-
         public int Id { get; set; }
 
         public DateTime RentDate { get; set; }

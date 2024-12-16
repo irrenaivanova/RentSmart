@@ -144,7 +144,6 @@
             };
             await this.sender.SendEmailAsync(SystemEmailSender, $"RentSmart {contractViewModel.ManagerName}", renter.Email, contractName, emailContent, new List<EmailAttachment>() { emailAttach });
 
-
             this.TempData[SuccessMessage] = "Rental contract is made successfully. It can be found on MyProperties page as PDF and is sent by email!";
             return this.RedirectToAction("MyProperties", "Property");
         }

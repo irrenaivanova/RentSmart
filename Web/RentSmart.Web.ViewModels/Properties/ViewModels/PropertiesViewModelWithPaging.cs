@@ -1,8 +1,9 @@
-﻿# nullable enable
+﻿#nullable enable
 namespace RentSmart.Web.ViewModels.Properties.ViewModels
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+
     using Microsoft.AspNetCore.Mvc.Rendering;
     using RentSmart.Web.ViewModels;
     using RentSmart.Web.ViewModels.Properties.ViewModels.Enums;
@@ -24,7 +25,7 @@ namespace RentSmart.Web.ViewModels.Properties.ViewModels
             this.AllTags = new HashSet<string>();
             this.Districts = new HashSet<string>();
             this.DistrictsAll = new HashSet<string>();
-
+            this.SortingOptions = new HashSet<SelectListItem>();
         }
 
         public IEnumerable<PropertyInListViewModel> Properties { get; set; }

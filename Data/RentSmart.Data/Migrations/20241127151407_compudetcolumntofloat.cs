@@ -1,5 +1,5 @@
 ﻿#nullable disable
-
+#pragma warning disable
 namespace RentSmart.Data.Migrations
 {
     using Microsoft.EntityFrameworkCore.Migrations;

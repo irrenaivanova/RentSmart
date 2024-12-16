@@ -1,16 +1,14 @@
 ﻿namespace RentSmart.Services
 {
-    using Microsoft.EntityFrameworkCore;
-    using RentSmart.Data;
-    using RentSmart.Data.Common.Repositories;
-    using RentSmart.Data.Models;
-    using RentSmart.Services.Mapping;
-    using RentSmart.Services.Messaging;
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
+    using RentSmart.Data.Common.Repositories;
+    using RentSmart.Data.Models;
+    using RentSmart.Services.Messaging;
 
     using static RentSmart.Common.GlobalConstants;
 
@@ -53,13 +51,13 @@
 
             // The mapping does not work ?
 
-            //var expiringRentals = this.rentalsRepository.All()
-            //    .Where(x => x.RentDate.AddMonths(x.DurationInMonths) == notificationDate)
+            // var expiringRentals = this.rentalsRepository.All()
+            //     .Where(x => x.RentDate.AddMonths(x.DurationInMonths) == notificationDate)
             //    .To<RentDto>()
             //    .ToList();
 
-            //foreach (var rental in expiringRentals)
-            //{
+            // foreach (var rental in expiringRentals)
+            // {
             //    var subject = $"RentalContract {rental.Id} / {rental.RentDate}";
             //    var html = new StringBuilder();
             //    html.AppendLine($"<h1>Notification about RentalContract {rental.Id} / {rental.RentDate}</h1>");
@@ -67,8 +65,8 @@
             //    html.AppendLine($"<p>Your contract for property {rental.PropertyPropertyTypeName}," +
             //        $" located in {rental.PropertyDistrictName} in {rental.PropertyCityName} is going to expired in three days</p>");
 
-            //    await this.sender.SendEmailAsync(SystemEmailSender, "RentSmart", rental.RenterUserEmail, subject, html.ToString());
-            //}
+            // await this.sender.SendEmailAsync(SystemEmailSender, "RentSmart", rental.RenterUserEmail, subject, html.ToString());
+            // }
         }
     }
 }

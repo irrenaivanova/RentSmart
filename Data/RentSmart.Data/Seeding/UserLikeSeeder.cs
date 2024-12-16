@@ -1,13 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RentSmart.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RentSmart.Data.Seeding
+﻿namespace RentSmart.Data.Seeding
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
+    using RentSmart.Data.Models;
+
     internal class UserLikeSeeder : ISeeder
     {
         public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)

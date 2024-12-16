@@ -1,15 +1,15 @@
 ﻿namespace RentSmart.Data.Seeding
 {
-    using Microsoft.EntityFrameworkCore;
-    using Newtonsoft.Json;
-    using RentSmart.Data.Models;
-    using RentSmart.Data.Seeding.Model;
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
+
+    using Microsoft.EntityFrameworkCore;
+    using Newtonsoft.Json;
+    using RentSmart.Data.Models;
+    using RentSmart.Data.Seeding.Model;
 
     internal class PropertySeeder : ISeeder
     {
@@ -24,11 +24,11 @@
             var jsonContent = await File.ReadAllTextAsync(path);
             var properties = JsonConvert.DeserializeObject<List<PropertyDto>>(jsonContent);
 
-
             // seeding only 200 properties
             for (int i = 0; i < 200; i++)
             {
                 var propertyDto = properties[i];
+
                 // seeding only properties which have a price
                 if (propertyDto.PricePerMonth == 0)
                 {
@@ -39,7 +39,7 @@
                 {
                     Floor = propertyDto.Floor,
                     Size = propertyDto.Size,
-                    Images = new List<Image>() { new Image { RemoteImageUrl = propertyDto.ImageUrl }},
+                    Images = new List<Image>() { new Image { RemoteImageUrl = propertyDto.ImageUrl } },
                     OriginalUrl = propertyDto.OriginalUrl,
                     PricePerMonth = propertyDto.PricePerMonth,
                 };
@@ -58,6 +58,7 @@
                     city = new City { Name = propertyDto.City };
                     dbContext.Cities.Add(city);
                 }
+
                 property.City = city;
 
                 var district = await dbContext.Districts.FirstOrDefaultAsync(x => x.Name == propertyDto.District);
@@ -78,7 +79,7 @@
                         dbContext.Tags.Add(tag);
                     }
 
-                    property.Tags.Add(new PropertyTag { Tag = tag , Property = property});
+                    property.Tags.Add(new PropertyTag { Tag = tag, Property = property });
                 }
 
                 var manager = await dbContext.Managers.OrderBy(x => Guid.NewGuid()).FirstOrDefaultAsync();
