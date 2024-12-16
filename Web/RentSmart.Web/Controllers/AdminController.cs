@@ -2,8 +2,10 @@
 namespace RentSmart.Web.Controllers
 {
     using Hangfire;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using RentSmart.Common;
     using RentSmart.Data;
     using RentSmart.Data.Models;
     using RentSmart.Services.Messaging;
@@ -11,16 +13,21 @@ namespace RentSmart.Web.Controllers
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+    using static RentSmart.Common.GlobalConstants;
 
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext db;
         private readonly IEmailSender sender;
+        private readonly UserManager<ApplicationUser> userManager;
+        private readonly RoleManager<ApplicationRole> rolemanager;
 
-        public AdminController(ApplicationDbContext db, IEmailSender sender)
+        public AdminController(ApplicationDbContext db, IEmailSender sender, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> rolemanager)
         {
             this.db = db;
             this.sender = sender;
+            this.userManager = userManager;
+            this.rolemanager = rolemanager;
         }
         public IActionResult Index()
         {
@@ -51,6 +58,16 @@ namespace RentSmart.Web.Controllers
             return RedirectToAction("Index","Home");
         }
 
+        [HttpGet]
+        public async  Task<IActionResult> MakeAdmin()
+        {
+            string adminEmail = "admin@rentsmart.com";
+            var adminUser = await userManager.FindByEmailAsync(adminEmail);
+            await userManager.AddToRoleAsync(adminUser, AdministratorRoleName);
+
+            return RedirectToAction("Index", "Home");
+        }
+   
         public IActionResult HangFire()
         {
             // Create a background job

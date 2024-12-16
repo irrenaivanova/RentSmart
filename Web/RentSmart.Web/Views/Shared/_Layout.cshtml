@@ -1,5 +1,4 @@
 ﻿@using RentSmart.Common
-
 @{
     string releaseYear = DateTime.Now.Year > ReleaseYear ? $"{ReleaseYear} - {DateTime.Now.Year}" : DateTime.Now.Year.ToString();
 }
@@ -44,9 +43,16 @@
                             <a class="nav-link" asp-area="" asp-controller="Property" asp-action="Add">Add Property</a>
                         </li>
                          }
+
                         <li class="nav-item me-2">
                             <a class="nav-link" asp-area="" asp-controller="Contact" asp-action="Index">Contact Us</a>
                         </li>
+                        @if (this.User.IsInRole("Administrator"))
+                        {
+                            <li class="nav-item me-2">
+                                <a class="nav-link" asp-area="Administration" asp-controller="PropertyType" asp-action="Index">PropTypeAdmin </a> 
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

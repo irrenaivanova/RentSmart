@@ -46,6 +46,12 @@ public class CustomUserClaimsPrincipalFactory : UserClaimsPrincipalFactory<Appli
             identity.AddClaim(new Claim(RenterClaim, "true"));
         }
 
+        var roles = await this.UserManager.GetRolesAsync(user);
+        foreach (var role in roles)
+        {
+            identity.AddClaim(new Claim(ClaimTypes.Role, role));
+        }
+
         return principal;
     }
 }
