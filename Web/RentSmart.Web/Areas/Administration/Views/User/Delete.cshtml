@@ -1,4 +1,4 @@
-﻿@model RentSmart.Data.Models.PropertyType﻿
+﻿@model RentSmart.Data.Models.ApplicationUser
 
 @{
     ViewData["Title"] = "Delete";
@@ -11,14 +11,14 @@
         </div>
         <div class="card-body">
             <h3 class="text-danger">Are you sure you want to delete this?</h3>
-            <h4 class="text-muted">PropertyType Details</h4>
+            <h4 class="text-muted">RentSmart User</h4>
             <hr />
             <dl class="row">
                 <dt class="col-sm-4 font-weight-bold text-primary">
-                    @Html.DisplayNameFor(model => model.Name)
+                    @Html.DisplayNameFor(model => model.UserName)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.Name)
+                    @Html.DisplayFor(model => model.UserName)
                 </dd>
                 <dt class="col-sm-4 font-weight-bold text-primary">
                     @Html.DisplayNameFor(model => model.IsDeleted)
@@ -27,22 +27,22 @@
                     @Html.DisplayFor(model => model.IsDeleted)
                 </dd>
                 <dt class="col-sm-4 font-weight-bold text-primary">
-                    @Html.DisplayNameFor(model => model.DeletedOn)
+                    @Html.DisplayNameFor(model => model.FirstName)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.DeletedOn)
+                    @Html.DisplayFor(model => model.FirstName)
                 </dd>
                 <dt class="col-sm-4 font-weight-bold text-primary">
-                    @Html.DisplayNameFor(model => model.CreatedOn)
+                    @Html.DisplayNameFor(model => model.LastName)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.CreatedOn)
+                    @Html.DisplayFor(model => model.LastName)
                 </dd>
                 <dt class="col-sm-4 font-weight-bold text-primary">
-                    @Html.DisplayNameFor(model => model.ModifiedOn)
+                    @Html.DisplayNameFor(model => model.Email)
                 </dt>
                 <dd class="col-sm-8">
-                    @Html.DisplayFor(model => model.ModifiedOn)
+                    @Html.DisplayFor(model => model.Email)
                 </dd>
             </dl>
         </div>

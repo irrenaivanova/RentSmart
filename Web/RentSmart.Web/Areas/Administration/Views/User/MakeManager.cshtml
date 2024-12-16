@@ -1,0 +1,51 @@
+﻿@model RentSmart.Data.Models.ApplicationUser
+
+@{
+    ViewData["Title"] = "Make Manager";
+}
+
+<div class="container mt-5 col-md-6">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h1 class="h4 mb-0">Make Manager</h1>
+        </div>
+        <div class="card-body">
+            <h3 class="text-danger">Are you sure you want to make manager this user?</h3>
+            <h4 class="text-muted">RentSmart User</h4>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-4 font-weight-bold text-primary">
+                    @Html.DisplayNameFor(model => model.UserName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.UserName)
+                </dd>
+                <dt class="col-sm-4 font-weight-bold text-primary">
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+                <dt class="col-sm-4 font-weight-bold text-primary">
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+                <dt class="col-sm-4 font-weight-bold text-primary">
+                    @Html.DisplayNameFor(model => model.Email)
+                </dt>
+                <dd class="col-sm-8">
+                    @Html.DisplayFor(model => model.Email)
+                </dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end">
+            <form asp-action="MakeManager" class="d-inline">
+                <input type="hidden" asp-for="Id" />
+                <input type="submit" value="MakeManager" class="btn btn-primary btn-sm" />
+            </form>
+            <a asp-action="Index" class="btn btn-secondary btn-sm ms-2">Back to List</a>
+        </div>
+    </div>
+</div>

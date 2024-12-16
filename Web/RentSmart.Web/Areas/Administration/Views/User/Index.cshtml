@@ -1,0 +1,86 @@
+﻿@model IEnumerable<RentSmart.Data.Models.ApplicationUser﻿>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>All Users</h1>
+
+<table class="table table-bordered table-hover table-striped mb-5" id="DataTable">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Manager)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Owner)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Renter)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsDeleted)
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @(item.Manager == null ? "false" : "true")
+                </td>
+                <td>
+                    @(item.Owner == null ? "false" : "true")
+                </td>
+                <td>
+                    @(item.Renter == null ? "false" : "true")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsDeleted)
+                    @item.DeletedOn?.ToString("d")
+                </td>
+                <td>
+                    <a asp-action="MakeManager" asp-route-id="@item.Id">Make Manager</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(function () {
+            $('#DataTable').DataTable();
+        });
+    </script>
+}
