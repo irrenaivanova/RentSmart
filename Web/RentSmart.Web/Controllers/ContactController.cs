@@ -4,14 +4,14 @@
     using System.Text;
     using System.Threading.Tasks;
 
+    using Ganss.Xss;
+
     using Microsoft.AspNetCore.Mvc;
-    using RentSmart.Common;
     using RentSmart.Data.Common.Repositories;
     using RentSmart.Data.Models;
     using RentSmart.Services.Messaging;
     using RentSmart.Web.ViewModels.Contact;
 
-    using static RentSmart.Common.EntityValidationConstants;
     using static RentSmart.Common.GlobalConstants;
     using static RentSmart.Common.NotificationConstants;
 
@@ -42,10 +42,10 @@
 
             var contactForm = new ContactForm
             {
-                Name = model.Name,
-                Email = model.Email,
-                Title = model.Title,
-                Content = $"{model.Email} ({model.Name}) send: Title:{model.Title} {Environment.NewLine} {model.Content}",
+                Name = this.Sanitize(model.Name),
+                Email = this.Sanitize(model.Email),
+                Title = this.Sanitize(model.Title),
+                Content = $"{this.Sanitize(model.Email)} ({this.Sanitize(model.Name)}) send: Title:{this.Sanitize(model.Title)} {Environment.NewLine} {this.Sanitize(model.Content)}",
             };
             await this.contactsRepository.AddAsync(contactForm);
             await this.contactsRepository.SaveChangesAsync();
@@ -54,7 +54,7 @@
                 SystemEmailSender,
                 "Contact Form RentSmart",
                 SystemEmailReceiver,
-                model.Title,
+                contactForm.Title,
             contactForm.Content);
 
             var html = new StringBuilder();
@@ -72,6 +72,12 @@
             this.TempData[SuccessMessage] = "Thank you for contacting us! You can expect a response at the email you provided!";
 
             return this.RedirectToAction("Index", "Home");
+        }
+
+        public string Sanitize(string inpiut)
+        {
+            var sanitizer = new HtmlSanitizer();
+            return sanitizer.Sanitize(inpiut);
         }
     }
 }

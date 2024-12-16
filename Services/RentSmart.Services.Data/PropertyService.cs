@@ -1,12 +1,13 @@
 ﻿namespace RentSmart.Services.Data
 {
     using System;
-    using System.Collections;
+
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Ganss.Xss;
     using Microsoft.EntityFrameworkCore;
     using RentSmart.Data.Common.Repositories;
     using RentSmart.Data.Models;
@@ -48,7 +49,7 @@
         {
             var property = new Property
             {
-                Description = input.Description,
+                Description = this.Sanitize(input.Description),
                 Floor = input.Floor,
                 Size = input.Size,
                 PropertyTypeId = input.PropertyTypeId,
@@ -61,7 +62,7 @@
             property.Manager = manager;
 
             var district = this.districtRepository.All().FirstOrDefault(x => x.Name == input.DistrictName);
-            district ??= new District { Name = input.DistrictName };
+            district ??= new District { Name = this.Sanitize(input.DistrictName) };
 
             property.District = district;
             foreach (var tagInput in input.TagIds)
@@ -77,7 +78,7 @@
 
             foreach (var tagName in input.CustomTags)
             {
-                var tag = this.tagRepository.All().FirstOrDefault(x => x.Name == tagName) ?? new Tag { Name = tagName };
+                var tag = this.tagRepository.All().FirstOrDefault(x => x.Name == this.Sanitize(tagName)) ?? new Tag { Name = this.Sanitize(tagName) };
                 property.Tags.Add(new PropertyTag { Tag = tag, Property = property });
             }
 
@@ -181,7 +182,6 @@
                 property.IsAvailable = this.IsPropertyAvailable(property.Id);
                 property.TotalLikes = this.GetPropertyLikesCount(property.Id);
             }
-
 
             if (model.Sorting.HasValue && (model.Sorting == PropertySorting.TotalLikes || model.Sorting == PropertySorting.AverageRating))
             {
@@ -401,6 +401,12 @@
         public string GetManagerUserId(string propertyId)
         {
             return this.propertyRepository.AllAsNoTracking().Where(x => x.Id == propertyId).Select(x => x.Manager.UserId).FirstOrDefault();
+        }
+
+        public string Sanitize(string input)
+        {
+            var sanitizer = new HtmlSanitizer();
+            return sanitizer.Sanitize(input);
         }
     }
 }

@@ -4,20 +4,19 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using Ganss.Xss;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using Newtonsoft.Json;
-    using RentSmart.Data.Models;
+
     using RentSmart.Services.Data;
     using RentSmart.Web.ViewModels.Properties;
     using RentSmart.Web.ViewModels.Properties.InputModels;
     using RentSmart.Web.ViewModels.Properties.ViewModels;
     using RentSmart.Web.ViewModels.Properties.ViewModels.Enums;
+
     using static RentSmart.Common.NotificationConstants;
-    using static RentSmart.Common.GlobalConstants;
-    using Microsoft.IdentityModel.Tokens;
 
     // TODO: Combine some service in one
     [Authorize]
@@ -139,12 +138,14 @@
             {
                 this.TempData[ErrorMessage] = "You are trying to delete an Nonexisting Property!";
             }
+
             string userId = this.GetUserId();
             if (!this.userService.IsManagerOfTheProperty(userId, id))
             {
                 this.TempData[ErrorMessage] = "Only the manager of the property can edit it!";
                 return this.RedirectToAction(nameof(this.MyProperties));
             }
+
             return this.View(prop);
         }
 
@@ -185,6 +186,7 @@
             return this.View(viewModel);
         }
 
+        // Current implementation works, but needs refactoring
         [AllowAnonymous]
         public async Task<IActionResult> All([FromQuery] PropertiesViewModelWithPaging model, int id = 1)
         {
@@ -212,7 +214,7 @@
                 CurrentPage = id,
                 ItemsPerPage = model.ItemsPerPage,
                 Action = "All",
-                SearchString = model.SearchString,
+                SearchString = this.Sanitize(model.SearchString),
                 PropertyType = model.PropertyType,
                 PricePerMonth = model.PricePerMonth,
                 Sorting = model.Sorting,
@@ -228,35 +230,11 @@
             return this.View(viewModel);
         }
 
-        private async Task PopulateSearchModel(PropertiesViewModelWithPaging viewModel)
-        {
-            var tags = await this.tagService.GetAllTagsAsync();
-            viewModel.AllTags = tags.Select(x => x.Name).OrderBy(x => x).ToList();
-
-            var propertyTypes = await this.propertyTypeService.AllPropertyTypesAsync();
-            viewModel.PropertyTypes = propertyTypes.Select(x => x.Name).OrderBy(x => x).ToList();
-
-            viewModel.DistrictsAll = await this.districtService.GetAllDistrictsAsync();
-            viewModel.SortingOptions = Enum.GetValues(typeof(PropertySorting))
-                .Cast<PropertySorting>()
-                .Select(x => new SelectListItem
-                {
-                    Value = ((int)x).ToString(),
-                    Text = x.ToString(),
-                });
-            viewModel.SearchString = string.Empty;
-            viewModel.PropertyType = null;
-            viewModel.Sorting = null;
-
-        }
-
         [AllowAnonymous]
         public async Task<IActionResult> Details(string id)
         {
             var property = await this.propertyService.GetByIdAsync(id);
             return this.View(property);
-
-            // return this.Json(property);
         }
 
         public async Task<IActionResult> MyProperties(int id = 1)
@@ -287,6 +265,12 @@
             return this.View(allProperties);
         }
 
+        public string Sanitize(string inpiut)
+        {
+            var sanitizer = new HtmlSanitizer();
+            return sanitizer.Sanitize(inpiut);
+        }
+
         private async Task PopulateInputModelAsync(AddPropertyInputModel viewModel)
         {
             viewModel.Cities = await this.cityService.GetAllCitiesAsync();
@@ -299,6 +283,27 @@
         {
             viewModel.Cities = await this.cityService.GetAllCitiesAsync();
             viewModel.PropertyTypes = await this.propertyTypeService.AllPropertyTypesAsync();
+        }
+
+        private async Task PopulateSearchModel(PropertiesViewModelWithPaging viewModel)
+        {
+            var tags = await this.tagService.GetAllTagsAsync();
+            viewModel.AllTags = tags.Select(x => x.Name).OrderBy(x => x).ToList();
+
+            var propertyTypes = await this.propertyTypeService.AllPropertyTypesAsync();
+            viewModel.PropertyTypes = propertyTypes.Select(x => x.Name).OrderBy(x => x).ToList();
+
+            viewModel.DistrictsAll = await this.districtService.GetAllDistrictsAsync();
+            viewModel.SortingOptions = Enum.GetValues(typeof(PropertySorting))
+                .Cast<PropertySorting>()
+                .Select(x => new SelectListItem
+                {
+                    Value = ((int)x).ToString(),
+                    Text = x.ToString(),
+                });
+            viewModel.SearchString = string.Empty;
+            viewModel.PropertyType = null;
+            viewModel.Sorting = null;
         }
     }
 }
