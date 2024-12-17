@@ -7,6 +7,14 @@ Finding the right tenant or home, especially for short-term rentals, can be chal
 
 **Description of the roles:** In the app there are only two roles in the context of ASP.NET core - **admin** and **regular user**. However, there are three additional "role positions" managed within the app using principal claims and a new entity, linked to ApplicationUser via a navigational property. These are: **Renter**, **Manager** and **Owner**.
 ***
+**Admin** - UserName: **admin@rentsmart.com** Password: **admin@rentsmart.com**
+
+**Manager** - UserName: **manager1@rentsmart.com** Password: **manager1@rentsmart.com**
+
+**Renter** - UserName: **renter1@example.com** Password: **renter1@example.com**
+
+**Owner** - UserName: **owner1@example.com** Password: **owner1@example.com**
+***
 **Admin**
 
 The admin role is created by the site owner and has the following privileges:
