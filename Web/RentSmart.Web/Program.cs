@@ -50,6 +50,9 @@
 
         private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
+            services.AddScoped<PropertySeeder>();
+            services.AddScoped<ISeeder>(provider => provider.GetRequiredService<PropertySeeder>());
+
             services.AddDbContext<ApplicationDbContext>(
                 options => options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
@@ -108,6 +111,7 @@
             services.AddApplicationServices(typeof(PropertyService));
 
             services.AddScoped<RentalNotificationService>();
+
         }
 
         private static void Configure(WebApplication app)

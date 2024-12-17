@@ -29,7 +29,7 @@
                               new CitySeeder(),
                               new TagSeeder(),
                               new UserSeeder(),
-                              new PropertySeeder(),
+                              serviceProvider.GetRequiredService<PropertySeeder>(),
                               new UserLikeSeeder(),
                               new RentalSeeder(),
                               new AppointmentSeeder(),

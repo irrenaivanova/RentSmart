@@ -5,22 +5,34 @@
     using System.IO;
     using System.Linq;
     using System.Threading.Tasks;
-
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
     using Newtonsoft.Json;
     using RentSmart.Data.Models;
     using RentSmart.Data.Seeding.Model;
 
-    internal class PropertySeeder : ISeeder
+
+
+    public class PropertySeeder : ISeeder
     {
-        public async Task SeedAsync(ApplicationDbContext dbContext, IServiceProvider serviceProvider)
+        private readonly IWebHostEnvironment environment;
+
+        public PropertySeeder(IWebHostEnvironment environment)
+        {
+            this.environment = environment;
+        }
+
+        public async Task SeedAsync(
+            ApplicationDbContext dbContext,
+            IServiceProvider serviceProvider)
         {
             if (dbContext.PropertyTypes.Any())
             {
                 return;
             }
 
-            string path = Path.Combine(Directory.GetCurrentDirectory(), @"..\..", @"Web\RentSmart.Web\wwwroot\data\properties.json");
+            string wwwRootPath = this.environment.WebRootPath;
+            string path = Path.Combine(wwwRootPath, "data", "properties.json");
             var jsonContent = await File.ReadAllTextAsync(path);
             var properties = JsonConvert.DeserializeObject<List<PropertyDto>>(jsonContent);
 
