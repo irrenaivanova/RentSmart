@@ -25,15 +25,18 @@
 
         public async Task AddRatingAsync(int rentalId, int conditionAndMaintenanceRate, int location, int valueForMoney)
         {
-            var rental = await this.rentalRepository.All().FirstOrDefaultAsync(x => x.Id == rentalId);
+            var rental = await this.rentalRepository.All().FirstOrDefaultAsync(x => x.Id == rentalId && x.RatingId == null);
             var newRating = new Rating()
             {
                 ConditionAndMaintenanceRate = conditionAndMaintenanceRate,
                 Location = location,
                 ValueForMoney = valueForMoney,
             };
-            rental.Rating = newRating;
-            await this.rentalRepository.SaveChangesAsync();
+            if (rental != null)
+            {
+                rental.Rating = newRating;
+                await this.rentalRepository.SaveChangesAsync();
+            }
         }
 
         public async Task<(int RentalId, string RentalContractUrl)> AddRentAsync(string propertyId, string userId, DateTime rentDate, int durationInMonths)
