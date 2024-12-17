@@ -4,6 +4,7 @@
     using System.Reflection;
 
     using Hangfire;
+    using Hangfire.Dashboard;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
@@ -12,6 +13,7 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+    using RentSmart.Common;
     using RentSmart.Data;
     using RentSmart.Data.Common;
     using RentSmart.Data.Common.Repositories;
@@ -168,6 +170,20 @@
             app.MapControllerRoute("areaRoute", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
             app.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             app.MapRazorPages();
+        }
+
+        private class HangfireAuthorizationFilter : IDashboardAuthorizationFilter
+        {
+            public bool Authorize(DashboardContext context)
+            {
+                var httpContext = context.GetHttpContext();
+                if (httpContext.User.Identity.IsAuthenticated)
+                {
+                    return httpContext.User.IsInRole(GlobalConstants.AdministratorRoleName);
+                }
+
+                return false;
+            }
         }
     }
 }
