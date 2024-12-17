@@ -1,14 +1,15 @@
 ﻿namespace RentSmart.Services.Data.Tests
 {
-    using MockQueryable;
-    using Moq;
-    using RentSmart.Data.Common.Repositories;
-    using RentSmart.Data.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
+    using MockQueryable;
+    using Moq;
+    using RentSmart.Data.Common.Repositories;
+    using RentSmart.Data.Models;
     using Xunit;
 
     public class UserServiceTests
@@ -36,8 +37,7 @@
                 this.mockUserRepository.Object,
                 this.mockRenterRepository.Object,
                 this.mockRentalRepository.Object,
-                this.mockManagerRepository.Object
-            );
+                this.mockManagerRepository.Object);
         }
 
         [Fact]
@@ -135,8 +135,7 @@
             this.mockRentalRepository.Setup(x => x.AllAsNoTracking()).Returns(mockRentalQuery);
 
             var exception = await Assert.ThrowsAsync<Exception>(
-                async () => await this.userService.GetRentalId(userId, propertyId)
-            );
+                async () => await this.userService.GetRentalId(userId, propertyId));
 
             Assert.Equal("You can rate the property only once!", exception.Message);
         }
@@ -162,8 +161,7 @@
             this.mockRentalRepository.Setup(x => x.AllAsNoTracking()).Returns(mockRentalQuery);
 
             var exception = await Assert.ThrowsAsync<Exception>(
-                async () => await this.userService.GetRentalId(userId, propertyId)
-            );
+                async () => await this.userService.GetRentalId(userId, propertyId));
 
             Assert.Equal("You can rate the property only after the contract has ended!", exception.Message);
         }
@@ -176,7 +174,7 @@
             var renter = new Renter { Id = "renter123", UserId = userId };
             var rental = new Rental
             {
-                RentDate = DateTime.UtcNow.AddMonths(-13), 
+                RentDate = DateTime.UtcNow.AddMonths(-13),
                 DurationInMonths = 12,
                 RenterId = renter.Id,
                 PropertyId = propertyId,

@@ -1,14 +1,15 @@
 ﻿namespace RentSmart.Services.Data.Tests
 {
-    using MockQueryable;
-    using Moq;
-    using RentSmart.Data.Common.Repositories;
-    using RentSmart.Data.Models;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Threading.Tasks;
+
+    using MockQueryable;
+    using Moq;
+    using RentSmart.Data.Common.Repositories;
+    using RentSmart.Data.Models;
     using Xunit;
 
     public class AppointmentServiceTests
@@ -32,7 +33,10 @@
             var property = new Property
             {
                 Id = propertyId,
-                Manager = new Manager { Appointments = new List<Appointment> {
+                Manager = new Manager
+                {
+                    Appointments = new List<Appointment>
+                {
                     new Appointment { DateTime = DateTime.Parse($"{date} 10:00"), UserId = "user123", PropertyId = propertyId, },
                 },
                 },

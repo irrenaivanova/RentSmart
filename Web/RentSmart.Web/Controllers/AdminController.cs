@@ -15,6 +15,7 @@ namespace RentSmart.Web.Controllers
     using System.Threading.Tasks;
     using static RentSmart.Common.GlobalConstants;
 
+    // This Controller is used only fore some testing 
     public class AdminController : Controller
     {
         private readonly ApplicationDbContext db;

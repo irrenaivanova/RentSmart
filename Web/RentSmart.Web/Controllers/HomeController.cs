@@ -3,9 +3,10 @@
     using System.Threading.Tasks;
 
     using Microsoft.AspNetCore.Mvc;
+
     public class HomeController : BaseController
     {
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return this.View();
         }

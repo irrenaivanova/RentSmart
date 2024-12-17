@@ -1,16 +1,15 @@
-﻿using MockQueryable;
-using Moq;
-using RentSmart.Data.Common.Repositories;
-using RentSmart.Data.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
-
-namespace RentSmart.Services.Data.Tests
+﻿namespace RentSmart.Services.Data.Tests
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using MockQueryable;
+    using Moq;
+    using RentSmart.Data.Common.Repositories;
+    using RentSmart.Data.Models;
+    using Xunit;
+
     public class RentServiceTests
     {
         private readonly Mock<IPropertyService> mockPropertyService;

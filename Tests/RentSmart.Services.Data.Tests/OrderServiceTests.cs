@@ -1,14 +1,14 @@
 ﻿namespace RentSmart.Services.Data.Tests
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
     using MockQueryable;
     using Moq;
     using RentSmart.Data.Common.Repositories;
     using RentSmart.Data.Models;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
     using Xunit;
 
     public class OrderServiceTests
@@ -41,7 +41,7 @@
         {
             var serviceId = 1;
             var userId = "user123";
-            this.mockServiceRepository.Setup(x => x.All()).Returns(new List<Service>() { new Service { Id = 2 }}.AsQueryable());
+            this.mockServiceRepository.Setup(x => x.All()).Returns(new List<Service>() { new Service { Id = 2 } }.AsQueryable());
             await Assert.ThrowsAsync<InvalidOperationException>(() => this.orderService.AddNewOrderAsync(serviceId, userId));
         }
 
