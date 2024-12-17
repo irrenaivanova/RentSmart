@@ -55,17 +55,24 @@
             string dateTimeString = $"{date} {time}";
             DateTime datetime = DateTime.ParseExact(dateTimeString, "yyyy-MM-dd HH:mm", null);
 
-            var managerId = this.propertyRepository.All().Where(x => x.Id == propertyId).FirstOrDefault().ManagerId;
-            var newAppointment = new Appointment
+            var property = this.propertyRepository.All().Where(x => x.Id == propertyId).FirstOrDefault();
+            if (property != null)
             {
-                UserId = userId,
-                PropertyId = propertyId,
-                DateTime = datetime,
-                ManagerId = managerId,
-            };
+                var managerId = property.ManagerId;
+                if (managerId != null)
+                {
+                    var newAppointment = new Appointment
+                    {
+                        UserId = userId,
+                        PropertyId = propertyId,
+                        DateTime = datetime,
+                        ManagerId = managerId,
+                    };
 
-            await this.appointmentService.AddAsync(newAppointment);
-            await this.appointmentService.SaveChangesAsync();
+                    await this.appointmentService.AddAsync(newAppointment);
+                    await this.appointmentService.SaveChangesAsync();
+                }
+            }
         }
     }
 }
