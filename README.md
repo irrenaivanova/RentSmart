@@ -124,7 +124,6 @@ These allow users to log in quickly and securely without needing to create a sep
 ## 🔗 Link
 [https://rentsmartweb20241216205226.azurewebsites.net/](https://rentsmartweb20241216205226.azurewebsites.net/)
 
-**Note:** Unfortunately, by the time of submitting the project, the Facebook login button and Hangfire were not functioning properly. However, this issue does not occur when running the app locally. My first task for future development is to resolve this problem.
 
 ##  💾 Database Diagram
 <p align="center">

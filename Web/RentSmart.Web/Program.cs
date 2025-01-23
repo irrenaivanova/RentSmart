@@ -147,6 +147,13 @@
             // Enable Hangfire Dashboard
             app.UseHangfireDashboard("/hangfire");
 
+            if (app.Environment.IsProduction())
+            {
+                app.UseHangfireDashboard(
+                    "/hangfire",
+                    new DashboardOptions { Authorization = new[] { new HangfireAuthorizationFilter() } });
+            }
+
             // Add recurring job for notifyExpiringRentals
             RecurringJob.AddOrUpdate<RentalNotificationService>("NotifyExpiringRentals", service => service.NotifyExpiringRentals(), Cron.Daily);
 
