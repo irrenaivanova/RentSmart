@@ -151,6 +151,7 @@
                                 EF.Functions.Like(x.PricePerMonth.ToString(), wildCard) ||
                                 EF.Functions.Like(x.Manager.User.LastName, wildCard) ||
                                 EF.Functions.Like(x.Manager.User.FirstName, wildCard) ||
+                                EF.Functions.Like(x.PropertyType.Name, wildCard) ||
                                 x.Tags.Any(t => EF.Functions.Like(t.Tag.Name, wildCard)));
             }
 

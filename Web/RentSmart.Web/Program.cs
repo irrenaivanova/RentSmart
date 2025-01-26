@@ -6,6 +6,7 @@
     using Hangfire;
     using Hangfire.Dashboard;
     using Microsoft.AspNetCore.Builder;
+    using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -37,10 +38,15 @@
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            // For Railway
+            builder.WebHost.UseUrls("http://*:8080");
+
             // overriding appsettings.development with appsettings.production
+            // adding environmentvariables for Railway 
             builder.Configuration
                 .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
-                .AddJsonFile("appsettings.Production.json", optional: false, reloadOnChange: true);
+                .AddJsonFile("appsettings.Production.json", optional: false, reloadOnChange: true)
+                .AddEnvironmentVariables();
 
             var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
             ConfigureServices(builder.Services, builder.Configuration);
