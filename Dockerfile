@@ -19,7 +19,6 @@ COPY ["Tests/RentSmart.Web.Tests/RentSmart.Web.Tests.csproj", "Tests/RentSmart.W
 COPY ["Web/RentSmart.Web/RentSmart.Web.csproj", "Web/RentSmart.Web/"]
 COPY ["Web/RentSmart.Web.Infrastructure/RentSmart.Web.Infrastructure.csproj", "Web/RentSmart.Web.Infrastructure/"]
 COPY ["Web/RentSmart.Web.ViewModels/RentSmart.Web.ViewModels.csproj", "Web/RentSmart.Web.ViewModels/"]
-COPY ["Z_ImotScraper/Z_ImotScraper.csproj", "Z_ImotScraper/"]
 COPY ["Rules.ruleset", "./"]
 COPY ["stylecop.json", "./"]
 COPY ["Web/RentSmart.Web/libman.json", "Web/RentSmart.Web/"]
@@ -37,8 +36,6 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 
 # Set the working directory in the container
 WORKDIR /app
-
-ENV ASPNETCORE_ENVIRONMENT=Production
 
 # Copy the published app from the previous stage
 COPY --from=build /app/publish .
