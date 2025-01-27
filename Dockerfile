@@ -11,7 +11,7 @@ COPY ["Data/RentSmart.Data.Common/RentSmart.Data.Common.csproj", "Data/RentSmart
 COPY ["Data/RentSmart.Data.Models/RentSmart.Data.Models.csproj", "Data/RentSmart.Data.Models/"]
 COPY ["RentSmart.Common/RentSmart.Common.csproj", "RentSmart.Common/"]
 COPY ["Services/RentSmart.Services/RentSmart.Services.csproj", "Services/RentSmart.Services/"]
-COPY ["Servies/RentSmart.Services.Data/RentSmart.Services.Data.csproj", "Servies/RentSmart.Services.Data/"]
+COPY ["Servies/RentSmart.Services.Data/RentSmart.Services.Data.csproj", "Services/RentSmart.Services.Data/"]
 COPY ["Servies/RentSmart.Services.Mapping/RentSmart.Services.Mapping.csproj", "Services/RentSmart.Services.Mapping/"]
 COPY ["Servies/RentSmart.Services.Mapping/RentSmart.Services.Messaging.csproj", "Services/RentSmart.Services.Messaging/"]
 COPY ["Tests/RentSmart.Services.Data.Tests/RentSmart.Services.Data.Tests.csproj", "Tests/RentSmart.Services.Data.Tests/"]
