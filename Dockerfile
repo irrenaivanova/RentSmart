@@ -1,8 +1,13 @@
 # Use the official .NET SDK image to build the solution
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
+USER app
 # Set the working directory
 WORKDIR /app
+
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
 
 # Copy the solution file and restore the dependencies
 COPY ["RentSmart.sln", "./"]
@@ -28,19 +33,21 @@ COPY ["Web/RentSmart.Web/bundleconfig.json", "Web/RentSmart.Web/"]
 # Restore NuGet dependencies for the entire solution
 RUN dotnet restore "RentSmart.sln"
 
+RUN dotnet build "Web/RentSmart.Web/RentSmart.Web.csproj" -c Release -o /app/build
+
 # Publish the app to the /app directory
 RUN dotnet publish "Web/RentSmart.Web/RentSmart.Web.csproj" -c Release -o /app/publish
 
 # Define the runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 
 # Set the working directory in the container
-WORKDIR /app/app/
+USER app
+WORKDIR /app
 
 # Copy the published app from the previous stage
 COPY --from=build /app/publish .
 
-# Expose the port that your application will run on
 EXPOSE 8080
 
 ENTRYPOINT ["dotnet", "RentSmart.Web.dll"]
