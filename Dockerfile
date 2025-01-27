@@ -35,7 +35,7 @@ RUN dotnet publish "Web/RentSmart.Web/RentSmart.Web.csproj" -c Release -o /app/p
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 
 # Set the working directory in the container
-WORKDIR /app
+WORKDIR /app/app/
 
 # Copy the published app from the previous stage
 COPY --from=build /app/publish .
