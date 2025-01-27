@@ -33,14 +33,13 @@ RUN dotnet restore "RentSmart.sln"
 # Publish the app to the /app directory
 RUN dotnet publish "Web/RentSmart.Web/RentSmart.Web.csproj" -c Release -o /app/publish
 
-ENV ASPNETCORE_ENVIRONMENT=Production
-COPY --from=build /app/publish .
-
 # Define the runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 
 # Set the working directory in the container
 WORKDIR /app
+
+ENV ASPNETCORE_ENVIRONMENT=Production
 
 # Copy the published app from the previous stage
 COPY --from=build /app/publish .
