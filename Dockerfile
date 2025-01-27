@@ -20,6 +20,11 @@ COPY ["Web/RentSmart.Web/RentSmart.Web.csproj", "Web/RentSmart.Web/"]
 COPY ["Web/RentSmart.Web.Infrastructure/RentSmart.Web.Infrastructure.csproj", "Web/RentSmart.Web.Infrastructure/"]
 COPY ["Web/RentSmart.Web.ViewModels/RentSmart.Web.ViewModels.csproj", "Web/RentSmart.Web.ViewModels/"]
 COPY ["Z_ImotScraper/Z_ImotScraper.csproj", "Z_ImotScraper/"]
+COPY ["Rules.ruleset", "./"]
+COPY ["stylecop.json", "./"]
+COPY ["Web/RentSmart.Web/libman.json", "Web/RentSmart.Web/"]
+COPY ["Web/RentSmart.Web/appsettings.json", "Web/RentSmart.Web/"]
+
 
 # Restore NuGet dependencies for the entire solution
 RUN dotnet restore "RentSmart.sln"
