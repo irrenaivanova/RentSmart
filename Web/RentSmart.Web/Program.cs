@@ -48,7 +48,7 @@
                 .AddJsonFile("appsettings.Production.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
 
-            var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
+            // var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
             ConfigureServices(builder.Services, builder.Configuration);
 
             var app = builder.Build();
