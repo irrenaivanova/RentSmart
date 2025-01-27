@@ -24,7 +24,7 @@ COPY ["Rules.ruleset", "./"]
 COPY ["stylecop.json", "./"]
 COPY ["Web/RentSmart.Web/libman.json", "Web/RentSmart.Web/"]
 COPY ["Web/RentSmart.Web/appsettings.json", "Web/RentSmart.Web/"]
-
+COPY ["Web/RentSmart.Web/bundleconfig.json", "Web/RentSmart.Web/"]
 
 # Restore NuGet dependencies for the entire solution
 RUN dotnet restore "RentSmart.sln"
