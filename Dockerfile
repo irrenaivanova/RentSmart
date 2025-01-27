@@ -1,5 +1,5 @@
 # Use the official .NET SDK image to build the solution
-FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 
 # Set the working directory
 WORKDIR /app
@@ -32,7 +32,7 @@ RUN dotnet restore "RentSmart.sln"
 RUN dotnet publish "Web/RentSmart.Web/RentSmart.Web.csproj" -c Release -o /app/publish
 
 # Define the runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:7.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
 
 # Set the working directory in the container
 WORKDIR /app/app/
