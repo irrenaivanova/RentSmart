@@ -19,7 +19,6 @@
 # Mono auto generated files
 mono_crash.*
 
-appsettings.Production.json
 
 # Build results
 [Dd]ebug/
