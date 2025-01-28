@@ -27,6 +27,7 @@ COPY ["Web/RentSmart.Web.Infrastructure/RentSmart.Web.Infrastructure.csproj", "W
 COPY ["Web/RentSmart.Web.ViewModels/RentSmart.Web.ViewModels.csproj", "Web/RentSmart.Web.ViewModels/"]
 COPY ["Web/RentSmart.Web/", "Web/RentSmart.Web/"]
 
+RUN echo '{ "Logging": { "LogLevel": { "Default": "Information", "Microsoft.AspNetCore": "Warning" } } }' > /src/Web/RentSmart.Web/appsettings.Production.json
 
 # Restore NuGet dependencies for the entire solution
 RUN dotnet restore "RentSmart.sln"
