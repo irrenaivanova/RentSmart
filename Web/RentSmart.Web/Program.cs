@@ -39,7 +39,7 @@
             var builder = WebApplication.CreateBuilder(args);
 
             // For Railway
-            builder.WebHost.UseUrls("http://*:8080");
+            // builder.WebHost.UseUrls("http://*:8080");
 
             // overriding appsettings.development with appsettings.production
             builder.Configuration

@@ -122,8 +122,25 @@ These allow users to log in quickly and securely without needing to create a sep
 - Hangfire checks all contracts every day, and if a rental contract is set to expire within the next three days, the renter will receive a reminder email  
 
 ## 🔗 Link
-[https://rentsmartweb20241216205226.azurewebsites.net/](https://rentsmartweb20241216205226.azurewebsites.net/)
+If the **online version is unavailable**, it's because hosting on **Azure** is expensive, and my **student credits have expired**.  
+I have explored various free hosting options, including Railway and Somee, but unfortunately, none provide a reasonable solution for hosting an ASP.NET application with SQL Server. Many platforms either do not support SQL Server or impose strict database size limits (typically under 20MB). 
 
+**🔗 Live Demo (if available)**
+[RentSmart on Azure](https://rentsmartweb20241216205226.azurewebsites.net/)  
+If the link is inactive, follow this guide to **run the project locally**.
+
+## 🚀 Local Setup Guide
+- **Clone the Repository** - To get started, clone this repository to your local machine:
+- **Install Frontend Dependencies** - The project uses LibMan (Library Manager), so all external libraries are automatically downloaded when you build the application. You may also need to install other dependencies like .NET SDK if they are missing from your environment.
+- **Configuration Settings** - Before running the project, update the following settings in appsettings.json or set them as environment variables. The **SQL Server Connection** is required, while the other settings (such as SendGrid, Google reCAPTCHA, Google Authentication, and Facebook Authentication) are only necessary if you want to use the full functionality of the app, but they are not mandatory for basic functionality.
+  - **SQL Server Connection** - If you're using SQL Server Express, update the connection string
+  - **SendGrid (Email Service)** - Sign up for a free account at  [SendGrid](https://sendgrid.com/en-us). Go to Settings → API Keys. Click Create API Key and copy it. Update your environment variables
+  - **Google reCAPTCHA** - Go to the [Google reCAPTCHA](https://www.google.com/recaptcha/about/). Click "Admin Console" and register your site.
+    Choose reCAPTCHA v3. Get the Site Key & Secret Key and update your environment variables.
+  - **Google Authentication (OAuth)** - Go to Google [Developer Console](https://developers.google.com/). Click "Create Project" and enter a name. Go to APIs & Services → Credentials. Click "Create Credentials" → OAuth 2.0 Client ID. Get Your Client ID & Client Secret and copy them and update your environment variables
+  - **Facebook Authentication (OAuth)** - Go to [Facebook for Developers](https://developers.google.com/). Click "Create App", select "Consumer", and enter your app details. Get Your App ID & App Secret nd update your environment variables.  S
+- **🔄 Database Seeding** - No need to manually insert data! The database is automatically seeded when you run the app for the first time.
+- **🎉Run the Application** - Run the project. You can now explore the full features of the RentSmart app locally.
 
 ##  💾 Database Diagram
 <p align="center">

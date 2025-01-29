@@ -11,9 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-  <Content Update="appsettings.Development.json">
-    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-  </Content>
   <Content Update="appsettings.Production.json">
     <CopyToOutputDirectory>Always</CopyToOutputDirectory>
   </Content>
@@ -82,9 +79,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="appsettings.Development.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="appsettings.Production.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
