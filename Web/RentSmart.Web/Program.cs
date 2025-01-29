@@ -42,11 +42,10 @@
             builder.WebHost.UseUrls("http://*:8080");
 
             // overriding appsettings.development with appsettings.production
-            // adding environmentvariables for Railway 
             builder.Configuration
                 .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
-                .AddJsonFile("appsettings.Production.json", optional: false, reloadOnChange: true)
-                .AddEnvironmentVariables();
+                .AddJsonFile("appsettings.Production.json", optional: false, reloadOnChange: true);
+
 
             // var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
             ConfigureServices(builder.Services, builder.Configuration);
